@@ -8,7 +8,13 @@
     <Folder Include="Configs\Info\" />
     <Folder Include="Configs\InfoByThemes\" />
     <Folder Include="Configs\CourseAccess\" />
+    <Folder Include="Configs\Identity\" />
     <Folder Include="Entities\CourseAccess\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
   </ItemGroup>
 
 </Project>
