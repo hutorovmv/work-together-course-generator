@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CourseGenerator.Models.Info.Entities
+namespace CourseGenerator.Models.Entities.Info
 {
     public class Heading
     {
