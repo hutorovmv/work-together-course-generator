@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.Models.Entities.Info
 {
@@ -24,5 +25,6 @@ namespace CourseGenerator.Models.Entities.Info
 
         public ICollection<MaterialCompetency> MaterialCompetencies { get; set; }
         public ICollection<HeadingMaterial> HeadingMaterials { get; set; }
+        public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
     }
 }
