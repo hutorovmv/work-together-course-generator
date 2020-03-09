@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 
 namespace CourseGenerator.Models.Entities.InfoByThemes
@@ -23,5 +24,6 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
 
         public ICollection<ThemeHeading> ThemeHeadings { get; set; }
         public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
+        public ICollection<UserTheme> UserThemes { get; set; }
     }
 }

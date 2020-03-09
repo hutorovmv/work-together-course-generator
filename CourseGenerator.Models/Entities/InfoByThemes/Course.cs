@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CourseGenerator.Models.Entities.Info;
+using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.Models.Entities.InfoByThemes
 {
@@ -19,5 +20,6 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<Theme> Themes { get; set; }
         public ICollection<Course> Courses { get; set; }
         public ICollection<Heading> Headings { get; set; }
+        public ICollection<UserCourse> UserCourses { get; set; }
     }
 }
