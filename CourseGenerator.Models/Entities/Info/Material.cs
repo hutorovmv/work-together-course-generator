@@ -21,7 +21,7 @@ namespace CourseGenerator.Models.Entities.Info
 
         public int? ParentId { get; set; }
         public Material Parent { get; set; }
-        public ICollection<Material> Competencies { get; set; }
+        public ICollection<Material> Materials { get; set; }
 
         public ICollection<MaterialCompetency> MaterialCompetencies { get; set; }
         public ICollection<HeadingMaterial> HeadingMaterials { get; set; }

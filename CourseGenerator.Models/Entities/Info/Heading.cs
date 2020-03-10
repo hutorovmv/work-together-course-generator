@@ -9,7 +9,7 @@ namespace CourseGenerator.Models.Entities.Info
     public class Heading
     {
         public string Id { get; set; }
-        public string Code { get; set; }
+        public string Code { get; set; }      
         public string UDC { get; set; }
         public string Note { get; set; }
 
