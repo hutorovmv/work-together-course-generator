@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Configs\InfoByThemes\" />
-    <Folder Include="Configs\CourseAccess\" />
-    <Folder Include="Configs\Identity\" />
+    <Compile Remove="Configs\Identity\**" />
+    <EmbeddedResource Remove="Configs\Identity\**" />
+    <None Remove="Configs\Identity\**" />
   </ItemGroup>
 
   <ItemGroup>

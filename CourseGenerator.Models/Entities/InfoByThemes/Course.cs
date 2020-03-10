@@ -21,5 +21,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<Course> Courses { get; set; }
         public ICollection<Heading> Headings { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
+        public ICollection<CourseHeading> CourseHeadings { get; set; }
+
     }
 }
