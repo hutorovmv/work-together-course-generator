@@ -9,11 +9,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D706E1E2-6956-4B5C-BD81-469C374E68C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseGenerator.BLL", "CourseGenerator.BLL\CourseGenerator.BLL.csproj", "{FE187CCA-0B42-4382-B07B-04B4F425519C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.BLL", "CourseGenerator.BLL\CourseGenerator.BLL.csproj", "{FE187CCA-0B42-4382-B07B-04B4F425519C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseGenerator.DAL", "CourseGenerator.DAL\CourseGenerator.DAL.csproj", "{D3FF7730-A77E-4E4A-947E-1731F776DDBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.DAL", "CourseGenerator.DAL\CourseGenerator.DAL.csproj", "{D3FF7730-A77E-4E4A-947E-1731F776DDBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseGenerator.Api", "CourseGenerator.Api\CourseGenerator.Api.csproj", "{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.Api", "CourseGenerator.Api\CourseGenerator.Api.csproj", "{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseGenerator.Models", "CourseGenerator.Models\CourseGenerator.Models.csproj", "{1236AE65-4BA5-424A-A605-94FF542130CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1236AE65-4BA5-424A-A605-94FF542130CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1236AE65-4BA5-424A-A605-94FF542130CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1236AE65-4BA5-424A-A605-94FF542130CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1236AE65-4BA5-424A-A605-94FF542130CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{FE187CCA-0B42-4382-B07B-04B4F425519C} = {29A2A2D5-6027-4855-A67D-20898CB2EFC2}
 		{D3FF7730-A77E-4E4A-947E-1731F776DDBD} = {29A2A2D5-6027-4855-A67D-20898CB2EFC2}
 		{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03} = {CA88CBB8-C7F4-4138-B763-337BCD3CBFAA}
+		{1236AE65-4BA5-424A-A605-94FF542130CB} = {29A2A2D5-6027-4855-A67D-20898CB2EFC2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E9314A8C-B7B4-4875-96E1-7817B8B99281}
