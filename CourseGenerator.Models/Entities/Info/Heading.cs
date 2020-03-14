@@ -18,5 +18,6 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<ThemeHeading> ThemeHeadings { get; set; }
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<CourseHeading> CourseHeadings { get; set; }
+        public ICollection<HeadingLang> HeadingLangs { get; set; }
     }
 }

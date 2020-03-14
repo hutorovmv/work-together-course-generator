@@ -7,7 +7,8 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
 {
     public class ThemeLang
     {
-        public int Id { get; set; }
+        public int ThemeId { get; set; }
+        public Theme Theme { get; set; }
 
         public int LangId { get; set; }
         public Language Lang { get; set; }

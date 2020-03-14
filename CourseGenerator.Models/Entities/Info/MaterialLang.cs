@@ -6,7 +6,9 @@ namespace CourseGenerator.Models.Entities.Info
 {
     public class MaterialLang
     {
-        public int Id { get; set; }
+        public int MaterialId { get; set; }
+        public Material Material { get; set; }
+
         public string Name { get; set; }
 
         public string FileUrl { get; set; }

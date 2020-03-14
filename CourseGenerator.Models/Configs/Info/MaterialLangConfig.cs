@@ -11,7 +11,7 @@ namespace CourseGenerator.Models.Configs.Info
     {
         public void Configure(EntityTypeBuilder<MaterialLang> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.HasKey(p => new { p.MaterialId, p.LangId});
 
             builder.Property(p => p.Name).IsUnicode().IsRequired();
             builder.Property(p => p.FileUrl).IsUnicode();
@@ -21,6 +21,10 @@ namespace CourseGenerator.Models.Configs.Info
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.MaterialLangs)
                 .HasForeignKey(p => p.LangId);
+
+            builder.HasOne(p => p.Material)
+                .WithMany(p => p.MaterialLangs)
+                .HasForeignKey(p => p.MaterialId);
         }
     }
 }

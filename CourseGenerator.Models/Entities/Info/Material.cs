@@ -26,5 +26,6 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<MaterialCompetency> MaterialCompetencies { get; set; }
         public ICollection<HeadingMaterial> HeadingMaterials { get; set; }
         public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
+        public ICollection<MaterialLang> MaterialLangs { get; set; }
     }
 }

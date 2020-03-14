@@ -12,13 +12,17 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
     {
         public void Configure(EntityTypeBuilder<ThemeLang> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.HasKey(p => new { p.ThemeId, p.LangId });
             builder.Property(p => p.Description).IsUnicode();
             builder.Property(p => p.Name).IsUnicode();
 
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.ThemeLangs)
                 .HasForeignKey(p => p.LangId);
+
+            builder.HasOne(p => p.Theme)
+                .WithMany(p => p.ThemeLangs)
+                .HasForeignKey(p => p.ThemeId);
         }
     }
 }

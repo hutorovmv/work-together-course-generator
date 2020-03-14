@@ -22,6 +22,7 @@ namespace CourseGenerator.Models.Configs.Info
                 .WithOne(p => p.Parent)
                 .IsRequired(false)
                 .HasForeignKey(p => p.ParentId);
+
         }
     }
 }

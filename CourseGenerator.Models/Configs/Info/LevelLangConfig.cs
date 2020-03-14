@@ -11,7 +11,7 @@ namespace CourseGenerator.Models.Configs.Info
     {
         public void Configure(EntityTypeBuilder<LevelLang> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.HasKey(p => new { p.LevelId, p.LangId });
 
             builder.Property(p => p.Name).IsUnicode().IsRequired();
             builder.Property(p => p.Description).IsUnicode();
@@ -19,6 +19,10 @@ namespace CourseGenerator.Models.Configs.Info
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.LevelLangs)
                 .HasForeignKey(p => p.LangId);
+
+            builder.HasOne(p => p.Level)
+                .WithMany(p => p.LevelLangs)
+                .HasForeignKey(p => p.LevelId);
         }
     }
 }

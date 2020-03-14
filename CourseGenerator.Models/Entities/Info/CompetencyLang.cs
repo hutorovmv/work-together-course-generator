@@ -6,12 +6,15 @@ namespace CourseGenerator.Models.Entities.Info
 {
     public class CompetencyLang
     {
-        public int Id { get; set; }
-        
+        public int CompetencyId { get; set; }
+        public Competency Competency { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
 
         public int LangId { get; set; }
         public Language Lang { get; set; }
+
+
     }
 }
