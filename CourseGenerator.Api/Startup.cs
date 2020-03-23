@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using CourseGenerator.DAL.Context;
 
 namespace CourseGenerator.Api
 {
@@ -25,6 +27,12 @@ namespace CourseGenerator.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            string connectionString = Configuration.GetConnectionString("CourseGeneratorDB");
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
