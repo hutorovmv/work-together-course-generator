@@ -11,10 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.BLL.Infrastructure;
 
 namespace CourseGenerator.Api
 {
@@ -38,6 +40,11 @@ namespace CourseGenerator.Api
             });
 
             services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddAutoMapper(c => {
+                c.AddProfile<DomainToDTOProfile>();
+                c.AddProfile<DTOToDomainProfile>();
+            }, typeof(Startup));
 
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
