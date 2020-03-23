@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
 
 namespace CourseGenerator.Api
@@ -33,6 +35,9 @@ namespace CourseGenerator.Api
             {
                 options.UseSqlServer(connectionString);
             });
+
+            services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
