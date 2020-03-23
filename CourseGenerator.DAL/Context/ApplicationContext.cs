@@ -4,10 +4,11 @@ using CourseGenerator.Models;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.DAL.Context
 {
-    public class ApplicationContext : IdentityDbContext
+    public class ApplicationContext : IdentityDbContext<User, Role, string>
     {
         #region Info
         public DbSet<Language> Languages;

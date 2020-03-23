@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.Api
 {
@@ -36,6 +37,8 @@ namespace CourseGenerator.Api
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationContext>();
+
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
@@ -51,6 +54,7 @@ namespace CourseGenerator.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
