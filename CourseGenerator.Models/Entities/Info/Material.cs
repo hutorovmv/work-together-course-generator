@@ -11,8 +11,19 @@ namespace CourseGenerator.Models.Entities.Info
         
         public int Number { get; set; }
 
+        /// <summary>
+        /// Файл з мультимедійним контентом
+        /// </summary>
         public string FileUrl { get; set; }
+
+        /// <summary>
+        /// Фон секції
+        /// </summary>
         public string BackImageUrl { get; set; }
+
+        /// <summary>
+        /// Посилання на джерело
+        /// </summary>
         public string Url { get; set; }
         public string Note { get; set; }
 
