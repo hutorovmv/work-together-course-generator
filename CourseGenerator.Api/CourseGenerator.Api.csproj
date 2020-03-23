@@ -8,5 +8,14 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CourseGenerator.BLL\CourseGenerator.BLL.csproj" />
+    <ProjectReference Include="..\CourseGenerator.DAL\CourseGenerator.DAL.csproj" />
+  </ItemGroup>
+
 
 </Project>
