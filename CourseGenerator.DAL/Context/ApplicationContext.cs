@@ -7,10 +7,8 @@ using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.DAL.Context
 {
-    public class Context : IdentityDbContext
+    public class ApplicationContext : IdentityDbContext
     {
-        private readonly string _connectionString;
-
         #region Info
         public DbSet<Language> Languages;
         public DbSet<Heading> Headings;
@@ -46,20 +44,10 @@ namespace CourseGenerator.DAL.Context
         #endregion
 
 
-        public Context(string connectionString)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            _connectionString = connectionString;
-
             Database.EnsureDeleted();
             Database.EnsureCreated();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(_connectionString);
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
