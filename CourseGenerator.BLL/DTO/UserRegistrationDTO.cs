@@ -14,6 +14,10 @@ namespace CourseGenerator.BLL.DTO
         public DateTime? BirthDate { get; set; }
         
         public string Password { get; set; }
+        
+        /// <summary>
+        /// Can be useful when creating password validation on server
+        /// </summary>
         public string PasswordConfirm { get; set; }
     }
 }
