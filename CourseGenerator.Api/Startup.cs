@@ -50,7 +50,7 @@ namespace CourseGenerator.Api
             services.AddTransient<IUnitOfWork, UnitOfWork>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IUnitOfWork uow)
         {
             if (env.IsDevelopment())
             {
@@ -68,6 +68,22 @@ namespace CourseGenerator.Api
             {
                 endpoints.MapControllers();
             });
+
+            AddDefaultRoles(uow, new string[] {
+                "Admin",
+                "ContentAdmin",
+                "ContentManager",
+                "User"
+            });
+        }
+
+        private async void AddDefaultRoles(IUnitOfWork uow, string[] roles)
+        {
+            foreach (var role in roles) {
+                var exists = await uow.RoleManager.RoleExistsAsync(role);
+                if (!exists)
+                    await uow.RoleManager.CreateAsync(new Role(role));
+            }
         }
     }
 }
