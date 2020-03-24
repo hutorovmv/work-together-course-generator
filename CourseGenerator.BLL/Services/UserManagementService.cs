@@ -34,9 +34,20 @@ namespace CourseGenerator.BLL.Services
             OperationInfo userExistsResult = await ExistsWithUserNameAsync(registrationDto.Email);
             if (!userExistsResult.Succeeded)
                 return userExistsResult;
-            
-            User user = MapUser(registrationDto);
-            return await CreateUserAsync(user, registrationDto.Password);
+
+            // Creates user object and generates string for Id property
+            User user = new User();
+            user = _mapper.Map<User>(registrationDto);
+
+            IdentityResult result = await _uow.UserManager.CreateAsync(user, registrationDto.Password);
+            if (result.Errors.Count() > 0)
+                return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
+
+            OperationInfo userHaveRole = await AddToRoleAsync(user, "User");
+            if (!userHaveRole.Succeeded)
+                return userHaveRole;
+
+            return new OperationInfo(true, "User created successfuly");
         }
 
         /// <summary>
@@ -54,31 +65,18 @@ namespace CourseGenerator.BLL.Services
         }
 
         /// <summary>
-        /// Maps registration DTO to user type
+        /// Adds user to role
         /// </summary>
-        /// <param name="registrationDTO">Registration DTO</param>
-        /// <returns>Mapped user</returns>
-        private User MapUser(UserRegistrationDTO registrationDTO)
+        /// <param name="user">User</param>
+        /// <param name="role">Role</param>
+        /// <returns>Whether role was given to user of not</returns>
+        private async Task<OperationInfo> AddToRoleAsync(User user, string role)
         {
-            // Creates user object and generates string for Id property
-            User user = new User();
-            user = _mapper.Map<User>(registrationDTO);
-            return user;
-        }
-
-        /// <summary>
-        /// Creates user
-        /// </summary>
-        /// <param name="user">User object</param>
-        /// <param name="password">Password</param>
-        /// <returns>User creation status</returns>
-        private async Task<OperationInfo> CreateUserAsync(User user, string password)
-        {
-            IdentityResult result = await _uow.UserManager.CreateAsync(user, password);
+            IdentityResult result = await _uow.UserManager.AddToRoleAsync(user, role);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
+                return new OperationInfo(true, "Role was successfully given to user");
             else
-                return new OperationInfo(true, "User created successfuly");
+                return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
         }
     }
 }
