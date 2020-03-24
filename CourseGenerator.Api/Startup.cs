@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.BLL.Services;
 using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
@@ -47,7 +48,10 @@ namespace CourseGenerator.Api
             }, typeof(Startup));
 
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
+            
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUserManagementService, IUserManagementService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IUnitOfWork uow)

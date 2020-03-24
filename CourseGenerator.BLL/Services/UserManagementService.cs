@@ -12,7 +12,7 @@ using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.BLL.Services
 {
-    public class UserManagementService
+    public class UserManagementService : IUserManagementService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
@@ -55,11 +55,11 @@ namespace CourseGenerator.BLL.Services
         /// </summary>
         /// <param name="username">username</param>
         /// <returns>Succeeds when user exists and fails when not</returns>
-        private async Task<OperationInfo> ExistsWithUserNameAsync(string username)
+        public async Task<OperationInfo> ExistsWithUserNameAsync(string username)
         {
             User user = await _uow.UserManager.FindByNameAsync(username);
             if (user != null)
-                return new OperationInfo(true, "User with such username exists");
+                return new OperationInfo(true, $"User with username = {username} exists");
             else
                 return new OperationInfo(false, "There is no user with such username");
         }
@@ -70,13 +70,15 @@ namespace CourseGenerator.BLL.Services
         /// <param name="user">User</param>
         /// <param name="role">Role</param>
         /// <returns>Whether role was given to user of not</returns>
-        private async Task<OperationInfo> AddToRoleAsync(User user, string role)
+        public async Task<OperationInfo> AddToRoleAsync(User user, string role)
         {
             IdentityResult result = await _uow.UserManager.AddToRoleAsync(user, role);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(true, "Role was successfully given to user");
+                return new OperationInfo(true, $"Role {role} was successfully given to user");
             else
                 return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
         }
+
+        public void Dispose() => _uow.Dispose();
     }
 }

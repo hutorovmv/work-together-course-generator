@@ -42,7 +42,8 @@ namespace CourseGenerator.BLL.Repositories
 
             if (disposing)
             {
-                // ...
+                UserManager.Dispose();
+                RoleManager.Dispose();
             }
             disposed = true;
         }
