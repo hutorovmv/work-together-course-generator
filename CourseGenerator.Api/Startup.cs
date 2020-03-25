@@ -51,10 +51,10 @@ namespace CourseGenerator.Api
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IUserManagementService, IUserManagementService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IUnitOfWork uow)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider sp)
         {
             if (env.IsDevelopment())
             {
@@ -73,12 +73,14 @@ namespace CourseGenerator.Api
                 endpoints.MapControllers();
             });
 
-            AddDefaultRoles(uow, new string[] {
-                "Admin",
-                "ContentAdmin",
-                "ContentManager",
-                "User"
-            });
+            //IUnitOfWork uow = sp.GetService<IUnitOfWork>();
+
+            //AddDefaultRoles(uow, new string[] {
+            //    "Admin",
+            //    "ContentAdmin",
+            //    "ContentManager",
+            //    "User"
+            //});
         }
 
         private async void AddDefaultRoles(IUnitOfWork uow, string[] roles)

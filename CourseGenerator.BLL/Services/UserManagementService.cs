@@ -32,7 +32,7 @@ namespace CourseGenerator.BLL.Services
         {
             // Email is used as username
             OperationInfo userExistsResult = await ExistsWithUserNameAsync(registrationDto.Email);
-            if (!userExistsResult.Succeeded)
+            if (userExistsResult.Succeeded)
                 return userExistsResult;
 
             // Creates user object and generates string for Id property
@@ -64,6 +64,7 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, "There is no user with such username");
         }
 
+        // TODO: Change to AddToRoles which takes param string[]
         /// <summary>
         /// Adds user to role
         /// </summary>
