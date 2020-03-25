@@ -9,7 +9,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
-        public int? BaseCourseId { get; set; }
+        public int BaseCourseId { get; set; }
         public Course BaseCourse { get; set; }
 
         public string Note { get; set; }

@@ -17,13 +17,13 @@ namespace CourseGenerator.Models.Configs.Info
 
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.CompetencyLangs)
-                .HasForeignKey(p => p.LangId);
+                .HasForeignKey(p => p.LangId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Competency)
                 .WithMany(p => p.CompetencyLangs)
-                .HasForeignKey(p => p.CompetencyId);
-
-
+                .HasForeignKey(p => p.CompetencyId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

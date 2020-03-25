@@ -18,15 +18,18 @@ namespace CourseGenerator.Models.Configs.CourseAccess
 
             builder.HasOne(p => p.User)
                 .WithMany(p => p.UserThemes)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Theme)
                 .WithMany(p => p.UserThemes)
-                .HasForeignKey(p => p.ThemeId);
+                .HasForeignKey(p => p.ThemeId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.UserThemes)
-                .HasForeignKey(p => p.LevelId);
+                .HasForeignKey(p => p.LevelId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
