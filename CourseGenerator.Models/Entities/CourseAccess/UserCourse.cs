@@ -9,7 +9,7 @@ namespace CourseGenerator.Models.Entities.CourseAccess
 {
     public class UserCourse
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public int CourseId { get; set; }
