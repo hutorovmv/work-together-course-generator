@@ -127,18 +127,21 @@ namespace CourseGenerator.Models
             new LevelLang
             {
                 LevelId = 1,
+                LangId = 1,
                 Name = "Базова",
                 Description = "Потребує частого керівництва"
             },
             new LevelLang
             {
                 LevelId = 2,
+                LangId = 1,
                 Name = "Проміжна",
                 Description = "Потребує періодичного керівництва"
             },
             new LevelLang
             {
                 LevelId = 3,
+                LangId = 1,
                 Name = "Продвинута",
                 Description = "Applies the competency in considerably difficult situations." +
                 "Generally requires little or no guidance."
@@ -146,6 +149,7 @@ namespace CourseGenerator.Models
             new LevelLang
             {
                 LevelId = 4,
+                LangId = 3,
                 Name = "Expert",
                 Description = "Applies the competency in exceptionally difficult situations." +
                 "Serves as a key resourse and advises others."
@@ -179,6 +183,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 1,
+                LangId = 1,
                 Name = "Інформаційна компетентність",
                 Description = "За допомогою реальних об'єктів (телевізор, магнітофон, " +
                 "телефон, факс, комп'ютер, принтер, модем, копір тощо) й інформаційних" +
@@ -192,6 +197,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 2,
+                LangId = 1,
                 Name = "Навчально-пізнавальна компетентність",
                 Description = "Це сукупність компетентностей учня у сфері самостійної " +
                 "пізнавальної діяльності, що включає елементи логічної, методологічної," +
@@ -210,6 +216,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 3,
+                LangId = 1,
                 Name = "Компетентність особистісного самовдосконалення",
                 Description = "спрямована на засвоєння способів фізичного, " +
                 "духовного й інтелектуального саморозвитку, емоційної саморегуляції" +
@@ -346,17 +353,18 @@ namespace CourseGenerator.Models
             new MaterialLang
             {
                 MaterialId = 1,
+                LangId = 1,
                 Name = "ASP.NET Core",
                 FileUrl = "MaterialEng.mp4",
                 BackImageLangUrl = "backgroundEng.jpg",
                 Text = "Платформа ASP.NET Core представляет технологию от компании " +
                 "Microsoft, предназначенную для создания различного рода веб-приложений:" +
                 " от небольших веб-сайтов до крупных веб-порталов и веб-сервисов.",
-                LangId = 3
             },
             new MaterialLang
             {
                 MaterialId = 2,
+                LangId = 1,
                 Name = "Запуск приложения. Класс Program",
                 FileUrl = null,
                 BackImageLangUrl = null,
@@ -368,6 +376,7 @@ namespace CourseGenerator.Models
             new MaterialLang
             {
                 MaterialId = 3,
+                LangId = 1,
                 Name = "Програмування на C#",
                 FileUrl = null,
                 BackImageLangUrl = null,
@@ -463,29 +472,29 @@ namespace CourseGenerator.Models
             new CourseLang
             {
                 CourseId = 3,
-                LangId = 3,
+                LangId = 1,
                 Name = "Основи C#",
                 Description = null
             },
             new CourseLang
             {
                 CourseId = 4,
-                LangId = 4,
+                LangId = 1,
                 Name = "ASP.Net Core"
             }
         };
 
         public static CourseDependency[] CourseDependencies = {
-            new CourseDependency
-            {
-                CourseId = 1,
-                BaseCourseId = null,
-                Note = "Примітка"
-            },
+            //new CourseDependency
+            //{
+            //    CourseId = 1,
+            //    BaseCourseId = null,
+            //    Note = "Примітка"
+            //},
             new CourseDependency
             {
                 CourseId = 2,
-                BaseCourseId = null,
+                BaseCourseId = 1,
                 Note = null
             },
             new CourseDependency
@@ -571,7 +580,7 @@ namespace CourseGenerator.Models
             new ThemeLang
             {
                 ThemeId = 3,
-                LangId = 3,
+                LangId = 1,
                 Name = "Алгоритми сортування",
                 Description = "У цій темі описуютсья алгоритми сортування"
             },
@@ -579,7 +588,7 @@ namespace CourseGenerator.Models
             {
                 ThemeId = 4,
                 LangId = 3,
-                Name = "Алгоритми пошуку",
+                Name = "Search algorithms",
                 Description = null
             },
             new ThemeLang
@@ -592,8 +601,8 @@ namespace CourseGenerator.Models
             new ThemeLang
             {
                 ThemeId = 6,
-                LangId = 1,
-                Name = "Впровадження залежностей",
+                LangId = 3,
+                Name = "Dependency injection",
                 Description = null
             }
 
