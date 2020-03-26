@@ -11,7 +11,8 @@ namespace CourseGenerator.BLL.Infrastructure
     {
         public DTOToDomainProfile()
         {
-            CreateMap<UserRegistrationDTO, User>();
+            CreateMap<UserRegistrationDTO, User>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
         }
     }
 }
