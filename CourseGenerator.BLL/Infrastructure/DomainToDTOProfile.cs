@@ -12,6 +12,7 @@ namespace CourseGenerator.BLL.Infrastructure
         public DomainToDTOProfile()
         {
             CreateMap<User, UserRegistrationDTO>();
+            CreateMap<User, UserLoginDTO>();
         }
     }
 }

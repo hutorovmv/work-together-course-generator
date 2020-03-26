@@ -39,9 +39,9 @@ namespace CourseGenerator.BLL.Services
             User user = new User();
             user = _mapper.Map<User>(registrationDto);
 
-            IdentityResult result = await _uow.UserManager.CreateAsync(user, registrationDto.Password);
-            if (result.Errors.Count() > 0)
-                return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
+            IdentityResult createResult = await _uow.UserManager.CreateAsync(user, registrationDto.Password);
+            if (createResult.Errors.Count() > 0)
+                return new OperationInfo(false, createResult.Errors.FirstOrDefault()?.Description);
 
             OperationInfo userHaveRole = await AddToRolesAsync(user, "User");
             if (!userHaveRole.Succeeded)

@@ -4,35 +4,51 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        protected readonly IMapper _mapper;
-        protected readonly IUserManagementService _userManagementService;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IUserManagementService _userManagementService;
 
-        public AccountController(IMapper mapper, IUserManagementService userManagementService)
+        public AccountController(SignInManager<User> signInManager, IUserManagementService userManagementService)
         {
-            _mapper = mapper;
+            _signInManager = signInManager;
             _userManagementService = userManagementService;
         }
 
         [HttpPost]
-        [Route("~/api/[controller]/[action]")]
-        public async Task<IActionResult> Create(UserRegistrationDTO registrationDto)
+        public async Task<IActionResult> Create([FromBody] UserRegistrationDTO registrationDto)
         {
             OperationInfo registrationResult = await _userManagementService.CreateAsync(registrationDto);
             if (registrationResult.Succeeded)
                 return StatusCode(StatusCodes.Status201Created);
-            else
-                return BadRequest(registrationDto);
+            return BadRequest(registrationDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
+        {
+            var signInResult = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
+            if (signInResult.Succeeded)
+                return Ok();
+            return Unauthorized(loginDto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok();
         }
     }
 }
