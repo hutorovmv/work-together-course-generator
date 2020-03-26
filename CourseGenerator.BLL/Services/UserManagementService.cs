@@ -60,8 +60,8 @@ namespace CourseGenerator.BLL.Services
             User user = await _uow.UserManager.FindByNameAsync(username);
             if (user != null)
                 return new OperationInfo(true, $"User with username = {username} exists");
-            else
-                return new OperationInfo(false, "There is no user with such username");
+
+            return new OperationInfo(false, "There is no user with such username");
         }
 
         // TODO: Change to AddToRoles which takes param string[]
@@ -75,9 +75,9 @@ namespace CourseGenerator.BLL.Services
         {
             IdentityResult result = await _uow.UserManager.AddToRolesAsync(user, roles);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(true, $"Roles was successfully given to user");
-            else
-                return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
+                return new OperationInfo(false, result.Errors.FirstOrDefault().Description);
+                
+            return new OperationInfo(true, "Roles was successfully given to user");
         }
 
         public void Dispose() => _uow.Dispose();
