@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using CourseGenerator.DAL.Context;
+using Microsoft.AspNetCore.Identity;
 using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.DAL.Context;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.BLL.Repositories
 {
@@ -11,9 +13,17 @@ namespace CourseGenerator.BLL.Repositories
     {
         private readonly ApplicationContext _context;
 
-        public UnitOfWork(ApplicationContext context)
+        public UserManager<User> UserManager { get; set; }
+        public RoleManager<Role> RoleManager { get; set; }
+
+        public UnitOfWork(ApplicationContext context,
+            UserManager<User> userManager,
+            RoleManager<Role> roleManager)
         {
             _context = context;
+
+            UserManager = userManager;
+            RoleManager = roleManager;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -32,7 +42,8 @@ namespace CourseGenerator.BLL.Repositories
 
             if (disposing)
             {
-                // ...
+                UserManager.Dispose();
+                RoleManager.Dispose();
             }
             disposed = true;
         }

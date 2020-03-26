@@ -11,9 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.BLL.Infrastructure;
+using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.Services;
 using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.Api
 {
@@ -36,11 +42,25 @@ namespace CourseGenerator.Api
                 options.UseSqlServer(connectionString);
             });
 
+            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationContext>();
+
+            services.AddAutoMapper(c => {
+                c.AddProfile<DomainToDTOProfile>();
+                c.AddProfile<DTOToDomainProfile>();
+            }, typeof(Startup));
+
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUserManagementService, UserManagementService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            UserManager<User> userManager, 
+            RoleManager<Role> roleManager, 
+            IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -51,7 +71,13 @@ namespace CourseGenerator.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            IdentityDataInitializer.AddRoles(roleManager, "Admin", "ContentAdmin", "ContentManager", "User");
+
+            UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
+            IdentityDataInitializer.AddAdmin(userManager, mapper, defaultAdmin);
 
             app.UseEndpoints(endpoints =>
             {

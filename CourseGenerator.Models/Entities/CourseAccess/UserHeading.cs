@@ -11,7 +11,7 @@ namespace CourseGenerator.Models.Entities.CourseAccess
     /// </summary>
     public class UserHeading
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public User User { get; set; }
 
         public int HeadingId { get; set; }

@@ -17,15 +17,18 @@ namespace CourseGenerator.Models.Configs.CourseAccess
 
             builder.HasOne(p => p.User)
                 .WithMany(p => p.UserHeadings)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Heading)
                 .WithMany(p => p.UserHeadings)
-                .HasForeignKey(p => p.HeadingId);
+                .HasForeignKey(p => p.HeadingId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.UserHeading)
-                .HasForeignKey(p => p.LevelId);
+                .HasForeignKey(p => p.LevelId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

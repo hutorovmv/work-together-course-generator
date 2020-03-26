@@ -4,10 +4,14 @@ using CourseGenerator.Models;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.Models.Configs.Info;
+using CourseGenerator.Models.Configs.InfoByThemes;
+using CourseGenerator.Models.Configs.CourseAccess;
 
 namespace CourseGenerator.DAL.Context
 {
-    public class ApplicationContext : IdentityDbContext
+    public class ApplicationContext : IdentityDbContext<User, Role, string>
     {
         #region Info
         public DbSet<Language> Languages;
@@ -44,14 +48,37 @@ namespace CourseGenerator.DAL.Context
         #endregion
 
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new LanguageConfig());
+            modelBuilder.ApplyConfiguration(new HeadingConfig());
+            modelBuilder.ApplyConfiguration(new HeadingLangConfig());
+            modelBuilder.ApplyConfiguration(new LevelConfig());
+            modelBuilder.ApplyConfiguration(new LevelLangConfig());
+            modelBuilder.ApplyConfiguration(new CompetencyConfig());
+            modelBuilder.ApplyConfiguration(new CompetencyLangConfig());
+            modelBuilder.ApplyConfiguration(new HeadingCompetencyConfig());
+            modelBuilder.ApplyConfiguration(new MaterialTypeConfig());
+            modelBuilder.ApplyConfiguration(new MaterialTypeLangConfig());
+            modelBuilder.ApplyConfiguration(new MaterialConfig());
+            modelBuilder.ApplyConfiguration(new MaterialLangConfig());
+            modelBuilder.ApplyConfiguration(new MaterialCompetencyConfig());
+            modelBuilder.ApplyConfiguration(new HeadingMaterialConfig());
+            modelBuilder.ApplyConfiguration(new CourseConfig());
+            modelBuilder.ApplyConfiguration(new CourseLangConfig());
+            modelBuilder.ApplyConfiguration(new CourseDependencyConfig());
+            modelBuilder.ApplyConfiguration(new ThemeConfig());
+            modelBuilder.ApplyConfiguration(new ThemeLangConfig());
+            modelBuilder.ApplyConfiguration(new CourseHeadingConfig());
+            modelBuilder.ApplyConfiguration(new ThemeHeadingConfig());
+            modelBuilder.ApplyConfiguration(new ThemeMaterialConfig());
+            modelBuilder.ApplyConfiguration(new UserHeadingConfig());
+            modelBuilder.ApplyConfiguration(new UserCourseConfig());
+            modelBuilder.ApplyConfiguration(new UserThemeConfig());
+
+
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);
             modelBuilder.Entity<Heading>().HasData(TestData.Headings);
@@ -81,10 +108,12 @@ namespace CourseGenerator.DAL.Context
             #endregion
 
             #region CourseAccess
-            modelBuilder.Entity<UserHeading>().HasData(TestData.UserHeadings);
-            modelBuilder.Entity<UserCourse>().HasData(TestData.UserCourses);
-            modelBuilder.Entity<UserTheme>().HasData(TestData.UserThemes);
+            //modelBuilder.Entity<UserHeading>().HasData(TestData.UserHeadings);
+            //modelBuilder.Entity<UserCourse>().HasData(TestData.UserCourses);
+            //modelBuilder.Entity<UserTheme>().HasData(TestData.UserThemes);
             #endregion
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

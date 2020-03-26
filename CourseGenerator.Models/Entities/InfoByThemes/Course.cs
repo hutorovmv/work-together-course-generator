@@ -15,6 +15,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
 
         public string Note { get; set; }
 
+   
         public ICollection<CourseDependency> CourseDependencies { get; set; }
         public ICollection<CourseDependency> BaseCourseDependencies { get; set; }
         public ICollection<Theme> Themes { get; set; }
