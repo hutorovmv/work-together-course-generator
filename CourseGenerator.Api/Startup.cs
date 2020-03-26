@@ -18,6 +18,7 @@ using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.BLL.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 
 namespace CourseGenerator.Api
 {
@@ -49,12 +50,16 @@ namespace CourseGenerator.Api
 
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
             
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider sp)
+        public void Configure(IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            UserManager<User> userManager, 
+            RoleManager<Role> roleManager, 
+            IMapper mapper)
         {
             if (env.IsDevelopment())
             {
@@ -68,28 +73,12 @@ namespace CourseGenerator.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            IdentityDataInitializer.AddData(userManager, roleManager, mapper);
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            //IUnitOfWork uow = sp.GetService<IUnitOfWork>();
-
-            //AddDefaultRoles(uow, new string[] {
-            //    "Admin",
-            //    "ContentAdmin",
-            //    "ContentManager",
-            //    "User"
-            //});
-        }
-
-        private async void AddDefaultRoles(IUnitOfWork uow, string[] roles)
-        {
-            foreach (var role in roles) {
-                var exists = await uow.RoleManager.RoleExistsAsync(role);
-                if (!exists)
-                    await uow.RoleManager.CreateAsync(new Role(role));
-            }
         }
     }
 }

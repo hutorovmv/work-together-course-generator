@@ -48,11 +48,7 @@ namespace CourseGenerator.DAL.Context
         #endregion
 
 
-        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
-        {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
-        }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
