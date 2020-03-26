@@ -12,6 +12,6 @@ namespace CourseGenerator.BLL.Interfaces
     {
         Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto);
         Task<OperationInfo> ExistsWithUserNameAsync(string username);
-        Task<OperationInfo> AddToRoleAsync(User user, string role);
+        Task<OperationInfo> AddToRolesAsync(User user, params string[] role);
     }
 }

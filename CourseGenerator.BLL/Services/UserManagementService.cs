@@ -43,7 +43,7 @@ namespace CourseGenerator.BLL.Services
             if (result.Errors.Count() > 0)
                 return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
 
-            OperationInfo userHaveRole = await AddToRoleAsync(user, "User");
+            OperationInfo userHaveRole = await AddToRolesAsync(user, "User");
             if (!userHaveRole.Succeeded)
                 return userHaveRole;
 
@@ -66,16 +66,16 @@ namespace CourseGenerator.BLL.Services
 
         // TODO: Change to AddToRoles which takes param string[]
         /// <summary>
-        /// Adds user to role
+        /// Adds user to roles
         /// </summary>
         /// <param name="user">User</param>
         /// <param name="role">Role</param>
         /// <returns>Whether role was given to user of not</returns>
-        public async Task<OperationInfo> AddToRoleAsync(User user, string role)
+        public async Task<OperationInfo> AddToRolesAsync(User user, params string[] roles)
         {
-            IdentityResult result = await _uow.UserManager.AddToRoleAsync(user, role);
+            IdentityResult result = await _uow.UserManager.AddToRolesAsync(user, roles);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(true, $"Role {role} was successfully given to user");
+                return new OperationInfo(true, $"Roles was successfully given to user");
             else
                 return new OperationInfo(false, result.Errors.FirstOrDefault()?.Description);
         }
