@@ -12,16 +12,8 @@ namespace CourseGenerator.BLL.Infrastructure
 {
     public static class IdentityDataInitializer
     {
-        public static void AddData(UserManager<User> userManager, RoleManager<Role> roleManager, IMapper mapper)
+        public static void AddRoles(RoleManager<Role> roleManager, params string[] roles)
         {
-            AddRoles(roleManager);
-            AddAdmin(userManager, mapper);
-        }
-
-        public static void AddRoles(RoleManager<Role> roleManager)
-        {
-            string[] roles = { "Admin", "ContentAdmin", "ContentManager", "User" };
-
             foreach (var role in roles)
             {
                 bool exists = roleManager.RoleExistsAsync(role).Result;
@@ -30,16 +22,8 @@ namespace CourseGenerator.BLL.Infrastructure
             }
         }
 
-        public static void AddAdmin(UserManager<User> userManager, IMapper mapper)
+        public static void AddAdmin(UserManager<User> userManager, IMapper mapper, UserRegistrationDTO adminDto)
         {
-            UserRegistrationDTO adminDto = new UserRegistrationDTO
-            {
-                Email = "admin_email@example.com",
-                FirstName = "FirstName",
-                LastName = "LastName",
-                Password = "Adm1nU5er!"
-            };
-
             User admin = userManager.FindByNameAsync(adminDto.Email).Result;
             if (admin != null)
                 return;

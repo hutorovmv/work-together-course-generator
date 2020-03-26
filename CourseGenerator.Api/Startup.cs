@@ -11,14 +11,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.BLL.Infrastructure;
+using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Services;
 using CourseGenerator.BLL.Repositories;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
-using CourseGenerator.BLL.Infrastructure;
-using Microsoft.AspNetCore.Identity;
 
 namespace CourseGenerator.Api
 {
@@ -73,7 +74,10 @@ namespace CourseGenerator.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            IdentityDataInitializer.AddData(userManager, roleManager, mapper);
+            IdentityDataInitializer.AddRoles(roleManager, "Admin", "ContentAdmin", "ContentManager", "User");
+
+            UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
+            IdentityDataInitializer.AddAdmin(userManager, mapper, defaultAdmin);
 
             app.UseEndpoints(endpoints =>
             {
