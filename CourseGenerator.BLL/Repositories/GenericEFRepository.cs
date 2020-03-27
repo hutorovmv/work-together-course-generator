@@ -27,9 +27,10 @@ namespace CourseGenerator.BLL.Repositories
         public async Task<IEnumerable<T>> GetAllAsync() => await _set.ToListAsync();
 
         public IQueryable<T> GetAllQueryable() => _set.AsQueryable();
-        public async Task<PagedList<T>> GetPagedAsync(int pageSize, int pageIndex)
+        public async Task<PagedList<T>> GetPagedAsync(int pageSize, int pageIndex, Func<IQueryable<T>, IQueryable<T>> orderDel)
         {
-            return await _set.ToPagedListAsync(pageSize, pageIndex);
+            IQueryable<T> sorted = orderDel(_set);
+            return await sorted.ToPagedListAsync(pageSize, pageIndex);
         }
 
 
