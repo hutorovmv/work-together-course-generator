@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
+using CourseGenerator.Api.Middlewares;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
@@ -78,6 +79,8 @@ namespace CourseGenerator.Api
 
             UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
             IdentityDataInitializer.AddAdmin(userManager, mapper, defaultAdmin);
+
+            app.UseMiddleware<ApiKeyMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
