@@ -25,5 +25,17 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<CourseHeading> CourseHeadings { get; set; }
         public ICollection<CourseLang> CourseLangs { get; set; }
 
+        public Course()
+        {
+            CourseDependencies = new List<CourseDependency>();
+            BaseCourseDependencies = new List<CourseDependency>();
+            Themes = new List<Theme>();
+            Courses = new List<Course>();
+            Headings = new List<Heading>();
+            UserCourses = new List<UserCourse>();
+            CourseHeadings = new List<CourseHeading>();
+            CourseLangs = new List<CourseLang>();
+        }
+
     }
 }

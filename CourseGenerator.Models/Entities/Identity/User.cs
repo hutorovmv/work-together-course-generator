@@ -16,5 +16,12 @@ namespace CourseGenerator.Models.Entities.Identity
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
         public ICollection<UserTheme> UserThemes { get; set; }
+
+        public User()
+        {
+            UserHeadings = new List<UserHeading>();
+            UserCourses = new List<UserCourse>();
+            UserThemes = new List<UserTheme>();
+        }
     }
 }

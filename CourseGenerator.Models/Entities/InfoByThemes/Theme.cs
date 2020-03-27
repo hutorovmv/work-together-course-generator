@@ -26,5 +26,13 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
         public ICollection<UserTheme> UserThemes { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
+
+        public Theme()
+        {
+            Themes = new List<Theme>();
+            ThemeHeadings = new List<ThemeHeading>();
+            UserThemes = new List<UserTheme>();
+            ThemeLangs = new List<ThemeLang>();
+        }
     }
 }

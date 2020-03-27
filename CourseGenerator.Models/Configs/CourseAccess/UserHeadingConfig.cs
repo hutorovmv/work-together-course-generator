@@ -26,7 +26,7 @@ namespace CourseGenerator.Models.Configs.CourseAccess
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Level)
-                .WithMany(p => p.UserHeading)
+                .WithMany(p => p.UserHeadings)
                 .HasForeignKey(p => p.LevelId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
