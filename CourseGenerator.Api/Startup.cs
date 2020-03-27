@@ -18,8 +18,9 @@ using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Services;
-using CourseGenerator.BLL.Repositories;
+using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
+using CourseGenerator.DAL.Repositories;
 using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.Api

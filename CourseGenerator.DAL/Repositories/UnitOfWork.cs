@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 
-namespace CourseGenerator.BLL.Repositories
+namespace CourseGenerator.DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

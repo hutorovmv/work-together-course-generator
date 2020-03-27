@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using CourseGenerator.DAL.Pagination;
 using CourseGenerator.DAL.Context;
 
-namespace CourseGenerator.BLL.Interfaces
+namespace CourseGenerator.DAL.Interfaces
 {
     public interface IGenericEFRepository<T> : IDisposable, IRepository<T> where T : class
     {
         IQueryable<T> GetAllQueryable();
-        Task<PagedList<T>> GetPagedAsync(int pageSize, int pageIndex);
+        Task<PagedList<T>> GetPagedAsync(int pageSize, int pageIndex, Func<IQueryable<T>, IQueryable<T>> orderDel);
     }
 }

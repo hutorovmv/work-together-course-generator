@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using CourseGenerator.Models.Entities.Identity;
 
-namespace CourseGenerator.BLL.Interfaces
+namespace CourseGenerator.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

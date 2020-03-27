@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CourseGenerator.DAL.Pagination;
 using CourseGenerator.DAL.Context;
-using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.DAL.Interfaces;
 
-namespace CourseGenerator.BLL.Repositories
+namespace CourseGenerator.DAL.Repositories
 {
     public class GenericEFRepository<T> : IGenericEFRepository<T> where T : class
     {

@@ -10,6 +10,7 @@ using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CourseGenerator.Api.Controllers
 {
@@ -35,6 +36,7 @@ namespace CourseGenerator.Api.Controllers
             return BadRequest(registrationDto);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
         {

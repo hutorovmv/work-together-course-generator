@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
+using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 
