@@ -13,17 +13,21 @@ namespace CourseGenerator.DAL.Repositories
     {
         private readonly ApplicationContext _context;
 
-        public UserManager<User> UserManager { get; set; }
+        public ApplicationUserManager UserManager { get; set; }
         public RoleManager<Role> RoleManager { get; set; }
 
+        public ICourseRepository CourseRepository { get; set; }
+
         public UnitOfWork(ApplicationContext context,
-            UserManager<User> userManager,
-            RoleManager<Role> roleManager)
+            ApplicationUserManager userManager,
+            RoleManager<Role> roleManager,
+            ICourseRepository courseRepository)
         {
             _context = context;
 
             UserManager = userManager;
             RoleManager = roleManager;
+            CourseRepository = courseRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
