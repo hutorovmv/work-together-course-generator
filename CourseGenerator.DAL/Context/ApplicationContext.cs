@@ -8,6 +8,7 @@ using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Configs.Info;
 using CourseGenerator.Models.Configs.InfoByThemes;
 using CourseGenerator.Models.Configs.CourseAccess;
+using CourseGenerator.Models.Configs.Identity;
 
 namespace CourseGenerator.DAL.Context
 {
@@ -52,6 +53,7 @@ namespace CourseGenerator.DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new UserConfig());
             modelBuilder.ApplyConfiguration(new LanguageConfig());
             modelBuilder.ApplyConfiguration(new HeadingConfig());
             modelBuilder.ApplyConfiguration(new HeadingLangConfig());

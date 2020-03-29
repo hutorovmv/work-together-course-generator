@@ -57,6 +57,7 @@ namespace CourseGenerator.BLL.Infrastructure
                 Email = "andrewryzhkov@gmail.com",
                 FirstName = "Andrew",
                 LastName = "Ryzhkov",
+                PhoneNumber = "380638888888",
                 Password = "Andruha123!"
             };
             userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
