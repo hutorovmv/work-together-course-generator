@@ -4,6 +4,7 @@ using System.Text;
 using AutoMapper;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -13,6 +14,7 @@ namespace CourseGenerator.BLL.Infrastructure
         {
             CreateMap<User, UserRegistrationDTO>();
             CreateMap<User, UserLoginDTO>();
+            CreateMap<CourseLang, CourseItemDTO>();
         }
     }
 }
