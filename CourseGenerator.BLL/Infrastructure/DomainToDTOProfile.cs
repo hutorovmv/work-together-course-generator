@@ -14,6 +14,7 @@ namespace CourseGenerator.BLL.Infrastructure
         {
             CreateMap<User, UserRegistrationDTO>();
             CreateMap<User, UserLoginDTO>();
+            CreateMap<User, UserDetailsDTO>();
             CreateMap<CourseLang, CourseItemDTO>();
         }
     }

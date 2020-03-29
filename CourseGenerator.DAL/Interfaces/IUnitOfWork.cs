@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.DAL.Repositories;
+using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.DAL.Interfaces
 {
@@ -14,6 +15,7 @@ namespace CourseGenerator.DAL.Interfaces
         RoleManager<Role> RoleManager { get; set; }
 
         ICourseRepository CourseRepository { get; set; }
+        IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
 
         Task SaveAsync();
     }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.DAL.Repositories
 {
@@ -17,17 +18,20 @@ namespace CourseGenerator.DAL.Repositories
         public RoleManager<Role> RoleManager { get; set; }
 
         public ICourseRepository CourseRepository { get; set; }
+        public IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
             RoleManager<Role> roleManager,
-            ICourseRepository courseRepository)
+            ICourseRepository courseRepository,
+            IGenericEFRepository<UserCourse> userCourseRepository)
         {
             _context = context;
 
             UserManager = userManager;
             RoleManager = roleManager;
             CourseRepository = courseRepository;
+            UserCourseRepository = userCourseRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();

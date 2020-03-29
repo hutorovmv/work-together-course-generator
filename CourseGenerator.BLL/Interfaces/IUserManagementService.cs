@@ -10,8 +10,9 @@ namespace CourseGenerator.BLL.Interfaces
 {
     public interface IUserManagementService : IDisposable
     {
-        Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto);
+        Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles);
         Task<OperationInfo> ExistsWithUserNameAsync(string username);
-        Task<OperationInfo> AddToRolesAsync(User user, params string[] role);
+        Task<OperationInfo> AddToRolesAsync(User user, params string[] roles);
+        Task<UserDetailsDTO> GetDetailsByUserName(string userName);
     }
 }

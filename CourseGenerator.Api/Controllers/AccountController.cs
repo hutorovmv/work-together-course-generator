@@ -30,7 +30,7 @@ namespace CourseGenerator.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UserRegistrationDTO registrationDto)
         {
-            OperationInfo registrationResult = await _userManagementService.CreateAsync(registrationDto);
+            OperationInfo registrationResult = await _userManagementService.CreateAsync(registrationDto, "User");
             if (registrationResult.Succeeded)
                 return StatusCode(StatusCodes.Status201Created);
             return BadRequest(registrationDto);

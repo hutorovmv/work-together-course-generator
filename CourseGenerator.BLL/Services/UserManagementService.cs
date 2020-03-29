@@ -29,7 +29,7 @@ namespace CourseGenerator.BLL.Services
         /// </summary>
         /// <param name="registrationDto">Data from client</param>
         /// <returns>Information about registration</returns>
-        public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto)
+        public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles)
         {
             // Email is used as username
             OperationInfo userExistsResult = await ExistsWithUserNameAsync(registrationDto.Email);
@@ -44,7 +44,7 @@ namespace CourseGenerator.BLL.Services
             if (createResult.Errors.Count() > 0)
                 return new OperationInfo(false, createResult.Errors.FirstOrDefault()?.Description);
 
-            OperationInfo userHaveRole = await AddToRolesAsync(user, "User");
+            OperationInfo userHaveRole = await AddToRolesAsync(user, roles);
             if (!userHaveRole.Succeeded)
                 return userHaveRole;
 
@@ -82,5 +82,11 @@ namespace CourseGenerator.BLL.Services
         }
 
         public void Dispose() => _uow.Dispose();
+
+        public async Task<UserDetailsDTO> GetDetailsByUserName(string userName)
+        {
+            User user = await _uow.UserManager.FindByNameAsync(userName);
+            return _mapper.Map<UserDetailsDTO>(user);
+        }
     }
 }

@@ -64,9 +64,9 @@ namespace CourseGenerator.Api
 
         public void Configure(IApplicationBuilder app, 
             IWebHostEnvironment env, 
-            ApplicationUserManager userManager, 
-            RoleManager<Role> roleManager, 
-            IMapper mapper)
+            IUserManagementService userManagementService,
+            ICourseService courseService,
+            RoleManager<Role> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -83,7 +83,8 @@ namespace CourseGenerator.Api
             IdentityDataInitializer.AddRoles(roleManager);
 
             UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
-            IdentityDataInitializer.AddAdmin(userManager, mapper, defaultAdmin);
+            IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
+            IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
 
             app.UseMiddleware<ApiKeyMiddleware>();
 

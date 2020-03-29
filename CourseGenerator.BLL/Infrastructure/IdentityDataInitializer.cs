@@ -7,6 +7,9 @@ using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using AutoMapper;
+using CourseGenerator.DAL.Interfaces;
+using CourseGenerator.DAL.Repositories;
+using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -40,20 +43,29 @@ namespace CourseGenerator.BLL.Infrastructure
         /// <c>UserRegistrationDTO</c> використаний, бо необхідна можливість передати пароль.
         /// </para>
         /// </remarks>
-        public static void AddAdmin(UserManager<User> userManager, IMapper mapper, UserRegistrationDTO adminDto)
+        public static void AddAdmin(IUserManagementService userManagementService, UserRegistrationDTO adminDto)
         {
-            User admin = userManager.FindByNameAsync(adminDto.Email).Result;
-            if (admin != null)
-                return;
+            userManagementService.CreateAsync(adminDto, "Admin", "ContentAdmin", "User").Wait();
+        }
 
-            admin = new User();
-            admin = mapper.Map<User>(adminDto);
+        public static void AddTestUsersAndCourseAccessData(
+            IUserManagementService userManagementService, 
+            ICourseService courseService)
+        {
+            UserRegistrationDTO userRegistrationDto1 = new UserRegistrationDTO
+            {
+                Email = "andrewryzhkov@gmail.com",
+                FirstName = "Andrew",
+                LastName = "Ryzhkov",
+                Password = "Andruha123!"
+            };
+            userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
 
-            IdentityResult result = userManager.CreateAsync(admin, adminDto.Password).Result;
-            if (!result.Succeeded)
-                return;
-
-            userManager.AddToRolesAsync(admin, new string[] { "Admin", "ContentAdmin", "User" }).Wait();
+            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByUserName(userRegistrationDto1.Email).Result;
+            courseService.AddUserToCourseAsync(userDetailsDto1.Id, 1, 1).Wait();
+            courseService.AddUserToCourseAsync(userDetailsDto1.Id, 2, 1).Wait();
+            courseService.AddUserToCourseAsync(userDetailsDto1.Id, 3, 1).Wait();
+            courseService.AddUserToCourseAsync(userDetailsDto1.Id, 4, 1).Wait();
         }
     }
 }
