@@ -44,7 +44,9 @@ namespace CourseGenerator.Api
                 options.UseSqlServer(connectionString);
             });
 
-            services.AddIdentity<User, Role>().AddEntityFrameworkStores<ApplicationContext>();
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddUserManager<ApplicationUserManager>();
 
             services.AddAutoMapper(c => {
                 c.AddProfile<DomainToDTOProfile>();
@@ -52,15 +54,17 @@ namespace CourseGenerator.Api
             }, typeof(Startup));
 
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
-            
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<ICourseService, CourseService>();
         }
 
         public void Configure(IApplicationBuilder app, 
             IWebHostEnvironment env, 
-            UserManager<User> userManager, 
+            ApplicationUserManager userManager, 
             RoleManager<Role> roleManager, 
             IMapper mapper)
         {

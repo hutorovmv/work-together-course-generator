@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories
 {
-    public class СourseRepository : GenericEFRepository<Course>, ICourseRepository
+    public class CourseRepository : GenericEFRepository<Course>, ICourseRepository
     {
-        public СourseRepository(ApplicationContext context) : base(context) {}
+        public CourseRepository(ApplicationContext context) : base(context) {}
 
         /// <summary>
         /// Вибирає курси з вказаною мовою для вказаного користувача з пагінацією
