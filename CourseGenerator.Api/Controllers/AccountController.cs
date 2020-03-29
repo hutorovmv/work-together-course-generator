@@ -36,7 +36,6 @@ namespace CourseGenerator.Api.Controllers
             return BadRequest(registrationDto);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
         {
@@ -46,6 +45,7 @@ namespace CourseGenerator.Api.Controllers
             return Unauthorized(loginDto);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
