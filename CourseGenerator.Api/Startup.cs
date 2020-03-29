@@ -80,7 +80,7 @@ namespace CourseGenerator.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
-            IdentityDataInitializer.AddRoles(roleManager, "Admin", "ContentAdmin", "ContentManager", "User");
+            IdentityDataInitializer.AddRoles(roleManager);
 
             UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
             IdentityDataInitializer.AddAdmin(userManager, mapper, defaultAdmin);
