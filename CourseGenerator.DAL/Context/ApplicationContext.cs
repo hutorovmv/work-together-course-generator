@@ -14,37 +14,37 @@ namespace CourseGenerator.DAL.Context
     public class ApplicationContext : IdentityDbContext<User, Role, string>
     {
         #region Info
-        public DbSet<Language> Languages;
-        public DbSet<Heading> Headings;
-        public DbSet<HeadingLang> HeadingLangs;
-        public DbSet<Level> Levels;
-        public DbSet<LevelLang> LevelLangs;
-        public DbSet<Competency> Competencies;
-        public DbSet<CompetencyLang> CompetencyLangs;
-        public DbSet<HeadingCompetency> HeadingCompetencies;
-        public DbSet<MaterialType> MaterialTypes;
-        public DbSet<MaterialTypeLang> MaterialTypeLangs;
-        public DbSet<Material> Materials;
-        public DbSet<MaterialLang> MaterialLangs;
-        public DbSet<MaterialCompetency> MaterialCompetencies;
-        public DbSet<HeadingMaterial> HeadingMaterials;
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Heading> Headings { get; set; }
+        public DbSet<HeadingLang> HeadingLangs { get; set; }
+        public DbSet<Level> Levels { get; set; }
+        public DbSet<LevelLang> LevelLangs { get; set; }
+        public DbSet<Competency> Competencies { get; set; }
+        public DbSet<CompetencyLang> CompetencyLangs { get; set; }
+        public DbSet<HeadingCompetency> HeadingCompetencies { get; set; }
+        public DbSet<MaterialType> MaterialTypes { get; set; }
+        public DbSet<MaterialTypeLang> MaterialTypeLangs { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialLang> MaterialLangs { get; set; }
+        public DbSet<MaterialCompetency> MaterialCompetencies { get; set; }
+        public DbSet<HeadingMaterial> HeadingMaterials { get; set; }
         #endregion
 
         #region InfoByThemes
-        public DbSet<Course> Courses;
-        public DbSet<CourseLang> CourseLangs;
-        public DbSet<CourseDependency> CourseDependencies;
-        public DbSet<Theme> Themes;
-        public DbSet<ThemeLang> ThemeLangs;
-        public DbSet<CourseHeading> CourseHeadings;
-        public DbSet<ThemeHeading> ThemeHeadings;
-        public DbSet<ThemeMaterial> ThemeMaterials;
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseLang> CourseLangs { get; set; }
+        public DbSet<CourseDependency> CourseDependencies { get; set; }
+        public DbSet<Theme> Themes { get; set; }
+        public DbSet<ThemeLang> ThemeLangs { get; set; }
+        public DbSet<CourseHeading> CourseHeadings { get; set; }
+        public DbSet<ThemeHeading> ThemeHeadings { get; set; }
+        public DbSet<ThemeMaterial> ThemeMaterials { get; set; }
         #endregion
 
         #region CourseAccess
-        public DbSet<UserHeading> UserHeadings;
-        public DbSet<UserCourse> UserCourses;
-        public DbSet<UserTheme> UserThemes;
+        public DbSet<UserHeading> UserHeadings { get; set; }
+        public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<UserTheme> UserThemes { get; set; }
         #endregion
 
 
