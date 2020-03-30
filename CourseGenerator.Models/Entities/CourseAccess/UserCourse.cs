@@ -18,6 +18,14 @@ namespace CourseGenerator.Models.Entities.CourseAccess
         public int LevelId { get; set; }
         public Level Level { get; set; }
 
+        public bool IsComplited { get; set; }
+        public DateTime LastTime { get; set; }
+
+        public int LastThemeId { get; set; }
+        public Theme Theme { get; set; }
+
+        public int Grade { get; set; }
+
         public string Note { get; set; }
     }
 }

@@ -16,12 +16,14 @@ namespace CourseGenerator.Models.Configs.Info
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.Competencies)
-                .HasForeignKey(p => p.Id);
+                .HasForeignKey(p => p.Id)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.Competencies)
                 .WithOne(p => p.Parent)
                 .IsRequired(false)
-                .HasForeignKey(p => p.ParentId);
+                .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

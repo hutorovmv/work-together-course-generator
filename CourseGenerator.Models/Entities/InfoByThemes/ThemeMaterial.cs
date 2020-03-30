@@ -17,6 +17,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public int MaterialId { get; set; }
         public Material Material { get; set; }
 
+        public int Number { get; set; }
         public string Note { get; set; }
     }
 }

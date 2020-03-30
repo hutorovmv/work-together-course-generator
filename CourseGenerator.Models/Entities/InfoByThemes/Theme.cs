@@ -16,6 +16,10 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public int LevelId { get; set; }
         public Level Level { get; set; }
 
+        /// <summary>
+        /// Якщо в тему включений матеріал, то вона
+        /// не може бути батьківською 
+        /// </summary>
         public int? ParentId { get; set; }
         public Theme Parent { get; set; }
         public ICollection<Theme> Themes { get; set; }
@@ -26,6 +30,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
         public ICollection<UserTheme> UserThemes { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
+        public ICollection<UserCourse> UserCourses { get; set; }
 
         public Theme()
         {

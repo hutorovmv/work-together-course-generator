@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.Models.Entities.Info
@@ -20,6 +21,7 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<MaterialLang> MaterialLangs { get; set; }
         public ICollection<CourseLang> CourseLangs { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
+        public ICollection<User> Users { get; set; }
 
         public Language()
         {

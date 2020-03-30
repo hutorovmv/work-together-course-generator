@@ -17,7 +17,8 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
 
             builder.HasOne(p => p.Course)
                 .WithMany(p => p.Themes)
-                .HasForeignKey(p => p.CourseId);
+                .HasForeignKey(p => p.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.Themes)
@@ -27,7 +28,8 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
             builder.HasMany(p => p.Themes)
                 .WithOne(p => p.Parent)
                 .IsRequired(false)
-                .HasForeignKey(p => p.ParentId);
+                .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

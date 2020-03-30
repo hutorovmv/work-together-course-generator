@@ -21,12 +21,14 @@ namespace CourseGenerator.Models.Configs.Info
 
             builder.HasOne(p => p.MaterialType)
                 .WithMany(p => p.Materials)
-                .HasForeignKey(p => p.MaterialTypeId);
+                .HasForeignKey(p => p.MaterialTypeId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(p => p.Materials)
                 .WithOne(p => p.Parent)
                 .IsRequired(false)
-                .HasForeignKey(p => p.ParentId);
+                .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
