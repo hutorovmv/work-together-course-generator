@@ -32,6 +32,7 @@ namespace CourseGenerator.Models.Entities.Info
             MaterialLangs = new List<MaterialLang>();
             CourseLangs = new List<CourseLang>();
             ThemeLangs = new List<ThemeLang>();
+            Users = new List<User>();
         }
     }
 }

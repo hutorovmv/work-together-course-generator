@@ -13,9 +13,9 @@ namespace CourseGenerator.Models.Configs.Identity
         {
             builder.HasIndex(p => p.PhoneNumber).IsUnique();
 
-            builder.HasOne(p => p.Language)
+            builder.HasOne(p => p.PreferedLang)
                 .WithMany(p => p.Users)
-                .HasForeignKey(p => p.PrefectedLangId)
+                .HasForeignKey(p => p.PreferedLangId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

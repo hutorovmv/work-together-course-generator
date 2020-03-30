@@ -13,8 +13,8 @@ namespace CourseGenerator.Models.Entities.Identity
         public string LastName { get; set; }
         public string PhotoUrl { get; set; }
         public DateTime? BirthDate { get; set; }
-        public int PrefectedLangId { get; set; }
-        public Language Language { get; set; }
+        public int? PreferedLangId { get; set; }
+        public Language PreferedLang { get; set; }
 
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
