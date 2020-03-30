@@ -8,7 +8,7 @@ using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.Models.Configs.InfoByThemes
 {
-    class CourseLangConfig: IEntityTypeConfiguration<CourseLang>
+    public class CourseLangConfig: IEntityTypeConfiguration<CourseLang>
     {
         public void Configure(EntityTypeBuilder<CourseLang> builder)
         {
@@ -18,11 +18,13 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
 
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.CourseLangs)
-                .HasForeignKey(p => p.LangId);
+                .HasForeignKey(p => p.LangId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Course)
                 .WithMany(p => p.CourseLangs)
-                .HasForeignKey(p => p.CourseId);
+                .HasForeignKey(p => p.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

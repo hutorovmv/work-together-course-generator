@@ -17,11 +17,13 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
 
             builder.HasOne(p => p.Theme)
                 .WithMany(p => p.ThemeMaterials)
-                .HasForeignKey(p => p.ThemeId);
+                .HasForeignKey(p => p.ThemeId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Material)
                 .WithMany(p => p.ThemeMaterials)
-                .HasForeignKey(p => p.MaterialId);
+                .HasForeignKey(p => p.MaterialId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

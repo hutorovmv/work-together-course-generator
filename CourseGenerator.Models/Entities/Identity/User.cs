@@ -11,9 +11,17 @@ namespace CourseGenerator.Models.Entities.Identity
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhotoUrl { get; set; }
+        public DateTime? BirthDate { get; set; }
 
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
         public ICollection<UserTheme> UserThemes { get; set; }
+
+        public User()
+        {
+            UserHeadings = new List<UserHeading>();
+            UserCourses = new List<UserCourse>();
+            UserThemes = new List<UserTheme>();
+        }
     }
 }

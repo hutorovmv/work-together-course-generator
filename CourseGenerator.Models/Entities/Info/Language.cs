@@ -20,5 +20,16 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<MaterialLang> MaterialLangs { get; set; }
         public ICollection<CourseLang> CourseLangs { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
+
+        public Language()
+        {
+            HeadingLangs = new List<HeadingLang>();
+            LevelLangs = new List<LevelLang>();
+            CompetencyLangs = new List<CompetencyLang>();
+            MaterialTypeLangs = new List<MaterialTypeLang>();
+            MaterialLangs = new List<MaterialLang>();
+            CourseLangs = new List<CourseLang>();
+            ThemeLangs = new List<ThemeLang>();
+        }
     }
 }

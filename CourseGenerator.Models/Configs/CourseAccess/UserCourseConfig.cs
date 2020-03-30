@@ -8,7 +8,7 @@ using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.Models.Configs.CourseAccess
 {
-    class UserCourseConfig: IEntityTypeConfiguration<UserCourse>
+    public class UserCourseConfig: IEntityTypeConfiguration<UserCourse>
     {
         public void Configure(EntityTypeBuilder<UserCourse> builder)
         {
@@ -17,15 +17,18 @@ namespace CourseGenerator.Models.Configs.CourseAccess
 
             builder.HasOne(p => p.User)
                 .WithMany(p => p.UserCourses)
-                .HasForeignKey(p =>p.UserId);
+                .HasForeignKey(p =>p.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Course)
                 .WithMany(p => p.UserCourses)
-                .HasForeignKey(p => p.CourseId);
+                .HasForeignKey(p => p.CourseId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.UserCourses)
-                .HasForeignKey(p => p.LevelId);
+                .HasForeignKey(p => p.LevelId)
+                .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

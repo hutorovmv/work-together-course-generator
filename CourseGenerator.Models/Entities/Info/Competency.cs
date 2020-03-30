@@ -19,5 +19,13 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<HeadingCompetency> HeadingCompetencies { get; set; }
         public ICollection<MaterialCompetency> MaterialCompetencies { get; set; }
         public ICollection<CompetencyLang> CompetencyLangs { get; set; }
+
+        public Competency()
+        {
+            Competencies = new List<Competency>();
+            HeadingCompetencies = new List<HeadingCompetency>();
+            MaterialCompetencies = new List<MaterialCompetency>();
+            CompetencyLangs = new List<CompetencyLang>();
+        }
     }
 }

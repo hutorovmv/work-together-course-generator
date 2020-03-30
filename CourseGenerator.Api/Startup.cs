@@ -10,6 +10,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using CourseGenerator.Api.Middlewares;
+using CourseGenerator.BLL.Interfaces;
+using CourseGenerator.BLL.Infrastructure;
+using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.Services;
+using CourseGenerator.DAL.Interfaces;
+using CourseGenerator.DAL.Context;
+using CourseGenerator.DAL.Repositories;
+using CourseGenerator.Models.Entities.Identity;
 
 namespace CourseGenerator.Api
 {
@@ -25,9 +37,36 @@ namespace CourseGenerator.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            string connectionString = Configuration.GetConnectionString("CourseGeneratorDB");
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<ApplicationContext>()
+                .AddUserManager<ApplicationUserManager>();
+
+            services.AddAutoMapper(c => {
+                c.AddProfile<DomainToDTOProfile>();
+                c.AddProfile<DTOToDomainProfile>();
+            }, typeof(Startup));
+
+            services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
+            services.AddScoped<ICourseRepository, CourseRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IUserManagementService, UserManagementService>();
+            services.AddScoped<ICourseService, CourseService>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, 
+            IWebHostEnvironment env, 
+            IUserManagementService userManagementService,
+            ICourseService courseService,
+            RoleManager<Role> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -38,7 +77,16 @@ namespace CourseGenerator.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            IdentityDataInitializer.AddRoles(roleManager);
+
+            UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
+            IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
+            IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
+
+            app.UseMiddleware<ApiKeyMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
