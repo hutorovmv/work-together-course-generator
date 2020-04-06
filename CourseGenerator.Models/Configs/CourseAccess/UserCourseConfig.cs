@@ -30,6 +30,11 @@ namespace CourseGenerator.Models.Configs.CourseAccess
                 .HasForeignKey(p => p.LevelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasOne(p => p.Theme)
+                .WithMany(p => p.UserCourses)
+                .HasForeignKey(p => p.LastThemeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }
