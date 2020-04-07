@@ -15,5 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CourseGenerator.BLL\CourseGenerator.BLL.csproj" />
     <ProjectReference Include="..\CourseGenerator.DAL\CourseGenerator.DAL.csproj" />
+    <ProjectReference Include="..\CourseGenerator.Models\CourseGenerator.Models.csproj" />
   </ItemGroup>
 </Project>

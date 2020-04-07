@@ -24,6 +24,8 @@ using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Api.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Info;
 
 namespace CourseGenerator.Api
 {
@@ -68,7 +70,7 @@ namespace CourseGenerator.Api
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false; // тільки для тестування
+                    options.RequireHttpsMetadata = false; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -100,12 +102,16 @@ namespace CourseGenerator.Api
             services.AddSingleton(c => authOptions);
 
             services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
+            services.AddScoped<IGenericEFRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IThemeRepository, ThemeRepository>();
+            services.AddScoped<IGenericEFRepository<UserCourse>, GenericEFRepository<UserCourse>>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ILanguageService, LanguageService>();
         }
 
         public void Configure(IApplicationBuilder app, 
