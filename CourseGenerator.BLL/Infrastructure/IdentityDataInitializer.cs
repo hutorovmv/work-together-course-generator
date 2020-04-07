@@ -62,7 +62,7 @@ namespace CourseGenerator.BLL.Infrastructure
             };
             userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
 
-            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByUserName(userRegistrationDto1.Email).Result;
+            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByUserNameAsync(userRegistrationDto1.Email).Result;
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 1, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 2, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 3, 1).Wait();
