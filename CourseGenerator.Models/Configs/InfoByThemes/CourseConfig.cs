@@ -15,10 +15,7 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Note).IsUnicode();
 
-            builder.HasOne(p => p.Level)
-                    .WithMany(p => p.Courses)
-                    .HasForeignKey(p => p.Id)
-                    .OnDelete(DeleteBehavior.NoAction);
+
 
         }
     }

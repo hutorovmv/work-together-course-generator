@@ -9,9 +9,6 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
     public class Course
     {
         public int Id { get; set; }
-        
-        public int LevelId { get; set; }
-        public Level Level { get; set; }
 
         public string Note { get; set; }
 

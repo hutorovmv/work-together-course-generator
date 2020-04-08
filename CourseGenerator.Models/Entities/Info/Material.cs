@@ -10,6 +10,7 @@ namespace CourseGenerator.Models.Entities.Info
         public int Id { get; set; }
         
         public int Number { get; set; }
+        public bool IsPractical { get; set; }
 
         /// <summary>
         /// Файл з мультимедійним контентом

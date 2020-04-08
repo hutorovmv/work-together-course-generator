@@ -18,6 +18,7 @@ namespace CourseGenerator.Models.Configs.Info
             builder.Property(p => p.BackImageUrl).IsUnicode();
             builder.Property(p => p.Url).IsUnicode();
             builder.Property(p => p.Note).IsUnicode();
+            builder.Property(p => p.IsPractical).IsRequired();
 
             builder.HasOne(p => p.MaterialType)
                 .WithMany(p => p.Materials)
@@ -29,6 +30,7 @@ namespace CourseGenerator.Models.Configs.Info
                 .IsRequired(false)
                 .HasForeignKey(p => p.ParentId)
                 .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

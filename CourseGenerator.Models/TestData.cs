@@ -12,7 +12,6 @@ namespace CourseGenerator.Models
         public static Language[] Languages = {
             new Language
             {
-                Id = 1,
                 Code = "UA",
                 Name = "Українська",
                 OriginalName = "Українська",
@@ -20,14 +19,12 @@ namespace CourseGenerator.Models
             },
             new Language
             {
-                Id = 2,
                 Code = "RU",
                 Name = "Російська",
                 OriginalName = "Русская",
             },
             new Language
             {
-                Id = 3,
                 Code = "EN",
                 Name = "Англійська",
                 OriginalName = "English"
@@ -320,6 +317,7 @@ namespace CourseGenerator.Models
             {
                 Id = 1,
                 Number = 1,
+                IsPractical = true,
                 FileUrl = "Material.mp4",
                 BackImageUrl = "background.jpg",
                 Url = "metanit.com",
@@ -331,6 +329,7 @@ namespace CourseGenerator.Models
             {
                 Id = 2,
                 Number = 2,
+                IsPractical = false,
                 FileUrl = "Video.mp4",
                 BackImageUrl = "bg.jpg",
                 Url = "professorweb.ru",
@@ -341,6 +340,7 @@ namespace CourseGenerator.Models
             {
                 Id = 3,
                 Number = 3,
+                IsPractical = false,
                 FileUrl = "Content.mov",
                 BackImageUrl = "bg.png",
                 Url = null,
@@ -431,25 +431,21 @@ namespace CourseGenerator.Models
             new Course
             {
                 Id = 1,
-                LevelId = 1,
                 Note = "Примітка"
             },
             new Course
             {
                 Id = 2,
-                LevelId = 1,
                 Note = null
             },
             new Course
             {
                 Id = 3,
-                LevelId = 2,
                 Note = null
             },
             new Course
             {
                 Id = 4,
-                LevelId = 3,
                 Note = null
             }
         };
@@ -639,42 +635,36 @@ namespace CourseGenerator.Models
             {
                 ThemeId = 1,
                 HeadingId = 4,
-                LevelId = 1,
                 Note = "Примітка"
             },
             new ThemeHeading
             {
                 ThemeId = 2,
                 HeadingId = 4,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 3,
                 HeadingId = 1,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 4,
                 HeadingId = 1,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 5,
                 HeadingId = 4,
-                LevelId = 1,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 6,
                 HeadingId = 4,
-                LevelId = 4,
                 Note = null
             },
         };
@@ -683,36 +673,42 @@ namespace CourseGenerator.Models
             {
                 ThemeId = 1,
                 MaterialId = 3,
+                LevelId = 1,
                 Note = "Примітка"
             },
             new ThemeMaterial
             {
                 ThemeId = 2,
                 MaterialId = 3,
+                LevelId = 1,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 3,
                 MaterialId = 3,
+                LevelId = 2,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 4,
                 MaterialId = 3,
+                LevelId = 2,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 5,
                 MaterialId = 3,
+                LevelId = 3,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 6,
                 MaterialId = 3,
+                LevelId = 4,
                 Note = null
             },
         };
