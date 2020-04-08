@@ -17,7 +17,7 @@ namespace CourseGenerator.DAL.Repositories
         {
         }
 
-        public async Task<bool?> GetIsCompletedByThemeId(
+        public async Task<bool?> GetIsCompletedOrNullByThemeIdAsync(
             string userId, int themeId)
         {
             UserTheme theme = await _context.UserThemes
@@ -25,5 +25,31 @@ namespace CourseGenerator.DAL.Repositories
                                      ut.ThemeId == themeId);
             return theme?.IsCompleted;
         }
+
+        public async Task<IEnumerable<ThemeLang>> GetLocalizedThemesByIdAsync(
+            int themeId, string langCode, int courseId)
+        {
+            IQueryable<int> courseThemes = _context.Themes
+                .Where(t => t.CourseId == courseId)
+                .Select(t => t.Id);
+
+            IQueryable<ThemeLang> themesLocalized = _context.ThemeLangs
+                .Include(tl => tl.Lang)
+                .Where(tl => courseThemes.Contains(tl.ThemeId) && tl.Lang.Code == langCode);
+
+            return await themesLocalized.ToListAsync();
+        }
+
+        public IEnumerable<Theme> GetChildThemesOrNullById(
+            int themeId)
+        {
+            IEnumerable<Theme> themes = _context.Themes
+                .Include(t => t.Themes)
+                .FirstOrDefault(t => t.Id == themeId).Themes.ToList();
+
+            return themes;
+        }
+
+
     }
 }

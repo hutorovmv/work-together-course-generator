@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IThemeRepository : IGenericEFRepository<Theme>
+    public interface IThemeRepository: IGenericEFRepository<Theme>
     {
-        Task<bool?> GetIsCompletedByThemeId(string userId, int themeId);
+        Task<bool?> GetIsCompletedOrNullByThemeIdAsync(string userId, int themeId);
+
+        Task<IEnumerable<ThemeLang>> GetLocalizedThemesByIdAsync(
+            int themeId, string langCode, int courseId);
+
+        IEnumerable<Theme> GetChildThemesOrNullById(int themeId);
     }
 }
