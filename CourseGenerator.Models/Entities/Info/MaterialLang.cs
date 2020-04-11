@@ -15,7 +15,7 @@ namespace CourseGenerator.Models.Entities.Info
         public string BackImageLangUrl { get; set; }
         public string Text { get; set; }
 
-        public int LangId { get; set; }
+        public string LangCode { get; set; }
         public Language Lang { get; set; }
     }
 }

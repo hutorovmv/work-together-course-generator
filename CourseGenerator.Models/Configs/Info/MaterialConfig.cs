@@ -13,7 +13,6 @@ namespace CourseGenerator.Models.Configs.Info
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Number).IsRequired();
             builder.Property(p => p.FileUrl).IsUnicode();
             builder.Property(p => p.BackImageUrl).IsUnicode();
             builder.Property(p => p.Url).IsUnicode();

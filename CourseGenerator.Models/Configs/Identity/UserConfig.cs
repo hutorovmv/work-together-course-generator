@@ -15,7 +15,7 @@ namespace CourseGenerator.Models.Configs.Identity
 
             builder.HasOne(p => p.PreferedLang)
                 .WithMany(p => p.Users)
-                .HasForeignKey(p => p.PreferedLangId)
+                .HasForeignKey(p => p.PreferedLangCode)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

@@ -17,6 +17,8 @@ namespace CourseGenerator.Models.Configs.Info
             builder.Property(p => p.Name).IsUnicode().IsRequired();
             builder.Property(p => p.OriginalName).IsUnicode().IsRequired();
             builder.Property(p => p.Note).IsUnicode();
+
+
         }
     }
 }

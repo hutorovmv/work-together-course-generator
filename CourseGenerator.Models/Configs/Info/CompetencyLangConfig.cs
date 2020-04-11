@@ -11,13 +11,13 @@ namespace CourseGenerator.Models.Configs.Info
     {
         public void Configure(EntityTypeBuilder<CompetencyLang> builder)
         {
-            builder.HasKey(p => new { p.CompetencyId,  p.LangId});
+            builder.HasKey(p => new { p.CompetencyId,  p.LangCode});
             builder.Property(p => p.Name).IsUnicode().IsRequired();
             builder.Property(p => p.Description).IsUnicode();
 
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.CompetencyLangs)
-                .HasForeignKey(p => p.LangId)
+                .HasForeignKey(p => p.LangCode)
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(p => p.Competency)
