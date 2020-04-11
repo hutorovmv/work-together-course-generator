@@ -9,6 +9,8 @@ using CourseGenerator.Models.Configs.Info;
 using CourseGenerator.Models.Configs.InfoByThemes;
 using CourseGenerator.Models.Configs.CourseAccess;
 using CourseGenerator.Models.Configs.Identity;
+using CourseGenerator.Models.Configs.Security;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.DAL.Context
 {
@@ -48,6 +50,7 @@ namespace CourseGenerator.DAL.Context
         public DbSet<UserTheme> UserThemes { get; set; }
         #endregion
 
+        public DbSet<PhoneAuth> PhoneAuths { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
@@ -82,6 +85,7 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new MaterialBlockConfig());
             modelBuilder.ApplyConfiguration(new MaterialDependencyConfig());
             modelBuilder.ApplyConfiguration(new CourseMaterialConfig());
+            modelBuilder.ApplyConfiguration(new PhoneAuthConfig());
 
 
             #region Info block
@@ -121,6 +125,8 @@ namespace CourseGenerator.DAL.Context
             //modelBuilder.Entity<UserCourse>().HasData(TestData.UserCourses);
             //modelBuilder.Entity<UserTheme>().HasData(TestData.UserThemes);
             #endregion
+
+
 
             base.OnModelCreating(modelBuilder);
         }
