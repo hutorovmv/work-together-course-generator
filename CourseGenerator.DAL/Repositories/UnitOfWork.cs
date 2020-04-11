@@ -30,7 +30,7 @@ namespace CourseGenerator.DAL.Repositories
             RoleManager<Role> roleManager,
             ICourseRepository courseRepository,
             IRepository<UserCourse> userCourseRepository,
-            PhoneAuthRepository phoneAuthRepository)
+            IPhoneAuthRepository phoneAuthRepository,
             IThemeRepository themeRepository,
             IRepository<Language> languageRepository)
         {
@@ -65,7 +65,7 @@ namespace CourseGenerator.DAL.Repositories
                 RoleManager.Dispose();
                 LanguageRepository.Dispose();
                 CourseRepository.Dispose();
-                ThemeRepository.Dispose();
+                //ThemeRepository.Dispose();
                 UserCourseRepository.Dispose();
             }
             disposed = true;

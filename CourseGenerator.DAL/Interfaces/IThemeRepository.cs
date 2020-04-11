@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IThemeRepository: IGenericEFRepository<Theme>
+    public interface IThemeRepository: IRepository<Theme>
     {
         Task<bool?> GetIsCompletedOrNullByThemeIdAsync(string userId, int themeId);
 

@@ -70,7 +70,7 @@ namespace CourseGenerator.Api
                 })
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false; // ����� ��� ����������
+                    options.RequireHttpsMetadata = false;
                     options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
@@ -102,7 +102,6 @@ namespace CourseGenerator.Api
             services.AddSingleton(c => authOptions);
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
-            services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -112,7 +111,6 @@ namespace CourseGenerator.Api
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
-
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
         }

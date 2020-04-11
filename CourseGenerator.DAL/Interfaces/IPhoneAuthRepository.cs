@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IPhoneAuthRepository: IRepository<PhoneAuth>
+    public interface IPhoneAuthRepository : IRepository<PhoneAuth>
     {
         public Task<string> GetCodeByPhoneNumberAsync(string phoneNumber);
     }

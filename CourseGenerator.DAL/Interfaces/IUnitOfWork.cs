@@ -14,7 +14,7 @@ namespace CourseGenerator.DAL.Interfaces
     {
         ApplicationUserManager UserManager { get; set; }
         RoleManager<Role> RoleManager { get; set; }
-        IGenericEFRepository<Language> LanguageRepository { get; set; }
+        IRepository<Language> LanguageRepository { get; set; }
         IThemeRepository ThemeRepository { get; set; }
         ICourseRepository CourseRepository { get; set; }
         IRepository<UserCourse> UserCourseRepository { get; set; }
