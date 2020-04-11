@@ -7,6 +7,7 @@ using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.DAL.Repositories
 {
@@ -19,12 +20,14 @@ namespace CourseGenerator.DAL.Repositories
 
         public ICourseRepository CourseRepository { get; set; }
         public IRepository<UserCourse> UserCourseRepository { get; set; }
+        public IPhoneAuthRepository PhoneAuthRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
             RoleManager<Role> roleManager,
             ICourseRepository courseRepository,
-            IRepository<UserCourse> userCourseRepository)
+            IRepository<UserCourse> userCourseRepository,
+            PhoneAuthRepository phoneAuthRepository)
         {
             _context = context;
 
@@ -32,6 +35,7 @@ namespace CourseGenerator.DAL.Repositories
             RoleManager = roleManager;
             CourseRepository = courseRepository;
             UserCourseRepository = userCourseRepository;
+            PhoneAuthRepository = phoneAuthRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();

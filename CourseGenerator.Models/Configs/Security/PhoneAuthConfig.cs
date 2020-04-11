@@ -12,6 +12,7 @@ namespace CourseGenerator.Models.Configs.Security
         public void Configure(EntityTypeBuilder<PhoneAuth> builder)
         {
             builder.HasKey(p => p.Id);
+            builder.HasIndex(p => p.PhoneNumber).IsUnique();
 
             builder.Property(p => p.PhoneNumber).IsRequired();
             builder.Property(p => p.Code).IsRequired();

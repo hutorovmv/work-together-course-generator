@@ -55,11 +55,12 @@ namespace CourseGenerator.Api
 
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
-            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICourseService, CourseService>(); 
         }
 
         public void Configure(IApplicationBuilder app, 
