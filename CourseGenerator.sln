@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.DAL", "Cour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.Api", "CourseGenerator.Api\CourseGenerator.Api.csproj", "{D03E6D7A-BC0B-476F-B7F1-7C31D0CE0F03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseGenerator.Models", "CourseGenerator.Models\CourseGenerator.Models.csproj", "{1236AE65-4BA5-424A-A605-94FF542130CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CourseGenerator.Models", "CourseGenerator.Models\CourseGenerator.Models.csproj", "{1236AE65-4BA5-424A-A605-94FF542130CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

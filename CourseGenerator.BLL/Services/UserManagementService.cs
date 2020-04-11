@@ -10,6 +10,7 @@ using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
+using System.Security.Claims;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -25,18 +26,18 @@ namespace CourseGenerator.BLL.Services
         }
 
         /// <summary>
-        /// Creates user
+        /// Створює користувача.
         /// </summary>
-        /// <param name="registrationDto">Data from client</param>
-        /// <returns>Information about registration</returns>
+        /// <param name="registrationDto">дані користувача</param>
+        /// <returns>Дані про успішність реєстрації.</returns>
         public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles)
         {
-            // Email is used as username
+            // Email використовується в якості імені користувача
             OperationInfo userExistsResult = await ExistsWithUserNameAsync(registrationDto.Email);
             if (userExistsResult.Succeeded)
                 return userExistsResult;
 
-            // Creates user object and generates string for Id property
+            // Створює об'єкт та генерує значення для стрічкової властивості Id
             User user = new User();
             user = _mapper.Map<User>(registrationDto);
 
@@ -52,26 +53,27 @@ namespace CourseGenerator.BLL.Services
         }
 
         /// <summary>
-        /// Checks if user exists
+        /// Перевіряє чи існує користувач за іменем користувача.
         /// </summary>
-        /// <param name="username">username</param>
-        /// <returns>Succeeds when user exists and fails when not</returns>
-        public async Task<OperationInfo> ExistsWithUserNameAsync(string username)
+        /// <param name="username">ім'я користувача</param>
+        /// <returns><see cref="OperationInfo.Succeeded"/> <c>true</c> коли такий 
+        /// користувач існує та <c>false</c> - коли ні.</returns>
+        public async Task<OperationInfo> ExistsWithUserNameAsync(string userName)
         {
-            User user = await _uow.UserManager.FindByNameAsync(username);
+            User user = await _uow.UserManager.FindByNameAsync(userName);
             if (user != null)
-                return new OperationInfo(true, $"User with username = {username} exists");
+                return new OperationInfo(true, $"User with username = {userName} exists");
 
             return new OperationInfo(false, "There is no user with such username");
         }
 
-        // TODO: Change to AddToRoles which takes param string[]
         /// <summary>
-        /// Adds user to roles
+        /// Додає користувача до ролей.
         /// </summary>
-        /// <param name="user">User</param>
-        /// <param name="role">Role</param>
-        /// <returns>Whether role was given to user of not</returns>
+        /// <param name="user">користувач</param>
+        /// <param name="role">роль</param>
+        /// <returns><see cref="OperationInfo.Succeeded"> - <c>true</c>, коли 
+        /// користувач успішно доданий до ролей та <c>false</c> - коли ні.</returns>
         public async Task<OperationInfo> AddToRolesAsync(User user, params string[] roles)
         {
             IdentityResult result = await _uow.UserManager.AddToRolesAsync(user, roles);
@@ -81,12 +83,78 @@ namespace CourseGenerator.BLL.Services
             return new OperationInfo(true, "Roles was successfully given to user");
         }
 
-        public void Dispose() => _uow.Dispose();
+        /// <summary>
+        /// Встановлює значення <c>true</c> для <see cref="User.PhoneNumberConfirmed" />.
+        /// </summary>
+        /// <param name="userName">ім'я користувача</param>
+        /// <returns><see cref="OperationInfo.Succeeded"/> - <c>true</c>, коли 
+        ///  номер телефону успішно підтверджено та <c>false</c> - коли ні.</returns>
+        public async Task<OperationInfo> ConfirmPhoneNumberAsync(string userName)
+        {
+            User user = await _uow.UserManager.FindByNameAsync(userName);
 
-        public async Task<UserDetailsDTO> GetDetailsByUserName(string userName)
+            if (user.PhoneNumberConfirmed == false)
+            {
+                try
+                {
+                    user.PhoneNumberConfirmed = true;
+                    await _uow.UserManager.UpdateAsync(user);
+                    await _uow.SaveAsync();
+                    return new OperationInfo(true, "Phone number is confirmed successfully");
+                }
+                catch(Exception ex)
+                {
+                    return new OperationInfo(false, ex.Message);
+                }
+            }
+
+            return new OperationInfo(false, "Phone number is already confirmed");
+        }
+
+        /// <summary>
+        /// Отримує детальні дані про користувача.
+        /// </summary>
+        /// <param name="userName">ім'я користувача</param>
+        /// <returns>DTO, що містить детальну інформацію про користувача.</returns>
+        public async Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
             return _mapper.Map<UserDetailsDTO>(user);
+        }
+
+        public void Dispose() => _uow.Dispose();
+
+        /// <summary>
+        /// Створює <see cref="ClaimsIdentity"/> з клеймами користувача
+        /// з таким іменем користувача та паролем.
+        /// </summary>
+        /// <param name="username">ім'я користувача</param>
+        /// <param name="password">пароль</param>
+        /// <returns><see cref="ClaimsIdentity"/> з клеймами користувача.</returns>
+        public async Task<ClaimsIdentity> GetIdentityAsync(string username, string password)
+        {
+            User user = await _uow.UserManager.FindByNameAsync(username);
+            if (user == null)
+                return null;
+
+            bool isPasswordValid = await _uow.UserManager.CheckPasswordAsync(user, password);
+            if (!isPasswordValid)
+                return null;
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+            };
+
+            IList<string> roles = await _uow.UserManager.GetRolesAsync(user);
+            claims.AddRange(roles.Select(r => new Claim(ClaimsIdentity.DefaultRoleClaimType, r)));
+
+            ClaimsIdentity identity = new ClaimsIdentity(claims, 
+                "Token", 
+                ClaimsIdentity.DefaultNameClaimType, 
+                ClaimsIdentity.DefaultRoleClaimType);
+            return identity;
         }
     }
 }

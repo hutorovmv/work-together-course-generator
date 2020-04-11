@@ -12,7 +12,6 @@ namespace CourseGenerator.Models
         public static Language[] Languages = {
             new Language
             {
-                Id = 1,
                 Code = "UA",
                 Name = "Українська",
                 OriginalName = "Українська",
@@ -20,7 +19,6 @@ namespace CourseGenerator.Models
             },
             new Language
             {
-                Id = 2,
                 Code = "RU",
                 Name = "Російська",
                 OriginalName = "Русская",
@@ -451,25 +449,21 @@ namespace CourseGenerator.Models
             new Course
             {
                 Id = 1,
-                LevelId = 1,
                 Note = "Примітка"
             },
             new Course
             {
                 Id = 2,
-                LevelId = 1,
                 Note = null
             },
             new Course
             {
                 Id = 3,
-                LevelId = 2,
                 Note = null
             },
             new Course
             {
                 Id = 4,
-                LevelId = 3,
                 Note = null
             }
         };
@@ -684,42 +678,36 @@ namespace CourseGenerator.Models
             {
                 ThemeId = 1,
                 HeadingId = 4,
-                LevelId = 1,
                 Note = "Примітка"
             },
             new ThemeHeading
             {
                 ThemeId = 2,
                 HeadingId = 4,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 3,
                 HeadingId = 1,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 4,
                 HeadingId = 1,
-                LevelId = 3,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 5,
                 HeadingId = 4,
-                LevelId = 1,
                 Note = null
             },
             new ThemeHeading
             {
                 ThemeId = 6,
                 HeadingId = 4,
-                LevelId = 4,
                 Note = null
             },
         };
@@ -728,36 +716,42 @@ namespace CourseGenerator.Models
             {
                 ThemeId = 1,
                 MaterialId = 3,
+                LevelId = 1,
                 Note = "Примітка"
             },
             new ThemeMaterial
             {
                 ThemeId = 2,
                 MaterialId = 3,
+                LevelId = 1,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 3,
                 MaterialId = 3,
+                LevelId = 2,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 4,
                 MaterialId = 3,
+                LevelId = 2,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 5,
                 MaterialId = 3,
+                LevelId = 3,
                 Note = null
             },
             new ThemeMaterial
             {
                 ThemeId = 6,
                 MaterialId = 3,
+                LevelId = 4,
                 Note = null
             },
         };

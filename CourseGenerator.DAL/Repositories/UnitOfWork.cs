@@ -8,6 +8,8 @@ using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Security;
+using CourseGenerator.Models.Entities.InfoByThemes;
+using CourseGenerator.Models.Entities.Info;
 
 namespace CourseGenerator.DAL.Repositories
 {
@@ -16,11 +18,12 @@ namespace CourseGenerator.DAL.Repositories
         private readonly ApplicationContext _context;
 
         public ApplicationUserManager UserManager { get; set; }
-        public RoleManager<Role> RoleManager { get; set; }
-
+        public RoleManager<Role> RoleManager { get; set; }     
+        public IRepository<Language> LanguageRepository { get; set; }
         public ICourseRepository CourseRepository { get; set; }
         public IRepository<UserCourse> UserCourseRepository { get; set; }
         public IPhoneAuthRepository PhoneAuthRepository { get; set; }
+        public IThemeRepository ThemeRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -28,14 +31,18 @@ namespace CourseGenerator.DAL.Repositories
             ICourseRepository courseRepository,
             IRepository<UserCourse> userCourseRepository,
             PhoneAuthRepository phoneAuthRepository)
+            IThemeRepository themeRepository,
+            IRepository<Language> languageRepository)
         {
             _context = context;
 
             UserManager = userManager;
             RoleManager = roleManager;
+            ThemeRepository = themeRepository;
             CourseRepository = courseRepository;
             UserCourseRepository = userCourseRepository;
             PhoneAuthRepository = phoneAuthRepository;
+            LanguageRepository = languageRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -56,6 +63,10 @@ namespace CourseGenerator.DAL.Repositories
             {
                 UserManager.Dispose();
                 RoleManager.Dispose();
+                LanguageRepository.Dispose();
+                CourseRepository.Dispose();
+                ThemeRepository.Dispose();
+                UserCourseRepository.Dispose();
             }
             disposed = true;
         }

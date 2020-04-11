@@ -6,11 +6,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="3.1.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CourseGenerator.BLL\CourseGenerator.BLL.csproj" />
     <ProjectReference Include="..\CourseGenerator.DAL\CourseGenerator.DAL.csproj" />
+    <ProjectReference Include="..\CourseGenerator.Models\CourseGenerator.Models.csproj" />
   </ItemGroup>
 </Project>

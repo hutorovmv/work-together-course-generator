@@ -1,6 +1,7 @@
 ﻿using CourseGenerator.DAL.Context;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Pagination;
+using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -65,6 +66,40 @@ namespace CourseGenerator.DAL.Repositories
             IQueryable<CourseLang> coursesForUserWithLang = coursesForUser.Union(coursesWithSpecifiedLang);
 
             return await coursesForUserWithLang.OrderBy(p => p.Name).ToPagedListAsync(pageSize, pageIndex);
+        }
+
+        public async Task<IEnumerable<CourseLang>> GetForUserCourseLangAsync(
+            string userId, string langCode)
+        {
+            IQueryable<CourseLang> coursesForUser = _context.CourseLangs
+                .Include(cl => cl.Lang)
+                .Where(cl =>
+                    _context.UserCourses
+                    .Where(uc => uc.UserId == userId)
+                    .Select(uc => uc.CourseId)
+                    .Contains(cl.CourseId));
+
+            IQueryable<CourseLang> coursesWithSpecifiedLang = coursesForUser
+                .Where(cl => cl.Lang.Code == langCode);
+
+            IQueryable<CourseLang> coursesWithFirstLang = coursesForUser
+                .Where(cl => !coursesWithSpecifiedLang
+                .Select(cl => cl.CourseId)
+                .Contains(cl.CourseId));
+
+            IQueryable<CourseLang> coursesForUserWithLang = coursesForUser.Union(coursesWithSpecifiedLang);
+
+            return await coursesForUserWithLang.OrderBy(p => p.Name).ToListAsync();
+        }
+
+        public async Task<int?> GetLastThemeIdOrNullAsync(
+            string userId, int courseId)
+        {
+            UserCourse course = await _context.UserCourses
+                .FirstOrDefaultAsync(uc => uc.UserId == userId &&
+                uc.CourseId == courseId);
+
+            return course?.LastThemeId;
         }
     }
 }
