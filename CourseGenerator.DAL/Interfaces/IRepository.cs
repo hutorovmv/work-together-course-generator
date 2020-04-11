@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<T> : IDisposable where T : class
     {
         Task<T> GetAsync(params object[] key);
         Task<IEnumerable<T>> GetAllAsync();

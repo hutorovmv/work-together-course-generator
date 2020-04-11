@@ -18,13 +18,13 @@ namespace CourseGenerator.DAL.Repositories
         public RoleManager<Role> RoleManager { get; set; }
 
         public ICourseRepository CourseRepository { get; set; }
-        public IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
+        public IRepository<UserCourse> UserCourseRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
             RoleManager<Role> roleManager,
             ICourseRepository courseRepository,
-            IGenericEFRepository<UserCourse> userCourseRepository)
+            IRepository<UserCourse> userCourseRepository)
         {
             _context = context;
 

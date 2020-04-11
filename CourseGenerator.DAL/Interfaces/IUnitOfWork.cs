@@ -15,7 +15,7 @@ namespace CourseGenerator.DAL.Interfaces
         RoleManager<Role> RoleManager { get; set; }
 
         ICourseRepository CourseRepository { get; set; }
-        IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
+        IRepository<UserCourse> UserCourseRepository { get; set; }
 
         Task SaveAsync();
     }

@@ -53,7 +53,7 @@ namespace CourseGenerator.Api
                 c.AddProfile<DTOToDomainProfile>();
             }, typeof(Startup));
 
-            services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
+            services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<ICourseRepository, CourseRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

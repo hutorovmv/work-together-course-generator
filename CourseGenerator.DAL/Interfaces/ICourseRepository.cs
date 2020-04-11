@@ -7,7 +7,7 @@ using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface ICourseRepository : IGenericEFRepository<Course>
+    public interface ICourseRepository : IRepository<Course>
     {
         Task<PagedList<CourseLang>> GetForUserWithLangPagedAsync(
             string userId, string langCode, int pageSize, int pageIndex);
