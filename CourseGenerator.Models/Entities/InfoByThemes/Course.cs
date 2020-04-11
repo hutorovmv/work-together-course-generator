@@ -21,6 +21,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<UserCourse> UserCourses { get; set; }
         public ICollection<CourseHeading> CourseHeadings { get; set; }
         public ICollection<CourseLang> CourseLangs { get; set; }
+        public ICollection<CourseMaterial> CourseMaterials { get; set; }
 
         public Course()
         {
@@ -32,6 +33,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
             UserCourses = new List<UserCourse>();
             CourseHeadings = new List<CourseHeading>();
             CourseLangs = new List<CourseLang>();
+            CourseMaterials = new List<CourseMaterial>();
         }
 
     }

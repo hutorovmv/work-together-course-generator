@@ -17,7 +17,8 @@ namespace CourseGenerator.DAL.Interfaces
         IGenericEFRepository<Language> LanguageRepository { get; set; }
         IThemeRepository ThemeRepository { get; set; }
         ICourseRepository CourseRepository { get; set; }
-        IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
+        IRepository<UserCourse> UserCourseRepository { get; set; }
+        IPhoneAuthRepository PhoneAuthRepository { get; set; }
 
         Task SaveAsync();
     }

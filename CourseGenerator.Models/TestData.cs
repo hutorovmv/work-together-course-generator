@@ -25,7 +25,7 @@ namespace CourseGenerator.Models
             },
             new Language
             {
-                Code = "EN",
+                Code = "ENG",
                 Name = "Англійська",
                 OriginalName = "English"
             }
@@ -68,28 +68,28 @@ namespace CourseGenerator.Models
                 HeadingId = 1,
                 Name = "Алгоритми ",
                 Description = "У цій рубриці знаходяться статті та матеріали про алгоритмізацію",
-                LangId = 1
+                LangCode = "UA"
             },
             new HeadingLang
             {
                 HeadingId = 2,
                 Name = "Модифікації сортування вставками",
                 Description = null,
-                LangId = 1,
+                LangCode = "UA",
             },
             new HeadingLang
             {
                 HeadingId = 3,
                 Name = "Алгоритм Шела",
                 Description = null,
-                LangId = 1
+                LangCode = "UA"
             },
             new HeadingLang
             {
                 HeadingId = 4,
                 Name = "Програмування",
                 Description = "У цій рубриці знаходяться матеріали про програмування",
-                LangId = 3
+                LangCode = "UA"
             }
         };
 
@@ -124,29 +124,29 @@ namespace CourseGenerator.Models
             new LevelLang
             {
                 LevelId = 1,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Базова",
                 Description = "Потребує частого керівництва"
             },
             new LevelLang
             {
                 LevelId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Проміжна",
                 Description = "Потребує періодичного керівництва"
             },
             new LevelLang
             {
                 LevelId = 3,
-                LangId = 1,
-                Name = "Продвинута",
+                LangCode = "ENG",
+                Name = "Advanced",
                 Description = "Applies the competency in considerably difficult situations." +
                 "Generally requires little or no guidance."
             },
             new LevelLang
             {
                 LevelId = 4,
-                LangId = 3,
+                LangCode = "ENG",
                 Name = "Expert",
                 Description = "Applies the competency in exceptionally difficult situations." +
                 "Serves as a key resourse and advises others."
@@ -180,7 +180,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 1,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Інформаційна компетентність",
                 Description = "За допомогою реальних об'єктів (телевізор, магнітофон, " +
                 "телефон, факс, комп'ютер, принтер, модем, копір тощо) й інформаційних" +
@@ -194,7 +194,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Навчально-пізнавальна компетентність",
                 Description = "Це сукупність компетентностей учня у сфері самостійної " +
                 "пізнавальної діяльності, що включає елементи логічної, методологічної," +
@@ -213,7 +213,7 @@ namespace CourseGenerator.Models
             new CompetencyLang
             {
                 CompetencyId = 3,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Компетентність особистісного самовдосконалення",
                 Description = "спрямована на засвоєння способів фізичного, " +
                 "духовного й інтелектуального саморозвитку, емоційної саморегуляції" +
@@ -285,28 +285,28 @@ namespace CourseGenerator.Models
             new MaterialTypeLang
             {
                 MaterialTypeId = 1,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Домашнє завдання",
                 Description = "Завдання, що дається студенту на самостійне опрацювання"
             },
             new MaterialTypeLang
             {
                 MaterialTypeId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Практичне завдання",
                 Description = null
             },
             new MaterialTypeLang
             {
                 MaterialTypeId = 3,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Теоретичні завдання",
                 Description = null
             },
             new MaterialTypeLang
             {
                 MaterialTypeId = 4,
-                LangId = 3,
+                LangCode = "UA",
                 Name = "Екзаменаційний проект",
                 Description = "Проект, який кожен студент повинен здати у кінці року"
             }
@@ -316,7 +316,6 @@ namespace CourseGenerator.Models
             new Material
             {
                 Id = 1,
-                Number = 1,
                 IsPractical = true,
                 FileUrl = "Material.mp4",
                 BackImageUrl = "background.jpg",
@@ -328,7 +327,6 @@ namespace CourseGenerator.Models
             new Material
             {
                 Id = 2,
-                Number = 2,
                 IsPractical = false,
                 FileUrl = "Video.mp4",
                 BackImageUrl = "bg.jpg",
@@ -339,7 +337,6 @@ namespace CourseGenerator.Models
             new Material
             {
                 Id = 3,
-                Number = 3,
                 IsPractical = false,
                 FileUrl = "Content.mov",
                 BackImageUrl = "bg.png",
@@ -349,11 +346,32 @@ namespace CourseGenerator.Models
             }
         };
 
+        public static MaterialBlock[] MaterialBlocks =
+        {
+            new MaterialBlock
+            {
+                ParentId = 1,
+                ChildId = 2,
+                Number = 2,
+                Note = "Це примітка"
+            },
+        };
+
+        public static MaterialDependency[] MaterialDependencies =
+        {
+            new MaterialDependency
+            {
+                MaterialId = 1,
+                BaseMaterialId = 2,
+                Note = "Приміточка"
+            }
+        };
+
         public static MaterialLang[] MaterialLangs = {
             new MaterialLang
             {
                 MaterialId = 1,
-                LangId = 1,
+                LangCode = "ENG",
                 Name = "ASP.NET Core",
                 FileUrl = "MaterialEng.mp4",
                 BackImageLangUrl = "backgroundEng.jpg",
@@ -364,7 +382,7 @@ namespace CourseGenerator.Models
             new MaterialLang
             {
                 MaterialId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Запуск приложения. Класс Program",
                 FileUrl = null,
                 BackImageLangUrl = null,
@@ -376,7 +394,7 @@ namespace CourseGenerator.Models
             new MaterialLang
             {
                 MaterialId = 3,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Програмування на C#",
                 FileUrl = null,
                 BackImageLangUrl = null,
@@ -454,28 +472,28 @@ namespace CourseGenerator.Models
             new CourseLang
             {
                 CourseId = 1,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Основи програмування",
                 Description = "Курс, у якому зібрані основи програмування"
             },
             new CourseLang
             {
                 CourseId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Основи алгоритмізації",
                 Description = null
             },
             new CourseLang
             {
                 CourseId = 3,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Основи C#",
                 Description = null
             },
             new CourseLang
             {
                 CourseId = 4,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "ASP.Net Core"
             }
         };
@@ -504,6 +522,31 @@ namespace CourseGenerator.Models
                 CourseId = 4,
                 BaseCourseId = 3,
                 Note = null
+            }
+        };
+
+        public static CourseMaterial[] CourseMaterials =
+        {
+            new CourseMaterial
+            {
+                CourseId = 1,
+                MaterialId = 1,
+                PriorityLevel = 1,
+                Note = "Примітка для Курс/Матеріал"
+            },
+            new CourseMaterial
+            {
+                CourseId = 1,
+                MaterialId = 2,
+                PriorityLevel = 2,
+                Note = null
+            },
+            new CourseMaterial
+            {
+                CourseId = 2,
+                MaterialId = 3,
+                PriorityLevel = 1,
+                Note = "Другий курс"
             }
         };
 
@@ -562,42 +605,42 @@ namespace CourseGenerator.Models
             new ThemeLang
             {
                 ThemeId = 1,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Розгалуження",
                 Description = "У цій темі розповідаєтсья про оператори if та switch",
             },
             new ThemeLang
             {
                 ThemeId = 2,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Покажчики",
                 Description = null
             },
             new ThemeLang
             {
                 ThemeId = 3,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Алгоритми сортування",
                 Description = "У цій темі описуютсья алгоритми сортування"
             },
             new ThemeLang
             {
                 ThemeId = 4,
-                LangId = 3,
+                LangCode = "ENG",
                 Name = "Search algorithms",
                 Description = null
             },
             new ThemeLang
             {
                 ThemeId = 5,
-                LangId = 1,
+                LangCode = "UA",
                 Name = "Класи та структури",
                 Description = null
             },
             new ThemeLang
             {
                 ThemeId = 6,
-                LangId = 3,
+                LangCode = "ENG",
                 Name = "Dependency injection",
                 Description = null
             }

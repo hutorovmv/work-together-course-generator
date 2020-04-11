@@ -27,9 +27,8 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.ThemeMaterials)
-                .HasForeignKey(p => new { p.ThemeId, p.MaterialId})
+                .HasForeignKey(p => p.LevelId)
                 .OnDelete(DeleteBehavior.NoAction);
-
         }
     }
 }

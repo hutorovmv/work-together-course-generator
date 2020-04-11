@@ -10,7 +10,7 @@ using CourseGenerator.DAL.Interfaces;
 
 namespace CourseGenerator.DAL.Repositories
 {
-    public class GenericEFRepository<T> : IGenericEFRepository<T> where T : class
+    public class GenericEFRepository<T> : IRepository<T> where T : class
     {
         protected readonly ApplicationContext _context;
         protected readonly DbSet<T> _set;
@@ -25,13 +25,6 @@ namespace CourseGenerator.DAL.Repositories
         public async Task<T> GetAsync(params object[] key) => await _set.FindAsync(key);
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _set.ToListAsync();
-
-        public IQueryable<T> GetAllQueryable() => _set.AsQueryable();
-        public async Task<PagedList<T>> GetPagedAsync(int pageSize, int pageIndex, Func<IQueryable<T>, IQueryable<T>> orderDel)
-        {
-            IQueryable<T> sorted = orderDel(_set);
-            return await sorted.ToPagedListAsync(pageSize, pageIndex);
-        }
 
 
         public async Task CreateAsync(T item) => await _set.AddAsync(item);

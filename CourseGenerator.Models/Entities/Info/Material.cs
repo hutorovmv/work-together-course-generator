@@ -9,7 +9,6 @@ namespace CourseGenerator.Models.Entities.Info
     {
         public int Id { get; set; }
         
-        public int Number { get; set; }
         public bool IsPractical { get; set; }
 
         /// <summary>
@@ -39,6 +38,11 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<HeadingMaterial> HeadingMaterials { get; set; }
         public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
         public ICollection<MaterialLang> MaterialLangs { get; set; }
+        public ICollection<MaterialBlock> MaterialBlocksParent { get; set; }
+        public ICollection<MaterialBlock> MaterialBlocksChild { get; set; }
+        public ICollection<MaterialDependency> BaseMaterialDependencies { get; set; }
+        public ICollection<MaterialDependency> MaterialDependencies { get; set; }
+        public ICollection<CourseMaterial> CourseMaterials { get; set; }
 
         public Material()
         {
@@ -47,6 +51,11 @@ namespace CourseGenerator.Models.Entities.Info
             HeadingMaterials = new List<HeadingMaterial>();
             ThemeMaterials = new List<ThemeMaterial>();
             MaterialLangs = new List<MaterialLang>();
+            MaterialBlocksParent = new List<MaterialBlock>();
+            MaterialBlocksChild = new List<MaterialBlock>();
+            MaterialDependencies = new List<MaterialDependency>();
+            BaseMaterialDependencies = new List<MaterialDependency>();
+            CourseMaterials = new List<CourseMaterial>();
         }
     }
 }

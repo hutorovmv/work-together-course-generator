@@ -9,6 +9,8 @@ using CourseGenerator.Models.Configs.Info;
 using CourseGenerator.Models.Configs.InfoByThemes;
 using CourseGenerator.Models.Configs.CourseAccess;
 using CourseGenerator.Models.Configs.Identity;
+using CourseGenerator.Models.Configs.Security;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.DAL.Context
 {
@@ -48,6 +50,7 @@ namespace CourseGenerator.DAL.Context
         public DbSet<UserTheme> UserThemes { get; set; }
         #endregion
 
+        public DbSet<PhoneAuth> PhoneAuths { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
@@ -79,6 +82,10 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new UserHeadingConfig());
             modelBuilder.ApplyConfiguration(new UserCourseConfig());
             modelBuilder.ApplyConfiguration(new UserThemeConfig());
+            modelBuilder.ApplyConfiguration(new MaterialBlockConfig());
+            modelBuilder.ApplyConfiguration(new MaterialDependencyConfig());
+            modelBuilder.ApplyConfiguration(new CourseMaterialConfig());
+            modelBuilder.ApplyConfiguration(new PhoneAuthConfig());
 
 
             #region Info block
@@ -96,6 +103,9 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.Entity<MaterialLang>().HasData(TestData.MaterialLangs);
             modelBuilder.Entity<MaterialCompetency>().HasData(TestData.MaterialCompetencies);
             modelBuilder.Entity<HeadingMaterial>().HasData(TestData.HeadingMaterials);
+            modelBuilder.Entity<MaterialBlock>().HasData(TestData.MaterialBlocks);
+            modelBuilder.Entity<MaterialDependency>().HasData(TestData.MaterialDependencies);
+
             #endregion
 
             #region InfoByThemes
@@ -107,6 +117,7 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.Entity<CourseHeading>().HasData(TestData.CourseHeadings);
             modelBuilder.Entity<ThemeHeading>().HasData(TestData.ThemeHeadings);
             modelBuilder.Entity<ThemeMaterial>().HasData(TestData.ThemeMaterials);
+            modelBuilder.Entity<CourseMaterial>().HasData(TestData.CourseMaterials);
             #endregion
 
             #region CourseAccess
@@ -114,6 +125,8 @@ namespace CourseGenerator.DAL.Context
             //modelBuilder.Entity<UserCourse>().HasData(TestData.UserCourses);
             //modelBuilder.Entity<UserTheme>().HasData(TestData.UserThemes);
             #endregion
+
+
 
             base.OnModelCreating(modelBuilder);
         }

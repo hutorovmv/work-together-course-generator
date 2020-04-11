@@ -7,6 +7,7 @@ using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Security;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.Info;
 
@@ -18,18 +19,20 @@ namespace CourseGenerator.DAL.Repositories
 
         public ApplicationUserManager UserManager { get; set; }
         public RoleManager<Role> RoleManager { get; set; }     
-        public IGenericEFRepository<Language> LanguageRepository { get; set; }
+        public IRepository<Language> LanguageRepository { get; set; }
         public ICourseRepository CourseRepository { get; set; }
-        public IGenericEFRepository<UserCourse> UserCourseRepository { get; set; }
+        public IRepository<UserCourse> UserCourseRepository { get; set; }
+        public IPhoneAuthRepository PhoneAuthRepository { get; set; }
         public IThemeRepository ThemeRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
             RoleManager<Role> roleManager,
             ICourseRepository courseRepository,
-            IGenericEFRepository<UserCourse> userCourseRepository,
+            IRepository<UserCourse> userCourseRepository,
+            PhoneAuthRepository phoneAuthRepository)
             IThemeRepository themeRepository,
-            IGenericEFRepository<Language> languageRepository)
+            IRepository<Language> languageRepository)
         {
             _context = context;
 
@@ -38,6 +41,7 @@ namespace CourseGenerator.DAL.Repositories
             ThemeRepository = themeRepository;
             CourseRepository = courseRepository;
             UserCourseRepository = userCourseRepository;
+            PhoneAuthRepository = phoneAuthRepository;
             LanguageRepository = languageRepository;
         }
 

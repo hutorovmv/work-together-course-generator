@@ -98,18 +98,21 @@ namespace CourseGenerator.Api
                 options.Cookie.Name = "CourseGenerator.Session";
                 options.IdleTimeout = TimeSpan.FromDays(1);
             });
-
+          
             services.AddSingleton(c => authOptions);
 
-            services.AddScoped(typeof(IGenericEFRepository<>), typeof(GenericEFRepository<>));
-            services.AddScoped<IGenericEFRepository<Language>, GenericEFRepository<Language>>();
+            services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
+            services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
-            services.AddScoped<IGenericEFRepository<UserCourse>, GenericEFRepository<UserCourse>>();
+            services.AddScoped<IRepository<UserCourse>, GenericEFRepository<UserCourse>>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
+
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
         }
