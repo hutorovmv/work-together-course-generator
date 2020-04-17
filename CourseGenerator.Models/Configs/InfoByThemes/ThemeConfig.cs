@@ -14,6 +14,7 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Note).IsUnicode();
+            builder.Property(p => p.Number).IsRequired();
 
             builder.HasOne(p => p.Course)
                 .WithMany(p => p.Themes)
@@ -29,6 +30,11 @@ namespace CourseGenerator.Models.Configs.InfoByThemes
                 .WithOne(p => p.Parent)
                 .IsRequired(false)
                 .HasForeignKey(p => p.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(p => p.Material)
+                .WithMany(p => p.Themes)
+                .HasForeignKey(p => p.MaterialId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

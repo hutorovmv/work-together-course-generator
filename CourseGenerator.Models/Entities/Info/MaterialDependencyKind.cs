@@ -4,16 +4,11 @@ using System.Text;
 
 namespace CourseGenerator.Models.Entities.Info
 {
-    public class MaterialDependency
+    public class MaterialDependencyKind
     {
-        public int MaterialId { get; set; }
-        public Material Material { get; set; }
-
+        public enum MaterialDependency { Code1,Code2,Code3 };
         public MaterialDependency MaterialDependencyCode { get; set; }
-
-        public int BaseMaterialId { get; set; }
-        public Material BaseMaterial { get; set; }
-
+        public string Name { get; set; }
         public string Note { get; set; }
     }
 }

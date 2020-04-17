@@ -9,7 +9,6 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
     public class Course
     {
         public int Id { get; set; }
-
         public string Note { get; set; }
 
    
@@ -22,6 +21,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public ICollection<CourseHeading> CourseHeadings { get; set; }
         public ICollection<CourseLang> CourseLangs { get; set; }
         public ICollection<CourseMaterial> CourseMaterials { get; set; }
+        public ICollection<UserCourseMessage> UserCourseMessages { get; set; }
 
         public Course()
         {
@@ -34,6 +34,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
             CourseHeadings = new List<CourseHeading>();
             CourseLangs = new List<CourseLang>();
             CourseMaterials = new List<CourseMaterial>();
+            UserCourseMessages = new List<UserCourseMessage>();
         }
 
     }

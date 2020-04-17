@@ -17,4 +17,5 @@
     <ProjectReference Include="..\CourseGenerator.DAL\CourseGenerator.DAL.csproj" />
     <ProjectReference Include="..\CourseGenerator.Models\CourseGenerator.Models.csproj" />
   </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 </Project>

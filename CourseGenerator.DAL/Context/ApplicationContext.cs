@@ -40,8 +40,7 @@ namespace CourseGenerator.DAL.Context
         public DbSet<Theme> Themes { get; set; }
         public DbSet<ThemeLang> ThemeLangs { get; set; }
         public DbSet<CourseHeading> CourseHeadings { get; set; }
-        public DbSet<ThemeHeading> ThemeHeadings { get; set; }
-        public DbSet<ThemeMaterial> ThemeMaterials { get; set; }
+
         #endregion
 
         #region CourseAccess
@@ -77,8 +76,6 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new ThemeConfig());
             modelBuilder.ApplyConfiguration(new ThemeLangConfig());
             modelBuilder.ApplyConfiguration(new CourseHeadingConfig());
-            modelBuilder.ApplyConfiguration(new ThemeHeadingConfig());
-            modelBuilder.ApplyConfiguration(new ThemeMaterialConfig());
             modelBuilder.ApplyConfiguration(new UserHeadingConfig());
             modelBuilder.ApplyConfiguration(new UserCourseConfig());
             modelBuilder.ApplyConfiguration(new UserThemeConfig());
@@ -86,7 +83,23 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new MaterialDependencyConfig());
             modelBuilder.ApplyConfiguration(new CourseMaterialConfig());
             modelBuilder.ApplyConfiguration(new PhoneAuthConfig());
-
+            modelBuilder.ApplyConfiguration(new ContentTypeConfig());
+            modelBuilder.ApplyConfiguration(new MaterialDependencyKindConfig());
+            modelBuilder.ApplyConfiguration(new MaterialStructureKindConfig());
+            modelBuilder.ApplyConfiguration(new CourseDependencyKindConfig());
+            modelBuilder.ApplyConfiguration(new OrganizationFormConfig());
+            modelBuilder.ApplyConfiguration(new OrganizationFormLangConfig());
+            modelBuilder.ApplyConfiguration(new MaterialOrganizationFormConfig());
+            modelBuilder.ApplyConfiguration(new ConductingMethodConfig());
+            modelBuilder.ApplyConfiguration(new ConductingMethodLangConfig());
+            modelBuilder.ApplyConfiguration(new MaterialConductingMethodConfig());
+            modelBuilder.ApplyConfiguration(new UserCourseMessageConfig());
+            modelBuilder.ApplyConfiguration(new UserMaterialConfig());
+            modelBuilder.ApplyConfiguration(new UserMaterialResultConfig());
+            modelBuilder.ApplyConfiguration(new UserMaterialMessageConfig());
+            modelBuilder.ApplyConfiguration(new GroupConfig());
+            modelBuilder.ApplyConfiguration(new UserGroupConfig());
+            modelBuilder.ApplyConfiguration(new GroupMessageConfig());
 
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);
@@ -115,8 +128,6 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.Entity<Theme>().HasData(TestData.Themes);
             modelBuilder.Entity<ThemeLang>().HasData(TestData.ThemeLangs);
             modelBuilder.Entity<CourseHeading>().HasData(TestData.CourseHeadings);
-            modelBuilder.Entity<ThemeHeading>().HasData(TestData.ThemeHeadings);
-            modelBuilder.Entity<ThemeMaterial>().HasData(TestData.ThemeMaterials);
             modelBuilder.Entity<CourseMaterial>().HasData(TestData.CourseMaterials);
             #endregion
 

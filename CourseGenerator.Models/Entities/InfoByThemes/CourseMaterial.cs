@@ -14,6 +14,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public Material Material { get; set; }
 
         public int PriorityLevel { get; set; }
+        public bool IsReserved { get; set; }
         public string Note { get; set; }
 
     }

@@ -14,9 +14,6 @@ namespace CourseGenerator.Models.Configs.Info
             builder.HasKey(p => new { p.MaterialId, p.LangCode});
 
             builder.Property(p => p.Name).IsUnicode().IsRequired();
-            builder.Property(p => p.FileUrl).IsUnicode();
-            builder.Property(p => p.BackImageLangUrl).IsUnicode();
-            builder.Property(p => p.Text).IsUnicode();
 
             builder.HasOne(p => p.Lang)
                 .WithMany(p => p.MaterialLangs)

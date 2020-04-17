@@ -317,32 +317,19 @@ namespace CourseGenerator.Models
             {
                 Id = 1,
                 IsPractical = true,
-                FileUrl = "Material.mp4",
-                BackImageUrl = "background.jpg",
-                Url = "metanit.com",
                 Note = "Примітка",
-                MaterialTypeId = 1,
-                ParentId = null,
             },
             new Material
             {
                 Id = 2,
                 IsPractical = false,
-                FileUrl = "Video.mp4",
-                BackImageUrl = "bg.jpg",
-                Url = "professorweb.ru",
-                MaterialTypeId = 1,
-                ParentId = 1,
+                Note = null
             },
             new Material
             {
                 Id = 3,
                 IsPractical = false,
-                FileUrl = "Content.mov",
-                BackImageUrl = "bg.png",
-                Url = null,
-                MaterialTypeId = 2,
-                ParentId = null
+                Note = null
             }
         };
 
@@ -373,32 +360,21 @@ namespace CourseGenerator.Models
                 MaterialId = 1,
                 LangCode = "ENG",
                 Name = "ASP.NET Core",
-                FileUrl = "MaterialEng.mp4",
-                BackImageLangUrl = "backgroundEng.jpg",
-                Text = "Платформа ASP.NET Core представляет технологию от компании " +
-                "Microsoft, предназначенную для создания различного рода веб-приложений:" +
-                " от небольших веб-сайтов до крупных веб-порталов и веб-сервисов.",
+                
             },
             new MaterialLang
             {
                 MaterialId = 2,
                 LangCode = "UA",
                 Name = "Запуск приложения. Класс Program",
-                FileUrl = null,
-                BackImageLangUrl = null,
-                Text = "В любом типе проектов ASP.NET Core, как и в проекте консольного" +
-                " приложения, мы можем найти файл Program.cs, в котором определен " +
-                "одноименный класс Program и с которого по сути начинается выполнение " +
-                "приложения. В ASP.NET Core 3 этот файл выглядит следующим образом:"
+               
             },
             new MaterialLang
             {
                 MaterialId = 3,
                 LangCode = "UA",
                 Name = "Програмування на C#",
-                FileUrl = null,
-                BackImageLangUrl = null,
-                Text = "..."
+                
             }
         };
 
@@ -556,7 +532,9 @@ namespace CourseGenerator.Models
                 Id = 1,
                 CourseId = 1,
                 LevelId = 1,
+                Number = 1,
                 ParentId = null,
+                MaterialId = 1,
                 Note = "Примітка"
             },
             new Theme
@@ -564,7 +542,9 @@ namespace CourseGenerator.Models
                 Id = 2,
                 CourseId = 1,
                 LevelId = 3,
+                Number = 2,
                 ParentId = null,
+                MaterialId = 2,
                 Note = null
             },
             new Theme
@@ -572,7 +552,9 @@ namespace CourseGenerator.Models
                 Id = 3,
                 CourseId = 2,
                 LevelId = 2,
+                Number = 3,
                 ParentId = null,
+                MaterialId = 2,
                 Note = null
             },
             new Theme
@@ -580,7 +562,9 @@ namespace CourseGenerator.Models
                 Id = 4,
                 CourseId = 2,
                 LevelId = 2,
+                Number = 4,
                 ParentId = null,
+                MaterialId = 1,
                 Note = null
             },
             new Theme
@@ -588,7 +572,9 @@ namespace CourseGenerator.Models
                 Id = 5,
                 CourseId = 3,
                 LevelId = 1,
+                Number = 5,
                 ParentId = null,
+                MaterialId = 1,
                 Note = null
             },
             new Theme
@@ -596,7 +582,9 @@ namespace CourseGenerator.Models
                 Id = 6,
                 CourseId = 4,
                 LevelId = 4,
+                Number = 6,
                 ParentId = null,
+                MaterialId = 1,
                 Note = null
             }
         };
@@ -673,88 +661,7 @@ namespace CourseGenerator.Models
                 Note = null
             }
         };
-        public static ThemeHeading[] ThemeHeadings = {
-            new ThemeHeading
-            {
-                ThemeId = 1,
-                HeadingId = 4,
-                Note = "Примітка"
-            },
-            new ThemeHeading
-            {
-                ThemeId = 2,
-                HeadingId = 4,
-                Note = null
-            },
-            new ThemeHeading
-            {
-                ThemeId = 3,
-                HeadingId = 1,
-                Note = null
-            },
-            new ThemeHeading
-            {
-                ThemeId = 4,
-                HeadingId = 1,
-                Note = null
-            },
-            new ThemeHeading
-            {
-                ThemeId = 5,
-                HeadingId = 4,
-                Note = null
-            },
-            new ThemeHeading
-            {
-                ThemeId = 6,
-                HeadingId = 4,
-                Note = null
-            },
-        };
-        public static ThemeMaterial[] ThemeMaterials = {
-            new ThemeMaterial
-            {
-                ThemeId = 1,
-                MaterialId = 3,
-                LevelId = 1,
-                Note = "Примітка"
-            },
-            new ThemeMaterial
-            {
-                ThemeId = 2,
-                MaterialId = 3,
-                LevelId = 1,
-                Note = null
-            },
-            new ThemeMaterial
-            {
-                ThemeId = 3,
-                MaterialId = 3,
-                LevelId = 2,
-                Note = null
-            },
-            new ThemeMaterial
-            {
-                ThemeId = 4,
-                MaterialId = 3,
-                LevelId = 2,
-                Note = null
-            },
-            new ThemeMaterial
-            {
-                ThemeId = 5,
-                MaterialId = 3,
-                LevelId = 3,
-                Note = null
-            },
-            new ThemeMaterial
-            {
-                ThemeId = 6,
-                MaterialId = 3,
-                LevelId = 4,
-                Note = null
-            },
-        };
+       
         #endregion
 
         #region CourseAccess

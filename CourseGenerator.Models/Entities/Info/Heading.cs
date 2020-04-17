@@ -23,7 +23,6 @@ namespace CourseGenerator.Models.Entities.Info
 
         public ICollection<HeadingCompetency> HeadingCompetencies { get; set; }
         public ICollection<HeadingMaterial> HeadingMaterials { get; set; }
-        public ICollection<ThemeHeading> ThemeHeadings { get; set; }
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<CourseHeading> CourseHeadings { get; set; }
         public ICollection<HeadingLang> HeadingLangs { get; set; }
@@ -32,7 +31,6 @@ namespace CourseGenerator.Models.Entities.Info
         {
             HeadingCompetencies = new List<HeadingCompetency>();
             HeadingMaterials = new List<HeadingMaterial>();
-            ThemeHeadings = new List<ThemeHeading>();
             UserHeadings = new List<UserHeading>();
             CourseHeadings = new List<CourseHeading>();
             HeadingLangs = new List<HeadingLang>();

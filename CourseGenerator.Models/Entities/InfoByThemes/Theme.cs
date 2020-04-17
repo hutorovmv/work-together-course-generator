@@ -24,10 +24,13 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public Theme Parent { get; set; }
         public ICollection<Theme> Themes { get; set; }
 
+        public int MaterialId { get; set; }
+        public Material Material { get; set; }
+
+        public int Number { get; set; }
         public string Note { get; set; }
 
-        public ICollection<ThemeHeading> ThemeHeadings { get; set; }
-        public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
+
         public ICollection<UserTheme> UserThemes { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
@@ -35,9 +38,9 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public Theme()
         {
             Themes = new List<Theme>();
-            ThemeHeadings = new List<ThemeHeading>();
             UserThemes = new List<UserTheme>();
             ThemeLangs = new List<ThemeLang>();
+            UserCourses = new List<UserCourse>();
         }
     }
 }

@@ -14,7 +14,6 @@ namespace CourseGenerator.Models.Entities.Info
         public string Note { get; set; }
 
         public ICollection<Competency> Competencies { get; set; }
-        public ICollection<ThemeMaterial> ThemeMaterials { get; set; }
         public ICollection<Theme> Themes { get; set; }
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<UserCourse> UserCourses { get; set; }
@@ -24,7 +23,6 @@ namespace CourseGenerator.Models.Entities.Info
         public Level()
         {
             Competencies = new List<Competency>();
-            ThemeMaterials = new List<ThemeMaterial>();
             Themes = new List<Theme>();
             UserHeadings = new List<UserHeading>();
             UserCourses = new List<UserCourse>();

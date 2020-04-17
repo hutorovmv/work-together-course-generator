@@ -4,14 +4,14 @@ using System.Text;
 
 namespace CourseGenerator.Models.Entities.Info
 {
-    public class MaterialLang
+    public class MaterialOrganizationForm
     {
         public int MaterialId { get; set; }
         public Material Material { get; set; }
 
-        public string Name { get; set; }
+        public int OrganizationFormId { get; set; }
+        public OrganizationForm OrganizationForm { get; set; }
 
-        public string LangCode { get; set; }
-        public Language Lang { get; set; }
+        public string Note { get; set; }
     }
 }

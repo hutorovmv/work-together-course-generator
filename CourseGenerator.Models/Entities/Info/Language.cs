@@ -21,6 +21,8 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<CourseLang> CourseLangs { get; set; }
         public ICollection<ThemeLang> ThemeLangs { get; set; }
         public ICollection<User> Users { get; set; }
+        public ICollection<OrganizationFormLang> OrganizationFormLangs { get; set; }
+        public ICollection<ConductingMethodLang> ConductingMethodLangs { get; set; }
 
         public Language()
         {
@@ -32,6 +34,8 @@ namespace CourseGenerator.Models.Entities.Info
             CourseLangs = new List<CourseLang>();
             ThemeLangs = new List<ThemeLang>();
             Users = new List<User>();
+            OrganizationFormLangs = new List<OrganizationFormLang>();
+            ConductingMethodLangs = new List<ConductingMethodLang>();
         }
     }
 }

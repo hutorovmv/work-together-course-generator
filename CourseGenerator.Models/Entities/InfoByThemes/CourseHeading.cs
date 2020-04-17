@@ -16,6 +16,7 @@ namespace CourseGenerator.Models.Entities.InfoByThemes
         public int HeadingId { get; set; }
         public Heading Heading { get; set; }
 
+        public bool IsBasic { get; set; }
         public string Note { get; set; }
     }
 }
