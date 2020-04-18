@@ -11,6 +11,7 @@ using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using System.Security.Claims;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -124,23 +125,10 @@ namespace CourseGenerator.BLL.Services
 
         public void Dispose() => _uow.Dispose();
 
-        /// <summary>
-        /// Створює <see cref="ClaimsIdentity"/> з клеймами користувача
-        /// з таким іменем користувача та паролем.
-        /// </summary>
-        /// <param name="username">ім'я користувача</param>
-        /// <param name="password">пароль</param>
-        /// <returns><see cref="ClaimsIdentity"/> з клеймами користувача.</returns>
-        public async Task<ClaimsIdentity> GetIdentityAsync(string username, string password)
+        // TODO: Зробити метод GetIdentityByPhoneNumber
+        
+        private async Task<ClaimsIdentity> GetIdentityAsync(User user)
         {
-            User user = await _uow.UserManager.FindByNameAsync(username);
-            if (user == null)
-                return null;
-
-            bool isPasswordValid = await _uow.UserManager.CheckPasswordAsync(user, password);
-            if (!isPasswordValid)
-                return null;
-
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
@@ -155,6 +143,74 @@ namespace CourseGenerator.BLL.Services
                 ClaimsIdentity.DefaultNameClaimType, 
                 ClaimsIdentity.DefaultRoleClaimType);
             return identity;
+        }
+
+        /// <summary>
+        /// Створює <see cref="ClaimsIdentity"/> з клеймами користувача
+        /// з таким іменем користувача та паролем.
+        /// </summary>
+        /// <param name="username">ім'я користувача</param>
+        /// <param name="password">пароль</param>
+        /// <returns><see cref="ClaimsIdentity"/> з клеймами користувача.</returns>
+        public async Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto)
+        {
+            User user = await _uow.UserManager.FindByNameAsync(userLoginDto.UserName);
+            if (user == null)
+                return null;
+
+            bool isPasswordValid = await _uow.UserManager.CheckPasswordAsync(user, userLoginDto.Password);
+            if (!isPasswordValid)
+                return null;
+
+            return await GetIdentityAsync(user);
+        }
+
+        public async Task<ClaimsIdentity> GetIdentityAsync(PhoneAuth phoneAuth)
+        {
+            bool codeIsValid = await _uow.PhoneAuthRepository.GetAsync(phoneAuth.PhoneNumber, phoneAuth.Code) != null;
+            if (!codeIsValid)
+                return null;
+
+            try
+            {
+                _uow.PhoneAuthRepository.Delete(phoneAuth);
+                await _uow.SaveAsync();
+            }
+            catch (Exception)
+            {
+                // log something
+            }
+
+            User user = await _uow.UserManager.FindByPhoneNumberAsync(phoneAuth.PhoneNumber);
+            return await GetIdentityAsync(user);
+        }
+
+        public async Task<OperationInfo> CreatePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth)
+        {
+            try
+            {
+                await _uow.PhoneAuthRepository.CreateAsync(phoneAuth);
+                await _uow.SaveAsync();
+                return new OperationInfo(true, "Phone number confirmation code was added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+        }
+
+        public async Task<OperationInfo> DeletePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth)
+        {
+            try
+            {
+                _uow.PhoneAuthRepository.Delete(phoneAuth);
+                await _uow.SaveAsync();
+                return new OperationInfo(true, "Phone number confirmation code was deleted successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
         }
     }
 }

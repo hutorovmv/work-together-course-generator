@@ -16,6 +16,7 @@ using CourseGenerator.Api.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.Api.Controllers
 {
@@ -44,36 +45,6 @@ namespace CourseGenerator.Api.Controllers
         }
 
         [Route("~/api/[controller]/[action]")]
-        [HttpPost]
-        public async Task<IActionResult> Authenticate([FromBody] UserLoginDTO loginDto)
-        {
-            var identity = await _userManagementService.GetIdentityAsync(loginDto.UserName, 
-                loginDto.Password);
-            if (identity == null)
-                return Unauthorized(loginDto);
-
-            var now = DateTime.Now;
-            var token = new JwtSecurityToken(
-                issuer: _authOptions.Issuer,
-                audience: _authOptions.Audience,
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.AddDays(_authOptions.Lifetime),
-                signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), 
-                    SecurityAlgorithms.HmacSha256)
-            );
-            string encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            var response = new
-            {
-                access_token = encodedToken,
-                username = identity.Name
-            };
-
-            return Ok(response);
-        }
-
-        [Route("~/api/[controller]/[action]")]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> GeneratePhoneNumberConfirmationCode()
@@ -85,48 +56,66 @@ namespace CourseGenerator.Api.Controllers
             UserDetailsDTO userDetailsDto = await _userManagementService
                 .GetDetailsByUserNameAsync(userName);
 
-            var phoneNumberConfirmDict = new Dictionary<string, string>();
-            phoneNumberConfirmDict["PhoneNumber"] = userDetailsDto.PhoneNumber;
-            phoneNumberConfirmDict["Code"] = Convert.ToString(code);
+            if (userDetailsDto.PhoneNumber == null)
+                return BadRequest("User don't have phone number");
 
-            string phoneNumberConfirmSerialized = JsonConvert
-                .SerializeObject(phoneNumberConfirmDict);
-            HttpContext.Session
-                .SetString("PhoneNumberConfirmationData", phoneNumberConfirmSerialized);
-            return Ok(phoneNumberConfirmDict["Code"]);
+            PhoneAuth phoneAuth = new PhoneAuth
+            {
+                PhoneNumber = userDetailsDto.PhoneNumber,
+                Code = Convert.ToString(code)
+            };
+            await _userManagementService.CreatePhoneNumberConfirmationCodeAsync(phoneAuth);
+
+            return Ok(phoneAuth.Code);
         }
 
         [Route("~/api/[controller]/[action]")]
-        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> ConfirmPhoneNumberWithCode([FromBody] string code)
+        public async Task<IActionResult> Authenticate([FromBody] UserLoginDTO loginDto)
         {
-            var validPhoneNumberConfirmSerialized = HttpContext.Session
-                .GetString("PhoneNumberConfirmationData");
+            ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(loginDto);
+            if (identity == null)
+                return Unauthorized(loginDto);
 
-            if (validPhoneNumberConfirmSerialized == null)
-                return BadRequest("Code has not been generated.");
-
-            var validPhoneNumberConfirmDict = JsonConvert
-                .DeserializeObject<Dictionary<string, string>>(validPhoneNumberConfirmSerialized);
-
-            string userName = HttpContext.User.Identity.Name;
-            UserDetailsDTO userDetailsDto = await _userManagementService
-                .GetDetailsByUserNameAsync(userName);
-
-            if (validPhoneNumberConfirmDict["PhoneNumber"] == userDetailsDto.PhoneNumber 
-                && validPhoneNumberConfirmDict["Code"] == code)
+            var response = new
             {
-                OperationInfo phoneConfirmationResult = await _userManagementService
-                    .ConfirmPhoneNumberAsync(userName);
+                access_token = CreateToken(identity),
+                username = identity.Name
+            };
 
-                if (phoneConfirmationResult.Succeeded)
-                    return Ok(phoneConfirmationResult.Message);
-                else
-                    return BadRequest(phoneConfirmationResult.Message);
-            }
+            return Ok(response);
+        }
 
-            return BadRequest("Code is invalid or phone number has changed.");
+        [Route("~/api/[controller]/[action]")]
+        [HttpPost]
+        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuth phoneAuth)
+        {
+            ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuth);
+            if (identity == null)
+                return Unauthorized($"Code \"{phoneAuth.Code}\" is invalid.");
+
+            var response = new
+            {
+                access_token = CreateToken(identity),
+                username = identity.Name
+            };
+
+            return Ok(response);
+        }
+
+        private string CreateToken(ClaimsIdentity identity)
+        {
+            var now = DateTime.Now;
+            var token = new JwtSecurityToken(
+                issuer: _authOptions.Issuer,
+                audience: _authOptions.Audience,
+                notBefore: now,
+                claims: identity.Claims,
+                expires: now.AddDays(_authOptions.Lifetime),
+                signingCredentials: new SigningCredentials(_authOptions.GetSymmetricSecurityKey(),
+                    SecurityAlgorithms.HmacSha256)
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

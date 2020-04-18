@@ -6,6 +6,7 @@ using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using System.Security.Claims;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.BLL.Interfaces
 {
@@ -15,7 +16,10 @@ namespace CourseGenerator.BLL.Interfaces
         Task<OperationInfo> ExistsWithUserNameAsync(string userName);
         Task<OperationInfo> AddToRolesAsync(User user, params string[] roles);
         Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName);
-        Task<ClaimsIdentity> GetIdentityAsync(string username, string password);
+        Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto);
+        Task<ClaimsIdentity> GetIdentityAsync(PhoneAuth phoneAuth);
         Task<OperationInfo> ConfirmPhoneNumberAsync(string userName);
+        Task<OperationInfo> CreatePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth);
+        Task<OperationInfo> DeletePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth);
     }
 }
