@@ -87,5 +87,27 @@ namespace CourseGenerator.DAL.Repositories
 
             return await levelCourses.ToListAsync();
         }
+
+        public async Task<IEnumerable<LevelLang>> GetLevelLangByCourseIdAsync(int courseId, string langCode)
+        {
+            IQueryable<int> levelCourses =  _context.Themes
+                .Include(lc => lc.Level)
+                .Where(lc => lc.CourseId == courseId)
+                .Select(lc => lc.LevelId)
+                .Distinct();
+
+            IQueryable<LevelLang> localizedLevels = _context.LevelLangs
+                .Where(l => l.LangCode == langCode && levelCourses.Contains(l.LevelId));
+
+            IQueryable<LevelLang> levelsWithFirstLang = _context.LevelLangs
+                .Where(cl => !localizedLevels
+                .Select(cl => cl.LevelId)
+                .Contains(cl.LevelId));
+
+            IQueryable<LevelLang> levelLangs = localizedLevels.Union(levelsWithFirstLang);
+
+            return await levelLangs.ToListAsync();
+                
+        }
     }
 }

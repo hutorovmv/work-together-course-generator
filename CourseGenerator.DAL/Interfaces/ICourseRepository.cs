@@ -16,6 +16,9 @@ namespace CourseGenerator.DAL.Interfaces
         Task<int?> GetLastThemeIdOrNullAsync(
             string userId, int courseId);
 
+        Task<IEnumerable<LevelLang>> GetLevelLangByCourseIdAsync(
+            int courseId, string langCode);
+
         Task<IEnumerable<Level>> GetLevelByCourseIdAsync(int courseId);
 
     }
