@@ -14,6 +14,7 @@ namespace CourseGenerator.Models.Configs.CourseAccess
         {
             builder.HasKey(p => new { p.UserId, p.CourseId });
             builder.Property(p => p.Note).IsUnicode();
+            builder.Property(p => p.LastThemeId).IsRequired(false);
 
             builder.HasOne(p => p.User)
                 .WithMany(p => p.UserCourses)

@@ -21,7 +21,7 @@ namespace CourseGenerator.Models.Entities.CourseAccess
         public bool IsCompleted { get; set; }
         public DateTime LastTime { get; set; }
 
-        public int LastThemeId { get; set; }
+        public int? LastThemeId { get; set; }
         public Theme Theme { get; set; }
 
         public int Grade { get; set; }

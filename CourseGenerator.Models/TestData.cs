@@ -666,41 +666,7 @@ namespace CourseGenerator.Models
 
         #region CourseAccess
         public static UserHeading[] UserHeadings;
-        public static UserCourse[] UserCourses ={
-            new UserCourse
-            {
-                UserId = "user1",
-                CourseId = 1,
-                LevelId = 1,
-                IsCompleted = true,
-                LastTime = new DateTime(2020,04,21),
-                LastThemeId = 1,
-                Grade = 1,
-                Note = "Це примітка"
-            },
-            new UserCourse
-            {
-                UserId = "user2",
-                CourseId = 2,
-                LevelId = 2,
-                IsCompleted = false,
-                LastTime = new DateTime(2015,04,22),
-                LastThemeId = 2,
-                Grade = 2,
-                Note = "Це примітка"
-            },
-            new UserCourse
-            {
-                UserId = "user3",
-                CourseId = 3,
-                LevelId = 3,
-                IsCompleted = true,
-                LastTime = new DateTime(2019,05,15),
-                LastThemeId = 2,
-                Grade = 1,
-                Note = "Це примітка"
-            }
-        };
+        public static UserCourse[] UserCourses;
         public static UserTheme[] UserThemes;
         #endregion
     }

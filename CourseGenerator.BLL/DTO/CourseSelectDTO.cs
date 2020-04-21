@@ -14,6 +14,6 @@ namespace CourseGenerator.BLL.DTO
         /// <summary>
         /// Локалізована назва курсу.
         /// </summary>
-        public int Name { get; set; }
+        public string Name { get; set; }
     }
 }

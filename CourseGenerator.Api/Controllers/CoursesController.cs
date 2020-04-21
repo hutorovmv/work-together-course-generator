@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
@@ -22,9 +23,10 @@ namespace CourseGenerator.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CourseSelectDTO>> GetCoursesForUserWithLang(string userId, 
-            string langCode)
+        public async Task<IEnumerable<CourseSelectDTO>> GetCoursesForUserWithLang(string langCode)
         {
+            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             IEnumerable<CourseSelectDTO> courseSelectDTOs = await _courseService
                 .GetUserCoursesLocalizedAsync(userId, langCode);
 
