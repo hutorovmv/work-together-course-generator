@@ -471,6 +471,13 @@ namespace CourseGenerator.Models
                 CourseId = 4,
                 LangCode = "ENG",
                 Name = "ASP.Net Core"
+            },
+            new CourseLang
+            {
+                CourseId = 3,
+                LangCode = "Eng",
+                Name = "C# Basic",
+                Description = "Base about C#"
             }
         };
 
