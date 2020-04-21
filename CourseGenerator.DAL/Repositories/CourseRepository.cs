@@ -22,9 +22,7 @@ namespace CourseGenerator.DAL.Repositories
         /// </summary>
         /// <param name="userId"><c>Id</c> користувача, для якого ми отримуєм курси</param>
         /// <param name="langCode">Курси вибраною мовою мають пріорітет</param>
-        /// <param name="pageSize">Кількість об'єктів на сторінці</param>
-        /// <param name="pageIndex">Номер сторінки</param>
-        /// <returns><c>PagedList з об'єктами</c> <c>CourseLang</c></returns>
+        /// <returns><c>CourseLang</c></returns>
         /// <remarks>
         /// <para>
         /// Для таблиці <c>CourseLangs</c>, в якій звязується курс з мовою,
@@ -45,30 +43,6 @@ namespace CourseGenerator.DAL.Repositories
         /// або першою доступною (якщо немає потрібною).
         /// </para>
         /// </remarks>
-        public async Task<PagedList<CourseLang>> GetForUserWithLangPagedAsync(
-            string userId, string langCode, int pageSize, int pageIndex)
-        {
-            IQueryable<CourseLang> coursesForUser = _context.CourseLangs
-                .Include(cl => cl.Lang)
-                .Where(cl =>
-                    _context.UserCourses
-                    .Where(uc => uc.UserId == userId)
-                    .Select(uc => uc.CourseId)
-                    .Contains(cl.CourseId));
-
-            IQueryable<CourseLang> coursesWithSpecifiedLang = coursesForUser
-                .Where(cl => cl.Lang.Code == langCode);
-
-            IQueryable<CourseLang> coursesWithFirstLang = coursesForUser
-                .Where(cl => !coursesWithSpecifiedLang
-                .Select(cl => cl.CourseId)
-                .Contains(cl.CourseId));
-
-            IQueryable<CourseLang> coursesForUserWithLang = coursesForUser.Union(coursesWithSpecifiedLang);
-
-            return await coursesForUserWithLang.OrderBy(p => p.Name).ToPagedListAsync(pageSize, pageIndex);
-        }
-
         public async Task<IEnumerable<CourseLang>> GetForUserWithLangAsync(
             string userId, string langCode)
         {
@@ -88,7 +62,7 @@ namespace CourseGenerator.DAL.Repositories
                 .Select(cl => cl.CourseId)
                 .Contains(cl.CourseId));
 
-            IQueryable<CourseLang> coursesForUserWithLang = coursesForUser.Union(coursesWithSpecifiedLang);
+            IQueryable<CourseLang> coursesForUserWithLang = coursesWithFirstLang.Union(coursesWithSpecifiedLang);
 
             return await coursesForUserWithLang.OrderBy(p => p.Name).ToListAsync();
         }
@@ -103,13 +77,15 @@ namespace CourseGenerator.DAL.Repositories
             return course?.LastThemeId;
         }
 
-        //public async Task<IEnumerable<LevelLang>> GetLevelByCourseIdAsync(int courseId)
-        //{
-        //    IQueryable<Level> levelCourses = _context.Themes
-        //        .Where(lc => lc.CourseId == courseId)
-        //        .Select(lc => lc.Level);
+        public async Task<IEnumerable<Level>> GetLevelByCourseIdAsync(int courseId)
+        {
+            IQueryable<Level> levelCourses = _context.Themes
+                .Include(lc => lc.Level)
+                .Where(lc => lc.CourseId == courseId)
+                .Select(lc => lc.Level)
+                .Distinct();
 
-            
-        //}
+            return await levelCourses.ToListAsync();
+        }
     }
 }
