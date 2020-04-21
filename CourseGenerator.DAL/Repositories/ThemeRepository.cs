@@ -59,7 +59,5 @@ namespace CourseGenerator.DAL.Repositories
 
             return themes;
         }
-
-
     }
 }

@@ -11,7 +11,13 @@ namespace CourseGenerator.BLL.Interfaces
     public interface ICourseService : IDisposable
     {
         Task<OperationInfo> AddUserToCourseAsync(string userId, int courseId, int levelId);
+
         Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalizedAsync(string userId,
             string langCode);
+
+        Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId,
+            int courseId, int levelId, string langCode);
+
+        Task<int?> GetLastThemeIdOrNullAsync(string userId, int courseId);
     }
 }

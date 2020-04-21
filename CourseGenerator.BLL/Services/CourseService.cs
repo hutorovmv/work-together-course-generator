@@ -56,6 +56,29 @@ namespace CourseGenerator.BLL.Services
             return _mapper.Map<IEnumerable<CourseSelectDTO>>(userCoursesLocalized);
         }
 
+        public async Task<int?> GetLastThemeIdOrNullAsync(string userId, int courseId)
+        {
+            return await _uow.CourseRepository.GetLastThemeIdOrNullAsync(userId, courseId);
+        }
+
+        public async Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
+            int courseId, int levelId, string langCode)
+        {
+            IEnumerable<ThemeLang> userCourseThemesLocalized = await _uow.ThemeRepository
+                .GetLocalizedThemesByCourseIdAsync(langCode, courseId, levelId);
+
+            IEnumerable<ThemeSelectDTO> themeSelectDtos = _mapper
+                .Map<IEnumerable<ThemeSelectDTO>>(userCourseThemesLocalized);
+
+            foreach (ThemeSelectDTO themeLang in themeSelectDtos)
+            {
+                themeLang.IsCompleted = await _uow.ThemeRepository
+                    .GetIsCompletedOrNullByThemeIdAsync(userId, themeLang.Id) ?? false;
+            }
+
+            return themeSelectDtos;
+        }
+
         public void Dispose() => _uow.Dispose();
     }
 }
