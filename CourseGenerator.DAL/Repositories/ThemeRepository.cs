@@ -26,18 +26,27 @@ namespace CourseGenerator.DAL.Repositories
             return theme?.IsCompleted;
         }
 
-        public async Task<IEnumerable<ThemeLang>> GetLocalizedThemesByIdAsync(
-            int themeId, string langCode, int courseId)
+        public async Task<IEnumerable<ThemeLang>> GetLocalizedThemesByCourseIdAsync(
+            string langCode, int courseId)
         {
             IQueryable<int> courseThemes = _context.Themes
                 .Where(t => t.CourseId == courseId)
+                .Where(t => t.ParentId == null)
                 .Select(t => t.Id);
 
-            IQueryable<ThemeLang> themesLocalized = _context.ThemeLangs
+            IQueryable<ThemeLang> themesWithSpecifiedLang = _context.ThemeLangs
                 .Include(tl => tl.Lang)
                 .Where(tl => courseThemes.Contains(tl.ThemeId) && tl.Lang.Code == langCode);
 
-            return await themesLocalized.ToListAsync();
+            IQueryable<ThemeLang> themesWithFirstLang = _context.ThemeLangs
+                .Include(tl => tl.Lang)
+                .Where(tl => !themesWithSpecifiedLang
+                              .Select(tl => tl.ThemeId)
+                              .Contains(tl.ThemeId));
+
+            IQueryable<ThemeLang> courseThemesWithLang = themesWithSpecifiedLang.Union(themesWithFirstLang);
+
+            return await courseThemesWithLang.ToListAsync();
         }
 
         public IEnumerable<Theme> GetChildThemesOrNullById(

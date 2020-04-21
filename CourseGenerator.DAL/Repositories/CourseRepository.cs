@@ -2,6 +2,7 @@
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Pagination;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -101,5 +102,14 @@ namespace CourseGenerator.DAL.Repositories
 
             return course?.LastThemeId;
         }
+
+        //public async Task<IEnumerable<LevelLang>> GetLevelByCourseIdAsync(int courseId)
+        //{
+        //    IQueryable<Level> levelCourses = _context.Themes
+        //        .Where(lc => lc.CourseId == courseId)
+        //        .Select(lc => lc.Level);
+
+            
+        //}
     }
 }
