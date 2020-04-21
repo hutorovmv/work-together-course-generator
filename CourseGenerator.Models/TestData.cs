@@ -469,7 +469,7 @@ namespace CourseGenerator.Models
             new CourseLang
             {
                 CourseId = 4,
-                LangCode = "UA",
+                LangCode = "ENG",
                 Name = "ASP.Net Core"
             }
         };
