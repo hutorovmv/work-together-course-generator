@@ -15,25 +15,20 @@ namespace CourseGenerator.Api.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
-        
+
         public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetForUserByPhoneNumberPaged(
-            string phoneNumber, string langCode, int pageSize, int pageIndex = 1)
+        public async Task<IEnumerable<CourseSelectDTO>> GetCoursesForUserWithLang(string userId, 
+            string langCode)
         {
-            PagedList<CourseItemDTO> courseItemsPaged = await _courseService.GetByPhoneWithLangPagedAsync(
-                phoneNumber, langCode, pageSize, pageIndex);
+            IEnumerable<CourseSelectDTO> courseSelectDTOs = await _courseService
+                .GetUserCoursesLocalizedAsync(userId, langCode);
 
-            if (courseItemsPaged == null)
-                return BadRequest("There is no user with this phone number");
-            if (courseItemsPaged.Items.Count() == 0)
-                return NoContent();
-
-            return Ok(courseItemsPaged);
+            return courseSelectDTOs;
         }
     }
 }

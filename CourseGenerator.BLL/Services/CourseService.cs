@@ -26,7 +26,8 @@ namespace CourseGenerator.BLL.Services
             _uow = uow;
         }
 
-        public async Task<OperationInfo> AddUserToCourseAsync(string userId, int courseId, int levelId)
+        public async Task<OperationInfo> AddUserToCourseAsync(string userId, 
+            int courseId, int levelId)
         {
             try
             {
@@ -46,16 +47,13 @@ namespace CourseGenerator.BLL.Services
             }
         }
 
-        public async Task<PagedList<CourseItemDTO>> GetByPhoneWithLangPagedAsync(
-            string userPhoneNumber, string langCode, int pageSize, int pageIndex)
+        public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalizedAsync(string userId, 
+            string langCode)
         {
-            User user = await _uow.UserManager.FindByPhoneNumberAsync(userPhoneNumber);
-            if (user == null)
-                return null;
+            IEnumerable<CourseLang> userCoursesLocalized = await _uow.CourseRepository
+                .GetForUserWithLangAsync(userId, langCode);
 
-            PagedList<CourseLang> coursesPaged = await _uow.CourseRepository.GetForUserWithLangPagedAsync(
-                user.Id, langCode, pageSize, pageIndex);
-            return coursesPaged.ConvertPagedList<CourseLang, CourseItemDTO>(_mapper);
+            return _mapper.Map<IEnumerable<CourseSelectDTO>>(userCoursesLocalized);
         }
 
         public void Dispose() => _uow.Dispose();

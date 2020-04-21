@@ -12,6 +12,9 @@ namespace CourseGenerator.DAL.Interfaces
         Task<PagedList<CourseLang>> GetForUserWithLangPagedAsync(
             string userId, string langCode, int pageSize, int pageIndex);
 
+        Task<IEnumerable<CourseLang>> GetForUserWithLangAsync(
+            string userId, string langCode);
+
         Task<int?> GetLastThemeIdOrNullAsync(
             string userId, int courseId);
 

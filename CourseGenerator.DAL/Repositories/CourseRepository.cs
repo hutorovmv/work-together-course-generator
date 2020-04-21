@@ -69,7 +69,7 @@ namespace CourseGenerator.DAL.Repositories
             return await coursesForUserWithLang.OrderBy(p => p.Name).ToPagedListAsync(pageSize, pageIndex);
         }
 
-        public async Task<IEnumerable<CourseLang>> GetForUserCourseLangAsync(
+        public async Task<IEnumerable<CourseLang>> GetForUserWithLangAsync(
             string userId, string langCode)
         {
             IQueryable<CourseLang> coursesForUser = _context.CourseLangs

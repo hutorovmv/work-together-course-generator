@@ -10,9 +10,8 @@ namespace CourseGenerator.BLL.Interfaces
 {
     public interface ICourseService : IDisposable
     {
-        Task<PagedList<CourseItemDTO>> GetByPhoneWithLangPagedAsync(
-            string userPhoneNumber, string langCode, int pageSize, int pageIndex);
-
         Task<OperationInfo> AddUserToCourseAsync(string userId, int courseId, int levelId);
+        Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalizedAsync(string userId,
+            string langCode);
     }
 }

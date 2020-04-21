@@ -18,7 +18,7 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<User, UserDetailsDTO>();
             CreateMap<Language, LanguageSelectDTO>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.OriginalName));
-            CreateMap<CourseLang, CourseItemDTO>()
+            CreateMap<CourseLang, CourseSelectDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CourseId));
         }
     }
