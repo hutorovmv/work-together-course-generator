@@ -11,7 +11,7 @@ namespace CourseGenerator.DAL.Interfaces
         Task<bool?> GetIsCompletedOrNullByThemeIdAsync(string userId, int themeId);
 
         Task<IEnumerable<ThemeLang>> GetLocalizedThemesByCourseIdAsync(
-            string langCode, int courseId);
+            string langCode, int courseId, int levelId);
 
         IEnumerable<Theme> GetChildThemesOrNullById(int themeId);
     }
