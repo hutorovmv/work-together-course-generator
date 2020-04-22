@@ -28,7 +28,7 @@ namespace CourseGenerator.Models.Configs.CourseAccess
 
             builder.HasOne(p => p.Level)
                 .WithMany(p => p.UserThemes)
-                .HasForeignKey(p => p.LevelId)
+                .HasForeignKey(p => p.LevelNumber)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

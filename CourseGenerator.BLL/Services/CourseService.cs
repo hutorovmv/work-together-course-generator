@@ -27,7 +27,7 @@ namespace CourseGenerator.BLL.Services
         }
 
         public async Task<OperationInfo> AddUserToCourseAsync(string userId, 
-            int courseId, int levelId)
+            int courseId, int LevelNumber)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace CourseGenerator.BLL.Services
                 {
                     UserId = userId,
                     CourseId = courseId,
-                    LevelId = levelId
+                    LevelNumber = LevelNumber
                 });
                 await _uow.SaveAsync();
 
@@ -62,7 +62,7 @@ namespace CourseGenerator.BLL.Services
         }
 
         public async Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
-            int courseId, int levelId, string langCode)
+            int courseId, int LevelNumber, string langCode)
         {
             IEnumerable<ThemeLang> userCourseThemeLangs = await _uow.ThemeRepository
                 .GetLocalizedThemesByCourseIdAsync(langCode, courseId, levelId);

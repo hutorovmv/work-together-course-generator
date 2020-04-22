@@ -27,12 +27,12 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         public async Task<IEnumerable<ThemeLang>> GetLocalizedThemesByCourseIdAsync(
-            string langCode, int courseId, int levelId)
+            string langCode, int courseId, int LevelNumber)
         {
             IQueryable<int> courseThemes = _context.Themes
                 .Where(t => t.CourseId == courseId)
                 .Where(t => t.ParentId == null)
-                .Where(t => t.LevelId == levelId)
+                .Where(t => t.LevelNumber == LevelNumber)
                 .Select(t => t.Id);
 
             IQueryable<ThemeLang> themesWithSpecifiedLang = _context.ThemeLangs

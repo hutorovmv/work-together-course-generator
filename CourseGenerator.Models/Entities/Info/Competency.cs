@@ -13,7 +13,7 @@ namespace CourseGenerator.Models.Entities.Info
         public Competency Parent { get; set; }
         public ICollection<Competency> Competencies { get; set; }
 
-        public int LevelId { get; set; }
+        public int LevelNumber { get; set; }
         public Level Level { get; set; }
 
         public ICollection<HeadingCompetency> HeadingCompetencies { get; set; }

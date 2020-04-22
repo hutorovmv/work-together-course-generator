@@ -77,32 +77,21 @@ namespace CourseGenerator.DAL.Repositories
             return course?.LastThemeId;
         }
 
-        public async Task<IEnumerable<Level>> GetLevelByCourseIdAsync(int courseId)
-        {
-            IQueryable<Level> levelCourses = _context.Themes
-                .Include(lc => lc.Level)
-                .Where(lc => lc.CourseId == courseId)
-                .Select(lc => lc.Level)
-                .Distinct();
-
-            return await levelCourses.ToListAsync();
-        }
-
         public async Task<IEnumerable<LevelLang>> GetLevelLangByCourseIdAsync(int courseId, string langCode)
         {
             IQueryable<int> levelCourses =  _context.Themes
                 .Include(lc => lc.Level)
                 .Where(lc => lc.CourseId == courseId)
-                .Select(lc => lc.LevelId)
+                .Select(lc => lc.LevelNumber)
                 .Distinct();
 
             IQueryable<LevelLang> localizedLevels = _context.LevelLangs
-                .Where(l => l.LangCode == langCode && levelCourses.Contains(l.LevelId));
+                .Where(l => l.LangCode == langCode && levelCourses.Contains(l.LevelNumber));
 
             IQueryable<LevelLang> levelsWithFirstLang = _context.LevelLangs
                 .Where(cl => !localizedLevels
-                .Select(cl => cl.LevelId)
-                .Contains(cl.LevelId));
+                .Select(cl => cl.LevelNumber)
+                .Contains(cl.LevelNumber));
 
             IQueryable<LevelLang> levelLangs = localizedLevels.Union(levelsWithFirstLang);
 

@@ -15,7 +15,7 @@ namespace CourseGenerator.Models.Entities.CourseAccess
         public int CourseId { get; set; }
         public Course Course { get; set; }
 
-        public int LevelId { get; set; }
+        public int LevelNumber { get; set; }
         public Level Level { get; set; }
 
         public bool IsCompleted { get; set; }

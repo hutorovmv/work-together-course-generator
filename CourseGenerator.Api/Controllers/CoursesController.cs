@@ -58,7 +58,7 @@ namespace CourseGenerator.Api.Controllers
                 return RedirectToAction(""); // TODO: specify appropriate action name
 
             IEnumerable<ThemeSelectDTO> themeSelectDtos = await _courseService
-                .GetUserCourseThemesLocalizedAsync(userId, courseId, levelId, langCode);
+                .GetUserCourseThemesLocalizedAsync(userId, courseId, LevelNumber, langCode);
 
             return Ok(themeSelectDtos);
         }

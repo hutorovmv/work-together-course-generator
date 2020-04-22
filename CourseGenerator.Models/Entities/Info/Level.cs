@@ -9,7 +9,6 @@ namespace CourseGenerator.Models.Entities.Info
 {
     public class Level
     {
-        public int Id { get; set; }
         public int Number { get; set; }
         public string Note { get; set; }
 

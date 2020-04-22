@@ -96,48 +96,44 @@ namespace CourseGenerator.Models
         public static Level[] Levels = {
             new Level
             {
-                Id = 1,
-                Number = 2,
+                Number = 1,
                 Note = "Basic Level"
             },
             new Level
             {
-                Id = 2,
+                Number = 2,
+                Note = "Note"
+            },
+            new Level
+            {
                 Number = 3,
-
+                Note = null
             },
             new Level
             {
-                Id = 3,
                 Number = 4,
-
-            },
-            new Level
-            {
-                Id = 4,
-                Number = 5,
-
+                Note = null
             }
         };
 
         public static LevelLang[] LevelLangs = {
             new LevelLang
             {
-                LevelId = 1,
+                LevelNumber = 1,
                 LangCode = "UA",
                 Name = "Базова",
                 Description = "Потребує частого керівництва"
             },
             new LevelLang
             {
-                LevelId = 2,
+                LevelNumber = 2,
                 LangCode = "UA",
                 Name = "Проміжна",
                 Description = "Потребує періодичного керівництва"
             },
             new LevelLang
             {
-                LevelId = 3,
+                LevelNumber = 3,
                 LangCode = "ENG",
                 Name = "Advanced",
                 Description = "Applies the competency in considerably difficult situations." +
@@ -145,7 +141,7 @@ namespace CourseGenerator.Models
             },
             new LevelLang
             {
-                LevelId = 4,
+                LevelNumber = 4,
                 LangCode = "ENG",
                 Name = "Expert",
                 Description = "Applies the competency in exceptionally difficult situations." +
@@ -159,19 +155,19 @@ namespace CourseGenerator.Models
                 Id = 1,
                 Note = "Примітка",
                 ParentId = null,
-                LevelId = 1
+                LevelNumber = 1
             },
             new Competency
             {
                 Id = 2,
                 ParentId = 1,
-                LevelId = 2
+                LevelNumber = 2
             },
             new Competency
             {
                 Id = 3,
                 ParentId = null,
-                LevelId = 2
+                LevelNumber = 2
             },
 
         };
@@ -538,7 +534,7 @@ namespace CourseGenerator.Models
             {
                 Id = 1,
                 CourseId = 1,
-                LevelId = 1,
+                LevelNumber = 1,
                 Number = 1,
                 ParentId = null,
                 MaterialId = 1,
@@ -548,7 +544,7 @@ namespace CourseGenerator.Models
             {
                 Id = 2,
                 CourseId = 1,
-                LevelId = 3,
+                LevelNumber = 3,
                 Number = 2,
                 ParentId = null,
                 MaterialId = 2,
@@ -558,7 +554,7 @@ namespace CourseGenerator.Models
             {
                 Id = 3,
                 CourseId = 2,
-                LevelId = 2,
+                LevelNumber = 2,
                 Number = 3,
                 ParentId = null,
                 MaterialId = 2,
@@ -568,7 +564,7 @@ namespace CourseGenerator.Models
             {
                 Id = 4,
                 CourseId = 2,
-                LevelId = 2,
+                LevelNumber = 2,
                 Number = 4,
                 ParentId = null,
                 MaterialId = 1,
@@ -578,7 +574,7 @@ namespace CourseGenerator.Models
             {
                 Id = 5,
                 CourseId = 3,
-                LevelId = 1,
+                LevelNumber = 1,
                 Number = 5,
                 ParentId = null,
                 MaterialId = 1,
@@ -588,7 +584,7 @@ namespace CourseGenerator.Models
             {
                 Id = 6,
                 CourseId = 4,
-                LevelId = 4,
+                LevelNumber = 4,
                 Number = 6,
                 ParentId = null,
                 MaterialId = 1,

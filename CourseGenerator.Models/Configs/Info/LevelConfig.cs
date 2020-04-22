@@ -11,9 +11,8 @@ namespace CourseGenerator.Models.Configs.Info
     {
         public void Configure(EntityTypeBuilder<Level> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.HasKey(p => p.Number);
 
-            builder.Property(p => p.Number).IsRequired();
             builder.Property(p => p.Note).IsUnicode();
         }
     }
