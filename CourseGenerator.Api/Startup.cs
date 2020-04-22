@@ -26,6 +26,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
+using Microsoft.OpenApi.Models;
 
 namespace CourseGenerator.Api
 {
@@ -41,6 +42,10 @@ namespace CourseGenerator.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+            });
 
             string connectionString = Configuration.GetConnectionString("CourseGeneratorDB");
             services.AddDbContext<ApplicationContext>(options =>
@@ -92,15 +97,42 @@ namespace CourseGenerator.Api
                 c.AddProfile<DTOToDomainProfile>();
             }, typeof(Startup));
 
-            services.AddDistributedMemoryCache();
-            services.AddSession(options =>
+            services.AddSwaggerGen(c =>
             {
-                options.Cookie.Name = "CourseGenerator.Session";
-                options.IdleTimeout = TimeSpan.FromDays(1);
+                c.SwaggerDoc("v0.1.0", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Practifly Api",
+                    Description = "Документація REST API навчальної платформи Practifly.",
+                    #region Additional info
+                    /*TermsOfService = new Uri(""),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "",
+                        Email = "",
+                        Url = new Uri("")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "",
+                        Url = new Uri("")
+                    }*/
+                    #endregion
+                });
             });
-          
+
+            #region Sessions configuration
+            //services.AddDistributedMemoryCache();
+            //services.AddSession(options =>
+            //{
+            //    options.Cookie.Name = "CourseGenerator.Session";
+            //    options.IdleTimeout = TimeSpan.FromDays(1);
+            //});
+            #endregion
+
             services.AddSingleton(c => authOptions);
 
+            #region Repositories and Services registration
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
@@ -113,6 +145,7 @@ namespace CourseGenerator.Api
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
+            #endregion
         }
 
         public void Configure(IApplicationBuilder app, 
@@ -124,6 +157,12 @@ namespace CourseGenerator.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v0.1.0/swagger.json", "Practifly Api v0.1.0");
+                });
             }
 
             app.UseHttpsRedirection();
@@ -133,13 +172,15 @@ namespace CourseGenerator.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            #region User related sample info initialization
             IdentityDataInitializer.AddRoles(roleManager);
 
             UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
             IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
             IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
+            #endregion
 
-            app.UseSession();
+            //app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
