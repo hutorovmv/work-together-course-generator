@@ -51,17 +51,27 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         public async Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(
-            int themeId, string langCode)
+            int themeId, string langCode, int parentId)
         {
             IQueryable<Theme> themes = _context.Themes
                 .Include(p => p.Themes)
                 .FirstOrDefault(t => t.Id == themeId)
                 .Themes
+                .Where(t => t.ParentId == parentId)
                 .AsQueryable();
 
-            IQueryable<ThemeLang> themeLangs = _context.ThemeLangs
+            IQueryable<ThemeLang> themesWithSpecifiedLang = _context.ThemeLangs
                 .Include(p => p.Theme)
-                .Where(tl => themes.Contains(tl.Theme));
+                .Where(tl => themes.Contains(tl.Theme))
+                .Where(tl => tl.LangCode == langCode);
+
+            IQueryable<ThemeLang> themesWithFirstLang = _context.ThemeLangs
+                .Include(tl => tl.Lang)
+                .Where(tl => !themesWithSpecifiedLang
+                              .Select(tl => tl.ThemeId)
+                              .Contains(tl.ThemeId));
+
+            IQueryable<ThemeLang> themeLangs = themesWithSpecifiedLang.Union(themesWithFirstLang);
 
             return await themeLangs.ToListAsync();
         }

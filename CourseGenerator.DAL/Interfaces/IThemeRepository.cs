@@ -13,6 +13,6 @@ namespace CourseGenerator.DAL.Interfaces
         Task<IEnumerable<ThemeLang>> GetLocalizedThemesByCourseIdAsync( // GetByCourseLocalAsync
             string langCode, int courseId, int levelId);
 
-        Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(int themeId, string levelCode);
+        Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(int themeId, string levelCode, int parentId);
     }
 }
