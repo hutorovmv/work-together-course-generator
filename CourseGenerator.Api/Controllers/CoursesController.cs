@@ -18,17 +18,17 @@ namespace CourseGenerator.Api.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
-        private readonly string userId;
 
         public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
-            userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         [HttpGet]
         public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalAsync(string langCode)
         {
+            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             IEnumerable<CourseSelectDTO> courseSelectDTOs = await _courseService
                 .GetUserCoursesLocalizedAsync(userId, langCode);
 
@@ -48,6 +48,8 @@ namespace CourseGenerator.Api.Controllers
         public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, 
             string langCode)
         {
+            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             IEnumerable<ThemeSelectDTO> childThemes = await _courseService
                 .GetChildrenLocalAsync(userId, themeId, langCode);
 
@@ -62,6 +64,8 @@ namespace CourseGenerator.Api.Controllers
         public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
             int levelId, string langCode)
         {
+            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             int? lastThemeId = await _courseService.GetLastThemeIdOrNullAsync(userId, courseId);
             if (lastThemeId != null)
                 return RedirectToAction(""); // TODO: specify appropriate action name

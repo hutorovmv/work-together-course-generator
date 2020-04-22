@@ -44,7 +44,7 @@ namespace CourseGenerator.Api.Controllers
             return BadRequest(registrationDto);
         }
 
-        [Route("~/api/[controller]/[action]")]
+        [Route("~/api/[controller]/confirm/phone")]
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> GeneratePhoneNumberConfirmationCode()
@@ -80,13 +80,17 @@ namespace CourseGenerator.Api.Controllers
             var response = new
             {
                 access_token = CreateToken(identity),
-                username = identity.Name
+                userId = identity.FindFirst(ClaimTypes.NameIdentifier),
+                username = identity.Name,
+                firstName = identity.FindFirst(ClaimTypes.GivenName),
+                lastName = identity.FindFirst(ClaimTypes.Surname),
+                langCode = identity.FindFirst(ClaimTypes.Locality)
             };
 
             return Ok(response);
         }
 
-        [Route("~/api/[controller]/[action]")]
+        [Route("~/api/[controller]/authenticate/phone")]
         [HttpPost]
         public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuth phoneAuth)
         {

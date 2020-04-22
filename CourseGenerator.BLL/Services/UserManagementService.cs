@@ -133,6 +133,9 @@ namespace CourseGenerator.BLL.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(ClaimTypes.GivenName, user.FirstName),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.Locality, user.PreferedLangCode)
             };
 
             IList<string> roles = await _uow.UserManager.GetRolesAsync(user);
