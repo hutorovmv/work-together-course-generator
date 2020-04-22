@@ -35,9 +35,18 @@ namespace CourseGenerator.Api.Controllers
             return courseSelectDTOs;
         }
 
+        [Route("~/api/[controller]/levels")]
+        [HttpGet]
+        public async Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, 
+            string langCode)
+        {
+            return await _courseService.GetCourseLevelsLocalAsync(courseId, langCode);
+        }
+
         [Route("~/api/[controller]/themes/children")]
         [HttpGet]
-        public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, string langCode)
+        public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, 
+            string langCode)
         {
             IEnumerable<ThemeSelectDTO> childThemes = await _courseService
                 .GetChildrenLocalAsync(userId, themeId, langCode);
@@ -58,7 +67,7 @@ namespace CourseGenerator.Api.Controllers
                 return RedirectToAction(""); // TODO: specify appropriate action name
 
             IEnumerable<ThemeSelectDTO> themeSelectDtos = await _courseService
-                .GetUserCourseThemesLocalizedAsync(userId, courseId, LevelNumber, langCode);
+                .GetUserCourseThemesLocalizedAsync(userId, courseId, levelId, langCode);
 
             return Ok(themeSelectDtos);
         }

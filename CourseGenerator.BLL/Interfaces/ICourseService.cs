@@ -21,6 +21,8 @@ namespace CourseGenerator.BLL.Interfaces
         Task<IEnumerable<ThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
             string langCode);
 
+        Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, string langCode);
+
         Task<int?> GetLastThemeIdOrNullAsync(string userId, int courseId);
     }
 }

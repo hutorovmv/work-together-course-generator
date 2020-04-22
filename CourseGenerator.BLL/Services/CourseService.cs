@@ -7,6 +7,7 @@ using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Pagination;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace CourseGenerator.BLL.Services
         }
 
         public async Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
-            int courseId, int LevelNumber, string langCode)
+            int courseId, int levelId, string langCode)
         {
             IEnumerable<ThemeLang> userCourseThemeLangs = await _uow.ThemeRepository
                 .GetLocalizedThemesByCourseIdAsync(langCode, courseId, levelId);
@@ -77,6 +78,16 @@ namespace CourseGenerator.BLL.Services
                 .GetChildrenLocalAsync(themeId, langCode);
 
             return await CreateThemeSelectDtos(userId, themeLangs);
+        }
+
+        public async Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, string langCode)
+        {
+            IEnumerable<LevelLang> levelLangs = await _uow.CourseRepository
+                .GetLevelLangByCourseIdAsync(courseId, langCode);
+
+            IEnumerable<LevelSelectDTO> levelSelectDtos = _mapper.Map<IEnumerable<LevelSelectDTO>>(levelLangs);
+
+            return levelSelectDtos;
         }
 
         private async Task<IEnumerable<ThemeSelectDTO>> CreateThemeSelectDtos(string userId, 
