@@ -59,14 +59,18 @@ namespace CourseGenerator.Api.Controllers
             if (userDetailsDto.PhoneNumber == null)
                 return BadRequest("User don't have phone number");
 
-            PhoneAuth phoneAuth = new PhoneAuth
+            PhoneAuthDTO phoneAuthDto = new PhoneAuthDTO
             {
                 PhoneNumber = userDetailsDto.PhoneNumber,
                 Code = Convert.ToString(code)
             };
-            await _userManagementService.CreatePhoneNumberConfirmationCodeAsync(phoneAuth);
 
-            return Ok(phoneAuth.Code);
+            OperationInfo creationResult = await _userManagementService
+                .CreatePhoneConfirmAsync(phoneAuthDto);
+            if (!creationResult.Succeeded)
+                return BadRequest(creationResult.Message);
+
+            return StatusCode(StatusCodes.Status201Created, phoneAuthDto.Code);
         }
 
         [Route("~/api/[controller]/[action]")]
@@ -80,11 +84,11 @@ namespace CourseGenerator.Api.Controllers
             var response = new
             {
                 access_token = CreateToken(identity),
-                userId = identity.FindFirst(ClaimTypes.NameIdentifier),
-                username = identity.Name,
-                firstName = identity.FindFirst(ClaimTypes.GivenName),
-                lastName = identity.FindFirst(ClaimTypes.Surname),
-                langCode = identity.FindFirst(ClaimTypes.Locality)
+                userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value,
+                userName = identity.Name,
+                firstName = identity.FindFirst(ClaimTypes.GivenName).Value,
+                lastName = identity.FindFirst(ClaimTypes.Surname).Value,
+                langCode = identity.FindFirst(ClaimTypes.Locality).Value
             };
 
             return Ok(response);

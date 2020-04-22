@@ -59,7 +59,7 @@ namespace CourseGenerator.Api.Controllers
             return Ok(childThemes);
         }
 
-        [Route("~/api/[controller]/themes/parent")]
+        [Route("~/api/[controller]/themes/parents")]
         [HttpGet]
         public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
             int levelId, string langCode)

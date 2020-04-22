@@ -8,6 +8,6 @@ namespace CourseGenerator.DAL.Interfaces
 {
     public interface IPhoneAuthRepository : IRepository<PhoneAuth>
     {
-        public Task<string> GetCodeByPhoneNumberAsync(string phoneNumber);
+        Task<PhoneAuth> GetAsync(string phoneNumber);
     }
 }

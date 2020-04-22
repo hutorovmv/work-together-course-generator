@@ -58,7 +58,8 @@ namespace CourseGenerator.BLL.Infrastructure
                 FirstName = "Andrew",
                 LastName = "Ryzhkov",
                 PhoneNumber = "380638888888",
-                Password = "Andruha123!"
+                Password = "Andruha123!",
+                PreferedLangCode = "eng"
             };
             userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
 

@@ -13,13 +13,12 @@ namespace CourseGenerator.BLL.Interfaces
     public interface IUserManagementService : IDisposable
     {
         Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles);
-        Task<OperationInfo> ExistsWithUserNameAsync(string userName);
+        Task<OperationInfo> NotExistWithUserNameAsync(string userName);
         Task<OperationInfo> AddToRolesAsync(User user, params string[] roles);
         Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName);
         Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto);
         Task<ClaimsIdentity> GetIdentityAsync(PhoneAuth phoneAuth);
         Task<OperationInfo> ConfirmPhoneNumberAsync(string userName);
-        Task<OperationInfo> CreatePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth);
-        Task<OperationInfo> DeletePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth);
+        Task<OperationInfo> CreatePhoneConfirmAsync(PhoneAuthDTO phoneAuthDto);
     }
 }

@@ -37,10 +37,12 @@ namespace CourseGenerator.DAL.Repositories
 
             IQueryable<ThemeLang> themesWithSpecifiedLang = _context.ThemeLangs
                 .Include(tl => tl.Lang)
-                .Where(tl => courseThemes.Contains(tl.ThemeId) && tl.Lang.Code == langCode);
+                .Where(tl => courseThemes.Contains(tl.ThemeId))
+                .Where(tl => tl.Lang.Code == langCode);
 
             IQueryable<ThemeLang> themesWithFirstLang = _context.ThemeLangs
                 .Include(tl => tl.Lang)
+                .Where(tl => courseThemes.Contains(tl.ThemeId))
                 .Where(tl => !themesWithSpecifiedLang
                               .Select(tl => tl.ThemeId)
                               .Contains(tl.ThemeId));
@@ -53,20 +55,25 @@ namespace CourseGenerator.DAL.Repositories
         public async Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(
             int parentId, string langCode)
         {
-            IQueryable<Theme> themes = _context.Themes
+            IEnumerable<Theme> themes = _context.Themes
                 .Include(p => p.Themes)
                 .FirstOrDefault(t => t.Id == parentId)
-                .Themes
-                .Where(t => t.ParentId == parentId)
-                .AsQueryable();
+                ?.Themes
+                .Where(t => t.ParentId == parentId);
+
+            if (themes == null)
+                return null;
 
             IQueryable<ThemeLang> themesWithSpecifiedLang = _context.ThemeLangs
+                .Include(p => p.Lang)
                 .Include(p => p.Theme)
                 .Where(tl => themes.Contains(tl.Theme))
                 .Where(tl => tl.LangCode == langCode);
 
             IQueryable<ThemeLang> themesWithFirstLang = _context.ThemeLangs
                 .Include(tl => tl.Lang)
+                .Include(tl => tl.Theme)
+                .Where(tl => themes.Contains(tl.Theme)) //
                 .Where(tl => !themesWithSpecifiedLang
                               .Select(tl => tl.ThemeId)
                               .Contains(tl.ThemeId));

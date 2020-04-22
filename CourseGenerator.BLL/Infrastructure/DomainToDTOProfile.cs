@@ -6,6 +6,7 @@ using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
+using CourseGenerator.Models.Entities.Security;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -23,6 +24,7 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<ThemeLang, ThemeSelectDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ThemeId));
             CreateMap<LevelLang, LevelSelectDTO>();
+            CreateMap<PhoneAuth, PhoneAuthDTO>();
         }
     }
 }

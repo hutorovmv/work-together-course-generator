@@ -15,10 +15,10 @@ namespace CourseGenerator.DAL.Repositories
         {
         }
 
-        public async Task<string> GetCodeByPhoneNumberAsync(string phoneNumber)
+        public async Task<PhoneAuth> GetAsync(string phoneNumber)
         {
             PhoneAuth phoneAuth = await _context.PhoneAuths.FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
-            return phoneAuth?.Code;
+            return phoneAuth;
         }
     }
 }

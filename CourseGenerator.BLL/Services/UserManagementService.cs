@@ -34,8 +34,8 @@ namespace CourseGenerator.BLL.Services
         public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles)
         {
             // Email використовується в якості імені користувача
-            OperationInfo userExistsResult = await ExistsWithUserNameAsync(registrationDto.Email);
-            if (userExistsResult.Succeeded)
+            OperationInfo userExistsResult = await NotExistWithUserNameAsync(registrationDto.Email);
+            if (!userExistsResult.Succeeded)
                 return userExistsResult;
 
             // Створює об'єкт та генерує значення для стрічкової властивості Id
@@ -58,14 +58,14 @@ namespace CourseGenerator.BLL.Services
         /// </summary>
         /// <param name="username">ім'я користувача</param>
         /// <returns><see cref="OperationInfo.Succeeded"/> <c>true</c> коли такий 
-        /// користувач існує та <c>false</c> - коли ні.</returns>
-        public async Task<OperationInfo> ExistsWithUserNameAsync(string userName)
+        /// користувач не існує та <c>false</c> - коли існує.</returns>
+        public async Task<OperationInfo> NotExistWithUserNameAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
             if (user != null)
-                return new OperationInfo(true, $"User with username = {userName} exists");
+                return new OperationInfo(false, $"User with username = {userName} exists");
 
-            return new OperationInfo(false, "There is no user with such username");
+            return new OperationInfo(true, "There is no user with such username");
         }
 
         /// <summary>
@@ -188,27 +188,24 @@ namespace CourseGenerator.BLL.Services
             return await GetIdentityAsync(user);
         }
 
-        public async Task<OperationInfo> CreatePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth)
+        public async Task<OperationInfo> CreatePhoneConfirmAsync(PhoneAuthDTO phoneAuthDto)
         {
             try
             {
+                PhoneAuth phoneAuth = await _uow.PhoneAuthRepository
+                    .GetAsync(phoneAuthDto.PhoneNumber);          
+
+                if (phoneAuth != null)
+                {
+                    _uow.PhoneAuthRepository.Delete(phoneAuth);
+                    await _uow.SaveAsync();
+                }
+
+                phoneAuth = _mapper.Map<PhoneAuth>(phoneAuthDto);
                 await _uow.PhoneAuthRepository.CreateAsync(phoneAuth);
                 await _uow.SaveAsync();
+                
                 return new OperationInfo(true, "Phone number confirmation code was added successfully.");
-            }
-            catch (Exception ex)
-            {
-                return new OperationInfo(false, ex.Message);
-            }
-        }
-
-        public async Task<OperationInfo> DeletePhoneNumberConfirmationCodeAsync(PhoneAuth phoneAuth)
-        {
-            try
-            {
-                _uow.PhoneAuthRepository.Delete(phoneAuth);
-                await _uow.SaveAsync();
-                return new OperationInfo(true, "Phone number confirmation code was deleted successfully.");
             }
             catch (Exception ex)
             {

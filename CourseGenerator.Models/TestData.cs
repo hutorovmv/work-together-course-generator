@@ -563,8 +563,8 @@ namespace CourseGenerator.Models
             new Theme
             {
                 Id = 4,
-                CourseId = 2,
-                LevelNumber = 2,
+                CourseId = 3,
+                LevelNumber = 1,
                 Number = 4,
                 ParentId = null,
                 MaterialId = 1,
@@ -583,8 +583,8 @@ namespace CourseGenerator.Models
             new Theme
             {
                 Id = 6,
-                CourseId = 4,
-                LevelNumber = 4,
+                CourseId = 3,
+                LevelNumber = 1,
                 Number = 6,
                 ParentId = 4,
                 MaterialId = 1,
