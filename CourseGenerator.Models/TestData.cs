@@ -576,7 +576,7 @@ namespace CourseGenerator.Models
                 CourseId = 3,
                 LevelNumber = 1,
                 Number = 5,
-                ParentId = null,
+                ParentId = 4,
                 MaterialId = 1,
                 Note = null
             },
@@ -586,7 +586,7 @@ namespace CourseGenerator.Models
                 CourseId = 4,
                 LevelNumber = 4,
                 Number = 6,
-                ParentId = null,
+                ParentId = 4,
                 MaterialId = 1,
                 Note = null
             }
@@ -620,6 +620,13 @@ namespace CourseGenerator.Models
                 LangCode = "ENG",
                 Name = "Search algorithms",
                 Description = null
+            },
+            new ThemeLang
+            {
+                ThemeId = 4,
+                LangCode = "UA",
+                Name = "Пошукові алгоритми",
+                Description = "Тут опис"
             },
             new ThemeLang
             {
