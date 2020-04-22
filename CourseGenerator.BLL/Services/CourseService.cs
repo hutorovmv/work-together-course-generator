@@ -64,11 +64,26 @@ namespace CourseGenerator.BLL.Services
         public async Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
             int courseId, int levelId, string langCode)
         {
-            IEnumerable<ThemeLang> userCourseThemesLocalized = await _uow.ThemeRepository
+            IEnumerable<ThemeLang> userCourseThemeLangs = await _uow.ThemeRepository
                 .GetLocalizedThemesByCourseIdAsync(langCode, courseId, levelId);
 
+            return await CreateThemeSelectDtos(userId, userCourseThemeLangs);
+        }
+
+        public async Task<IEnumerable<ThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
+            string langCode)
+        {
+            IEnumerable<ThemeLang> themeLangs = await _uow.ThemeRepository
+                .GetChildrenLocalAsync(themeId, langCode);
+
+            return await CreateThemeSelectDtos(userId, themeLangs);
+        }
+
+        private async Task<IEnumerable<ThemeSelectDTO>> CreateThemeSelectDtos(string userId, 
+            IEnumerable<ThemeLang> themeLangs)
+        {
             IEnumerable<ThemeSelectDTO> themeSelectDtos = _mapper
-                .Map<IEnumerable<ThemeSelectDTO>>(userCourseThemesLocalized);
+                .Map<IEnumerable<ThemeSelectDTO>>(themeLangs);
 
             foreach (ThemeSelectDTO themeLang in themeSelectDtos)
             {

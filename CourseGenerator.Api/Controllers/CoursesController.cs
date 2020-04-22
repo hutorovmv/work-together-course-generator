@@ -18,30 +18,41 @@ namespace CourseGenerator.Api.Controllers
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
+        private readonly string userId;
 
         public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
+            userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CourseSelectDTO>> GetCoursesForUserWithLang(string langCode)
+        public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalAsync(string langCode)
         {
-            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             IEnumerable<CourseSelectDTO> courseSelectDTOs = await _courseService
                 .GetUserCoursesLocalizedAsync(userId, langCode);
 
             return courseSelectDTOs;
         }
 
+        [Route("~/api/[controller]/themes/children")]
+        [HttpGet]
+        public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, string langCode)
+        {
+            IEnumerable<ThemeSelectDTO> childThemes = await _courseService
+                .GetChildrenLocalAsync(userId, themeId, langCode);
+
+            if (childThemes == null)
+                return RedirectToAction(""); // TODO: specify appropriate action name
+
+            return Ok(childThemes);
+        }
+
         [Route("~/api/[controller]/themes/parent")]
         [HttpGet]
-        public async Task<IActionResult> GetUserCourseThemesWithLevelLocalized(int courseId, 
+        public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
             int levelId, string langCode)
         {
-            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
             int? lastThemeId = await _courseService.GetLastThemeIdOrNullAsync(userId, courseId);
             if (lastThemeId != null)
                 return RedirectToAction(""); // TODO: specify appropriate action name

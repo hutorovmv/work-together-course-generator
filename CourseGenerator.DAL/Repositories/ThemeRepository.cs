@@ -50,14 +50,20 @@ namespace CourseGenerator.DAL.Repositories
             return await courseThemesWithLang.ToListAsync();
         }
 
-        public IEnumerable<Theme> GetChildThemesOrNullById(
-            int themeId)
+        public async Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(
+            int themeId, string langCode)
         {
-            IEnumerable<Theme> themes = _context.Themes
-                .Include(t => t.Themes)
-                .FirstOrDefault(t => t.Id == themeId).Themes.ToList();
+            IQueryable<Theme> themes = _context.Themes
+                .Include(p => p.Themes)
+                .FirstOrDefault(t => t.Id == themeId)
+                .Themes
+                .AsQueryable();
 
-            return themes;
+            IQueryable<ThemeLang> themeLangs = _context.ThemeLangs
+                .Include(p => p.Theme)
+                .Where(tl => themes.Contains(tl.Theme));
+
+            return await themeLangs.ToListAsync();
         }
     }
 }
