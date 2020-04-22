@@ -27,6 +27,9 @@ using Microsoft.IdentityModel.Tokens;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace CourseGenerator.Api
 {
@@ -119,6 +122,32 @@ namespace CourseGenerator.Api
                     }*/
                     #endregion
                 });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header using the Bearer scheme.\n" +
+                    "Example: \"Authorization: Bearer {token}\""
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
 
             #region Sessions configuration
@@ -162,6 +191,8 @@ namespace CourseGenerator.Api
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v0.1.0/swagger.json", "Practifly Api v0.1.0");
+                    c.DocumentTitle = "Practifly Api Documentation";
+                    c.DocExpansion(DocExpansion.None);
                 });
             }
 
