@@ -81,17 +81,8 @@ namespace CourseGenerator.Api.Controllers
             if (identity == null)
                 return Unauthorized(loginDto);
 
-            var response = new
-            {
-                access_token = CreateToken(identity),
-                userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value,
-                userName = identity.Name,
-                firstName = identity.FindFirst(ClaimTypes.GivenName).Value,
-                lastName = identity.FindFirst(ClaimTypes.Surname).Value,
-                langCode = identity.FindFirst(ClaimTypes.Locality).Value
-            };
-
-            return Ok(response);
+            AuthResponse authResponse = CreateAuthResponse(identity);
+            return Ok(authResponse);
         }
 
         [Route("~/api/[controller]/authenticate/phone")]
@@ -102,13 +93,20 @@ namespace CourseGenerator.Api.Controllers
             if (identity == null)
                 return Unauthorized($"Code \"{phoneAuth.Code}\" is invalid.");
 
-            var response = new
-            {
-                access_token = CreateToken(identity),
-                username = identity.Name
-            };
+            AuthResponse authResponse = CreateAuthResponse(identity);
+            return Ok(authResponse);
+        }
 
-            return Ok(response);
+        private AuthResponse CreateAuthResponse(ClaimsIdentity identity)
+        {
+            return new AuthResponse {
+                access_token = CreateToken(identity),
+                userId = identity.FindFirst(ClaimTypes.NameIdentifier).Value,
+                userName = identity.Name,
+                firstName = identity.FindFirst(ClaimTypes.GivenName).Value,
+                lastName = identity.FindFirst(ClaimTypes.Surname).Value,
+                langCode = identity.FindFirst(ClaimTypes.Locality).Value
+            };
         }
 
         private string CreateToken(ClaimsIdentity identity)
