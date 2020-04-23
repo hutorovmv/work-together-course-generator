@@ -41,10 +41,10 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="langCode">Код мови, якій надавати перевагу</param>
         /// <returns>Список курсів</returns>
         /// <response code="200">Операція виконана успішно</response>
-        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalAsync(string langCode)
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -62,11 +62,11 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="langCode">Код мови, якій надавати перевагу</param>
         /// <returns>Доступні рівні складності тем</returns>
         /// <response code="200">Операція виконана успішно</response>
-        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
         [Route("~/api/[controller]/levels")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, 
             string langCode)
         {
@@ -80,12 +80,12 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="langCode">Код мови, якій надавати перевагу</param>
         /// <returns>Список підтем</returns>
         /// <response code="200">Операція виконана успішно</response>
-        /// <response code="401">Відмовлено в доступі</response>
         /// <response code="302">Перенаправлення до матеріалу теми</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
         [Route("~/api/[controller]/themes/children")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, 
             string langCode)
@@ -109,13 +109,13 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="langCode">Код мови, якій надавати перевагу</param>
         /// <returns>Список тем вищого рівня для курсу</returns>
         /// <response code="200">Операція виконана успішно</response>
-        /// <response code="401">Відмовлено в доступі</response>
         /// <response code="302">Перенаправлення на останню тему, переглянуту
         /// користувачем</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
         [Route("~/api/[controller]/themes/parents")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
             int levelId, string langCode)

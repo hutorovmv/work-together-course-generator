@@ -71,13 +71,13 @@ namespace CourseGenerator.Api.Controllers
         /// <returns>Код підтвердження аутентифікації або статус-код</returns>
         /// <response code="201">Код згенеровано</response>
         /// <response code="400">Помилка при виконанні запиту</response>
-        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
         [Route("~/api/[controller]/confirm/phone")]
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GeneratePhoneNumberConfirmationCode()
         {
             Random random = new Random();
@@ -109,8 +109,8 @@ namespace CourseGenerator.Api.Controllers
         /// </summary>
         /// <param name="loginDto">Дані для входу</param>
         /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
-        /// <response code="200">Аутетифіковано</response>
-        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="200">Аутентифіковано</response>
+        /// <response code="401">Неавторизовано</response>
         [Route("~/api/[controller]/[action]")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
@@ -131,8 +131,8 @@ namespace CourseGenerator.Api.Controllers
         /// </summary>
         /// <param name="phoneAuthDto">Номер телефону та код</param>
         /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
-        /// <response code="200">Аутетифіковано</response>
-        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="200">Аутентифіковано</response>
+        /// <response code="401">Неавторизовано</response>
         [Route("~/api/[controller]/authenticate/phone")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]

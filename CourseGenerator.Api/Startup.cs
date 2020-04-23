@@ -136,26 +136,31 @@ namespace CourseGenerator.Api
                     Description = "JWT Authorization header using the Bearer scheme.\n" +
                     "Example: \"Authorization: Bearer {token}\""
                 });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            }
-                        },
-                        new string[] { }
-                    }
-                });
+
+                #region JWT Global Auth
+                //options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                //{
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //            Reference = new OpenApiReference
+                //            {
+                //                Type = ReferenceType.SecurityScheme,
+                //                Id = "Bearer"
+                //            }
+                //        },
+                //        new string[] { }
+                //    }
+                //});
+                #endregion
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 options.IncludeXmlComments(xmlPath);
 
                 options.EnableAnnotations();
+
+                options.OperationFilter<SwaggerAuthJWTAttribute>();
             });
             
 
