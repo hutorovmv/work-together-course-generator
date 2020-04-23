@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CourseGenerator.BLL.DTO;
@@ -9,22 +10,41 @@ using CourseGenerator.DAL.Pagination;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseGenerator.Api.Controllers
 {
-    [Authorize]
-    [Route("api/[controller]")]
+    /// <summary>
+    /// Контролер для роботи з даними про курсів
+    /// </summary>
     [ApiController]
+    [Authorize]
+    [SwaggerTag("Контролер для роботи з даними про курсів")]
+    [Produces(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+    [Route("api/[controller]")]
     public class CoursesController : ControllerBase
     {
         private readonly ICourseService _courseService;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="courseService">Сервіс для роботи з курсами</param>
         public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
         }
 
+        /// <summary>
+        /// Відображає курси, які доступні користувачу
+        /// </summary>
+        /// <param name="langCode">Код мови, якій надавати перевагу</param>
+        /// <returns>Список курсів</returns>
+        /// <response code="200">Операція виконана успішно</response>
+        /// <response code="401">Відмовлено в доступі</response>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalAsync(string langCode)
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -35,16 +55,38 @@ namespace CourseGenerator.Api.Controllers
             return courseSelectDTOs;
         }
 
+        /// <summary>
+        /// Отримує рівні складності тем, доступні в курсі
+        /// </summary>
+        /// <param name="courseId">Ідентифікатор курсу</param>
+        /// <param name="langCode">Код мови, якій надавати перевагу</param>
+        /// <returns>Доступні рівні складності тем</returns>
+        /// <response code="200">Операція виконана успішно</response>
+        /// <response code="401">Відмовлено в доступі</response>
         [Route("~/api/[controller]/levels")]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, 
             string langCode)
         {
             return await _courseService.GetCourseLevelsLocalAsync(courseId, langCode);
         }
 
+        /// <summary>
+        /// Підтеми для вказаної теми
+        /// </summary>
+        /// <param name="themeId">Ідентифікатор теми</param>
+        /// <param name="langCode">Код мови, якій надавати перевагу</param>
+        /// <returns>Список підтем</returns>
+        /// <response code="200">Операція виконана успішно</response>
+        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="302">Перенаправлення до матеріалу теми</response>
         [Route("~/api/[controller]/themes/children")]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, 
             string langCode)
         {
@@ -59,8 +101,22 @@ namespace CourseGenerator.Api.Controllers
             return Ok(childThemes);
         }
 
+        /// <summary>
+        /// Теми вищого рівня
+        /// </summary>
+        /// <param name="courseId">Ідентифікатор курсу</param>
+        /// <param name="levelId">Рівень складності</param>
+        /// <param name="langCode">Код мови, якій надавати перевагу</param>
+        /// <returns>Список тем вищого рівня для курсу</returns>
+        /// <response code="200">Операція виконана успішно</response>
+        /// <response code="401">Відмовлено в доступі</response>
+        /// <response code="302">Перенаправлення на останню тему, переглянуту
+        /// користувачем</response>
         [Route("~/api/[controller]/themes/parents")]
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status302Found)]
         public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
             int levelId, string langCode)
         {

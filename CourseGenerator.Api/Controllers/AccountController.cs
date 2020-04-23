@@ -16,17 +16,28 @@ using CourseGenerator.Api.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using CourseGenerator.Models.Entities.Security;
+using System.Net.Mime;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CourseGenerator.Api.Controllers
 {
-    [Route("~/api/[controller]")]
+    /// <summary>
+    /// Контролер для роботи з акаунтом
+    /// </summary>
     [ApiController]
+    [SwaggerTag("Контролер для роботи з акаунтом")]
+    [Produces(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+    [Route("~/api/[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly IUserManagementService _userManagementService;
         private readonly AuthOptions _authOptions;
 
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="userManagementService">Сервіс для керування користувачами</param>
+        /// <param name="authOptions">Налаштування JWT токена</param>
         public AccountController(IUserManagementService userManagementService,
             AuthOptions authOptions)
         {
@@ -34,7 +45,17 @@ namespace CourseGenerator.Api.Controllers
             _authOptions = authOptions;
         }
 
+        /// <summary>
+        /// Cтворює аккаунт
+        /// </summary>
+        /// <param name="registrationDto">Дані для реєстрації</param>
+        /// <returns>Статус-код</returns>
+        /// <response code="201">Акаунт створено</response>
+        /// <response code="400">Помилка при виконанні запиту</response>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] UserRegistrationDTO registrationDto)
         {
             OperationInfo registrationResult = await _userManagementService
@@ -44,9 +65,19 @@ namespace CourseGenerator.Api.Controllers
             return BadRequest(registrationDto);
         }
 
+        /// <summary>
+        /// Генерує код підтвердження аутентифікації
+        /// </summary>
+        /// <returns>Код підтвердження аутентифікації або статус-код</returns>
+        /// <response code="201">Код згенеровано</response>
+        /// <response code="400">Помилка при виконанні запиту</response>
+        /// <response code="401">Відмовлено в доступі</response>
         [Route("~/api/[controller]/confirm/phone")]
         [Authorize]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> GeneratePhoneNumberConfirmationCode()
         {
             Random random = new Random();
@@ -73,8 +104,18 @@ namespace CourseGenerator.Api.Controllers
             return StatusCode(StatusCodes.Status201Created, phoneAuthDto.Code);
         }
 
+        /// <summary>
+        /// Аутентифікує користувача по логіну і паролю
+        /// </summary>
+        /// <param name="loginDto">Дані для входу</param>
+        /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
+        /// <response code="200">Аутетифіковано</response>
+        /// <response code="401">Відмовлено в доступі</response>
         [Route("~/api/[controller]/[action]")]
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Authenticate([FromBody] UserLoginDTO loginDto)
         {
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(loginDto);
@@ -85,18 +126,33 @@ namespace CourseGenerator.Api.Controllers
             return Ok(authResponse);
         }
 
+        /// <summary>
+        /// Аутентифікує користувача за номером та кодом
+        /// </summary>
+        /// <param name="phoneAuthDto">Номер телефону та код</param>
+        /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
+        /// <response code="200">Аутетифіковано</response>
+        /// <response code="401">Відмовлено в доступі</response>
         [Route("~/api/[controller]/authenticate/phone")]
         [HttpPost]
-        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuth phoneAuth)
+        [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuthDTO phoneAuthDto)
         {
-            ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuth);
+            ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuthDto);
             if (identity == null)
-                return Unauthorized($"Code \"{phoneAuth.Code}\" is invalid.");
+                return Unauthorized($"Code \"{phoneAuthDto.Code}\" is invalid.");
 
             AuthResponse authResponse = CreateAuthResponse(identity);
             return Ok(authResponse);
         }
 
+        /// <summary>
+        /// Створює об'єкт з токеном та даними користувача (<see cref="AuthResponse"/>)
+        /// </summary>
+        /// <param name="identity">Створює посвідчення користувача</param>
+        /// <returns>Об'єкт, що відправляється при успішній аутентифікації</returns>
         private AuthResponse CreateAuthResponse(ClaimsIdentity identity)
         {
             return new AuthResponse {
@@ -109,6 +165,11 @@ namespace CourseGenerator.Api.Controllers
             };
         }
 
+        /// <summary>
+        /// Створює токен для аутентифікації
+        /// </summary>
+        /// <param name="identity">Створює посвідчення користувача</param>
+        /// <returns>JWT</returns>
         private string CreateToken(ClaimsIdentity identity)
         {
             var now = DateTime.Now;

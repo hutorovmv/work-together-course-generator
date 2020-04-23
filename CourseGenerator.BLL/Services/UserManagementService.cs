@@ -168,11 +168,14 @@ namespace CourseGenerator.BLL.Services
             return await GetIdentityAsync(user);
         }
 
-        public async Task<ClaimsIdentity> GetIdentityAsync(PhoneAuth phoneAuth)
+        public async Task<ClaimsIdentity> GetIdentityAsync(PhoneAuthDTO phoneAuthDto)
         {
-            bool codeIsValid = await _uow.PhoneAuthRepository.GetAsync(phoneAuth.PhoneNumber, phoneAuth.Code) != null;
+            bool codeIsValid = await _uow.PhoneAuthRepository
+                .GetAsync(phoneAuthDto.PhoneNumber, phoneAuthDto.Code) != null;
             if (!codeIsValid)
                 return null;
+
+            PhoneAuth phoneAuth = _mapper.Map<PhoneAuth>(phoneAuthDto);
 
             try
             {

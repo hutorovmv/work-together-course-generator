@@ -17,7 +17,7 @@ namespace CourseGenerator.BLL.Interfaces
         Task<OperationInfo> AddToRolesAsync(User user, params string[] roles);
         Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName);
         Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto);
-        Task<ClaimsIdentity> GetIdentityAsync(PhoneAuth phoneAuth);
+        Task<ClaimsIdentity> GetIdentityAsync(PhoneAuthDTO phoneAuthDto);
         Task<OperationInfo> ConfirmPhoneNumberAsync(string userName);
         Task<OperationInfo> CreatePhoneConfirmAsync(PhoneAuthDTO phoneAuthDto);
     }

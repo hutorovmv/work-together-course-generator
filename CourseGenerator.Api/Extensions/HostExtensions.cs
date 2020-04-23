@@ -8,6 +8,7 @@ using CourseGenerator.DAL.Context;
 
 namespace CourseGenerator.Api.Extensions
 {
+    #pragma warning disable CS1591
     public static class HostExtensions
     {
         public static IHost InitDatabase(this IHost host)
@@ -24,4 +25,5 @@ namespace CourseGenerator.Api.Extensions
             return host;
         }
     }
+    #pragma warning restore CS1591
 }

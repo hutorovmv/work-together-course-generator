@@ -30,9 +30,12 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using System.Reflection;
+using System.IO;
 
 namespace CourseGenerator.Api
 {
+    #pragma warning disable CS1591
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -100,9 +103,9 @@ namespace CourseGenerator.Api
                 c.AddProfile<DTOToDomainProfile>();
             }, typeof(Startup));
 
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v0.1.0", new OpenApiInfo
+                options.SwaggerDoc("v0.1.0", new OpenApiInfo
                 {
                     Version = "v1",
                     Title = "Practifly Api",
@@ -123,7 +126,7 @@ namespace CourseGenerator.Api
                     #endregion
                 });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
@@ -133,8 +136,7 @@ namespace CourseGenerator.Api
                     Description = "JWT Authorization header using the Bearer scheme.\n" +
                     "Example: \"Authorization: Bearer {token}\""
                 });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -148,7 +150,14 @@ namespace CourseGenerator.Api
                         new string[] { }
                     }
                 });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                options.IncludeXmlComments(xmlPath);
+
+                options.EnableAnnotations();
             });
+            
 
             #region Sessions configuration
             //services.AddDistributedMemoryCache();
@@ -219,4 +228,5 @@ namespace CourseGenerator.Api
             });
         }
     }
+    #pragma warning restore CS1591
 }
