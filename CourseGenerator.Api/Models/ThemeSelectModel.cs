@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ namespace CourseGenerator.Api.Models
     /// <summary>
     /// ViewModel, що представляє тему в меню вибору теми
     /// </summary>
+    [SwaggerSchemaFilter(typeof(ThemeSelectSchemaFilter))]
     public class ThemeSelectModel
     {
         /// <summary>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace CourseGenerator.Api.Models
     /// ViewModel, що представляє об'єкт для автентифікації
     /// через телефон
     /// </summary>
+    [SwaggerSchemaFilter(typeof(PhoneAuthSchemaFilter))]
     public class PhoneAuthModel
     {
         /// <summary>
