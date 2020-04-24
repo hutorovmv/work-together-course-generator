@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
+using CourseGenerator.Api.Models;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Pagination;
@@ -24,14 +26,18 @@ namespace CourseGenerator.Api.Controllers
     [Route("api/[controller]")]
     public class CoursesController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly ICourseService _courseService;
 
         /// <summary>
         /// Конструктор
         /// </summary>
+        /// <param name="mapper">Об'єкт мапера</param>
         /// <param name="courseService">Сервіс для роботи з курсами</param>
-        public CoursesController(ICourseService courseService)
+        public CoursesController(IMapper mapper,
+            ICourseService courseService)
         {
+            _mapper = mapper;
             _courseService = courseService;
         }
 
@@ -45,14 +51,15 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="403">Заборонено</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalAsync(string langCode)
+        public async Task<IEnumerable<CourseSelectModel>> GetUserCoursesLocalAsync(string langCode)
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            IEnumerable<CourseSelectDTO> courseSelectDTOs = await _courseService
+            IEnumerable<CourseSelectDTO> courseSelectDtos = await _courseService
                 .GetUserCoursesLocalizedAsync(userId, langCode);
 
-            return courseSelectDTOs;
+            IEnumerable<CourseSelectModel> courseSelectModels = _mapper
+                .Map<IEnumerable<CourseSelectModel>>(courseSelectDtos);
+            return courseSelectModels;
         }
 
         /// <summary>
@@ -67,10 +74,15 @@ namespace CourseGenerator.Api.Controllers
         [Route("~/api/[controller]/levels")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, 
+        public async Task<IEnumerable<LevelSelectModel>> GetCourseLevelsLocalAsync(int courseId, 
             string langCode)
         {
-            return await _courseService.GetCourseLevelsLocalAsync(courseId, langCode);
+            IEnumerable<LevelSelectDTO> levelSelectDtos = await _courseService
+                .GetCourseLevelsLocalAsync(courseId, langCode);
+
+            IEnumerable<LevelSelectModel> levelSelectModels = _mapper
+                .Map<IEnumerable<LevelSelectModel>>(levelSelectDtos);
+            return levelSelectModels;
         }
 
         /// <summary>
@@ -92,13 +104,14 @@ namespace CourseGenerator.Api.Controllers
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            IEnumerable<ThemeSelectDTO> childThemes = await _courseService
+            IEnumerable<ThemeSelectDTO> childThemeDtos = await _courseService
                 .GetChildrenLocalAsync(userId, themeId, langCode);
-
-            if (childThemes == null)
+            if (childThemeDtos == null)
                 return RedirectToAction(""); // TODO: specify appropriate action name
 
-            return Ok(childThemes);
+            IEnumerable<ThemeSelectModel> themeSelectModels = _mapper
+                .Map<IEnumerable<ThemeSelectModel>>(childThemeDtos);
+            return Ok(childThemeDtos);
         }
 
         /// <summary>
@@ -129,7 +142,9 @@ namespace CourseGenerator.Api.Controllers
             IEnumerable<ThemeSelectDTO> themeSelectDtos = await _courseService
                 .GetUserCourseThemesLocalizedAsync(userId, courseId, levelId, langCode);
 
-            return Ok(themeSelectDtos);
+            IEnumerable<ThemeSelectModel> themeSelectModels = _mapper
+                .Map<IEnumerable<ThemeSelectModel>>(themeSelectDtos);
+            return Ok(themeSelectModels);
         }
     }
 }

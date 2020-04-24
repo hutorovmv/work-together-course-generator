@@ -101,6 +101,8 @@ namespace CourseGenerator.Api
             services.AddAutoMapper(c => {
                 c.AddProfile<DomainToDTOProfile>();
                 c.AddProfile<DTOToDomainProfile>();
+                c.AddProfile<ViewModelToDTOProfile>();
+                c.AddProfile<DTOToViewModelProfile>();
             }, typeof(Startup));
 
             services.AddSwaggerGen(options =>

@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
+using CourseGenerator.Api.Models;
 
 namespace CourseGenerator.Api.Controllers
 {
@@ -30,17 +31,21 @@ namespace CourseGenerator.Api.Controllers
     [Route("~/api/[controller]")]
     public class AccountController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly IUserManagementService _userManagementService;
         private readonly AuthOptions _authOptions;
 
         /// <summary>
         /// Конструктор
         /// </summary>
+        /// <param name="mapper">Об'єкт мапера</param>
         /// <param name="userManagementService">Сервіс для керування користувачами</param>
         /// <param name="authOptions">Налаштування JWT токена</param>
-        public AccountController(IUserManagementService userManagementService,
+        public AccountController(IMapper mapper, 
+            IUserManagementService userManagementService,
             AuthOptions authOptions)
         {
+            _mapper = mapper;
             _userManagementService = userManagementService;
             _authOptions = authOptions;
         }
@@ -48,7 +53,7 @@ namespace CourseGenerator.Api.Controllers
         /// <summary>
         /// Cтворює аккаунт
         /// </summary>
-        /// <param name="registrationDto">Дані для реєстрації</param>
+        /// <param name="registrationModel">Дані для реєстрації</param>
         /// <returns>Статус-код</returns>
         /// <response code="201">Акаунт створено</response>
         /// <response code="400">Помилка при виконанні запиту</response>
@@ -56,13 +61,15 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] UserRegistrationDTO registrationDto)
+        public async Task<IActionResult> Create([FromBody] UserRegistrationModel registrationModel)
         {
+            UserRegistrationDTO registrationDto = _mapper.Map<UserRegistrationDTO>(registrationModel);
             OperationInfo registrationResult = await _userManagementService
                 .CreateAsync(registrationDto, "User");
+
             if (registrationResult.Succeeded)
                 return StatusCode(StatusCodes.Status201Created);
-            return BadRequest(registrationDto);
+            return BadRequest(registrationModel);
         }
 
         /// <summary>
@@ -107,7 +114,7 @@ namespace CourseGenerator.Api.Controllers
         /// <summary>
         /// Аутентифікує користувача по логіну і паролю
         /// </summary>
-        /// <param name="loginDto">Дані для входу</param>
+        /// <param name="loginModel">Дані для входу</param>
         /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
@@ -116,11 +123,12 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Authenticate([FromBody] UserLoginDTO loginDto)
+        public async Task<IActionResult> Authenticate([FromBody] UserLoginModel loginModel)
         {
+            UserLoginDTO loginDto = _mapper.Map<UserLoginDTO>(loginModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(loginDto);
             if (identity == null)
-                return Unauthorized(loginDto);
+                return Unauthorized(loginModel);
 
             AuthResponse authResponse = CreateAuthResponse(identity);
             return Ok(authResponse);
@@ -129,7 +137,7 @@ namespace CourseGenerator.Api.Controllers
         /// <summary>
         /// Аутентифікує користувача за номером та кодом
         /// </summary>
-        /// <param name="phoneAuthDto">Номер телефону та код</param>
+        /// <param name="phoneAuthModel">Номер телефону та код</param>
         /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
@@ -138,8 +146,9 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuthDTO phoneAuthDto)
+        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuthModel phoneAuthModel)
         {
+            PhoneAuthDTO phoneAuthDto = _mapper.Map<PhoneAuthDTO>(phoneAuthModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuthDto);
             if (identity == null)
                 return Unauthorized($"Code \"{phoneAuthDto.Code}\" is invalid.");

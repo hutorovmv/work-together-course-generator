@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
+using CourseGenerator.Api.Models;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Interfaces;
@@ -43,10 +44,12 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="200">Мови відібрано успішно</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<LanguageSelectDTO>> GetLanguageSelectCollection()
+        public async Task<IEnumerable<LanguageSelectModel>> GetLanguageSelectCollection()
         {
-            IEnumerable<LanguageSelectDTO> languageSelectDtos = await _languageService.GetAllAsync();
-            return languageSelectDtos;
+            IEnumerable<LanguageSelectDTO> langSelectDtos = await _languageService.GetAllAsync();
+            IEnumerable<LanguageSelectModel> lengSelectModels = _mapper
+                .Map<IEnumerable<LanguageSelectModel>>(langSelectDtos);
+            return lengSelectModels;
         }
     }
 }
