@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
 using CourseGenerator.Api.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace CourseGenerator.Api.Controllers
 {

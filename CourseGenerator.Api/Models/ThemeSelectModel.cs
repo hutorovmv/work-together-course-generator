@@ -2,6 +2,8 @@
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace CourseGenerator.Api.Models
         /// <summary>
         /// Код теми.
         /// </summary>
+        [Required]
         public int Id { get; set; }
 
         /// <summary>
@@ -26,6 +29,7 @@ namespace CourseGenerator.Api.Models
         /// <summary>
         /// Чи пройдена тема користувачем.
         /// </summary>
+        [DefaultValue(false)]
         public bool IsCompleted { get; set; }
     }
 }

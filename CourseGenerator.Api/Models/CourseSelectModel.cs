@@ -2,6 +2,7 @@
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace CourseGenerator.Api.Models
         /// <summary>
         /// Код курсу.
         /// </summary>
+        [Required]
         public int Id { get; set; }
 
         /// <summary>

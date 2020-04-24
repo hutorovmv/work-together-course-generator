@@ -8,6 +8,7 @@ using CourseGenerator.Api.Models;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

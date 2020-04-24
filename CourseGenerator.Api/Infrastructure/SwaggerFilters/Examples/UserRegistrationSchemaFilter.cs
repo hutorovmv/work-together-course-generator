@@ -23,6 +23,8 @@ namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
                 { "PhoneNumber", new OpenApiString("380631111111") },
                 { "FirstName", new OpenApiString("Mykola") },
                 { "LastName", new OpenApiString("Hutorov") },
+                { "BirthDate", new OpenApiDate(new DateTime(2001, 2, 16)) },
+                { "PreferedLangCode", new OpenApiString("eng") },
                 { "Password", new OpenApiString("12345678") },
                 { "PasswordConfirm", new OpenApiString("12345678") }
             };

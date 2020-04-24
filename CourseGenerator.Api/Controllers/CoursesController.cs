@@ -10,6 +10,7 @@ using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Pagination;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
