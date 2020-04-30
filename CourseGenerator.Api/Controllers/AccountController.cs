@@ -147,7 +147,7 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AuthenticateWithBot([FromBody] PhoneAuthModel phoneAuthModel)
+        public async Task<IActionResult> AuthenticateWithPhone([FromBody] PhoneAuthModel phoneAuthModel)
         {
             PhoneAuthDTO phoneAuthDto = _mapper.Map<PhoneAuthDTO>(phoneAuthModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuthDto);
