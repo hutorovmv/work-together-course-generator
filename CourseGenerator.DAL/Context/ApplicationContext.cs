@@ -11,6 +11,8 @@ using CourseGenerator.Models.Configs.CourseAccess;
 using CourseGenerator.Models.Configs.Identity;
 using CourseGenerator.Models.Configs.Security;
 using CourseGenerator.Models.Entities.Security;
+using MongoDB.Driver;
+using CourseGenerator.Models.Entities.Content;
 
 namespace CourseGenerator.DAL.Context
 {
@@ -48,6 +50,7 @@ namespace CourseGenerator.DAL.Context
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<UserTheme> UserThemes { get; set; }
         #endregion
+
 
         public DbSet<PhoneAuth> PhoneAuths { get; set; }
 
