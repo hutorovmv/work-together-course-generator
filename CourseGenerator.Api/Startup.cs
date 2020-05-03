@@ -53,7 +53,11 @@ namespace CourseGenerator.Api
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins(allowedOrigins);
+                    builder.WithOrigins(allowedOrigins).AllowAnyMethod().AllowAnyHeader();
+                });
+                options.AddPolicy("DevCorsPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
 
@@ -222,11 +226,18 @@ namespace CourseGenerator.Api
                 });
             }
 
-            app.UseCors();
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            if (env.IsDevelopment())
+            {
+                app.UseCors("DevCorsPolicy");
+            }
+            else
+            {
+                app.UseCors();
+            }
 
             app.UseAuthentication();
             app.UseAuthorization();
