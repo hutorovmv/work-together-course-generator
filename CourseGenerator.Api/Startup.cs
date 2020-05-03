@@ -47,6 +47,16 @@ namespace CourseGenerator.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            string[] allowedOrigins = Configuration.GetSection("AllowedOrigins").Get<string[]>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(allowedOrigins);
+                });
+            });
+
             services.AddControllers();
             services.AddRouting(options =>
             {
@@ -211,6 +221,8 @@ namespace CourseGenerator.Api
                     c.DocExpansion(DocExpansion.None);
                 });
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 
