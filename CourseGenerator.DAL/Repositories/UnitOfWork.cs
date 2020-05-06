@@ -24,6 +24,7 @@ namespace CourseGenerator.DAL.Repositories
         public IRepository<UserCourse> UserCourseRepository { get; set; }
         public IPhoneAuthRepository PhoneAuthRepository { get; set; }
         public IThemeRepository ThemeRepository { get; set; }
+        public IHeadingRepository HeadingRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -32,6 +33,7 @@ namespace CourseGenerator.DAL.Repositories
             IRepository<UserCourse> userCourseRepository,
             IPhoneAuthRepository phoneAuthRepository,
             IThemeRepository themeRepository,
+            IHeadingRepository headingRepository,
             IRepository<Language> languageRepository)
         {
             _context = context;
@@ -43,6 +45,7 @@ namespace CourseGenerator.DAL.Repositories
             UserCourseRepository = userCourseRepository;
             PhoneAuthRepository = phoneAuthRepository;
             LanguageRepository = languageRepository;
+            HeadingRepository = headingRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();

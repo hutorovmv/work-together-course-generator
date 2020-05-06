@@ -198,6 +198,7 @@ namespace CourseGenerator.Api
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
             services.AddScoped<IRepository<UserCourse>, GenericEFRepository<UserCourse>>();
+            services.AddScoped<IHeadingRepository, HeadingRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

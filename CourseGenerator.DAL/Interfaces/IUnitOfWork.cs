@@ -19,6 +19,7 @@ namespace CourseGenerator.DAL.Interfaces
         ICourseRepository CourseRepository { get; set; }
         IRepository<UserCourse> UserCourseRepository { get; set; }
         IPhoneAuthRepository PhoneAuthRepository { get; set; }
+        IHeadingRepository HeadingRepository { get; set; }
 
         Task SaveAsync();
     }
