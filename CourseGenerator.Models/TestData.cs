@@ -35,29 +35,36 @@ namespace CourseGenerator.Models
             new Heading
             {
                 Id = 1,
-                Code = "01",
+                Code = "1",
                 UDC = "01",
                 Note = "Примітка"
             },
             new Heading
             {
                 Id = 2,
-                Code = "01.01",
-                UDC = "01.01",
+                Code = "1.1",
+                UDC = "1.1",
                 Note = "Дочірня рубрика минулої"
             },
             new Heading
             {
                 Id = 3,
-                Code = "01.01.01",
-                UDC = "01.01.01",
+                Code = "1.1.1",
+                UDC = "1.1.1",
                 Note = null
             },
             new Heading
             {
                 Id = 4,
-                Code = "02",
-                UDC = "02",
+                Code = "1.1.2",
+                UDC = "1.1.2",
+                Note = null
+            },
+            new Heading
+            {
+                Id = 5,
+                Code = "2",
+                UDC = "2",
                 Note = "Нова рубрика"
             }
         };

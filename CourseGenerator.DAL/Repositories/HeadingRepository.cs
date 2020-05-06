@@ -3,7 +3,9 @@ using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Info;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories
 {
@@ -13,6 +15,26 @@ namespace CourseGenerator.DAL.Repositories
         {
         }
 
+        public string GetLastCode(string code = null)
+        {
+            if (code != null)
+            {
+                int point = code.Count(s => s == '.') + 1;
 
+                string newCode = _context.Headings
+                 .Where(h => h.Code.StartsWith(code) && h.Code.Count(s => s == '.') < point)
+                 .Select(h => h.Code)
+                 .Max();
+
+                return newCode;
+                 //.OrderByDescending(h => h.Code)
+                 //
+                 //.FirstOrDefault(c => true);
+            }
+            else
+            {
+                return _context.Headings.Select(h => h.Code).Max();
+            }
+        }
     }
 }
