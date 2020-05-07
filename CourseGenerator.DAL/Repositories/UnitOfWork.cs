@@ -25,6 +25,7 @@ namespace CourseGenerator.DAL.Repositories
         public IPhoneAuthRepository PhoneAuthRepository { get; set; }
         public IThemeRepository ThemeRepository { get; set; }
         public IHeadingRepository HeadingRepository { get; set; }
+        public ICodeAuthRepository CodeAuthRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -34,6 +35,7 @@ namespace CourseGenerator.DAL.Repositories
             IPhoneAuthRepository phoneAuthRepository,
             IThemeRepository themeRepository,
             IHeadingRepository headingRepository,
+            ICodeAuthRepository codeAuthRepository,
             IRepository<Language> languageRepository)
         {
             _context = context;
@@ -46,6 +48,7 @@ namespace CourseGenerator.DAL.Repositories
             PhoneAuthRepository = phoneAuthRepository;
             LanguageRepository = languageRepository;
             HeadingRepository = headingRepository;
+            CodeAuthRepository = codeAuthRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -68,8 +71,12 @@ namespace CourseGenerator.DAL.Repositories
                 RoleManager.Dispose();
                 LanguageRepository.Dispose();
                 CourseRepository.Dispose();
-                //ThemeRepository.Dispose();
+                ThemeRepository.Dispose();
                 UserCourseRepository.Dispose();
+                HeadingRepository.Dispose();
+                CodeAuthRepository.Dispose();
+                PhoneAuthRepository.Dispose();
+
             }
             disposed = true;
         }

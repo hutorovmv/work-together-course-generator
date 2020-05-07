@@ -53,6 +53,7 @@ namespace CourseGenerator.DAL.Context
 
 
         public DbSet<PhoneAuth> PhoneAuths { get; set; }
+        public DbSet<CodeAuth> CodeAuths { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
@@ -103,6 +104,7 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfig());
             modelBuilder.ApplyConfiguration(new UserGroupConfig());
             modelBuilder.ApplyConfiguration(new GroupMessageConfig());
+            modelBuilder.ApplyConfiguration(new CodeAuthConfig());
 
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);

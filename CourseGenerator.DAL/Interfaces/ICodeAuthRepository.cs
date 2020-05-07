@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IPhoneAuthRepository : IRepository<PhoneAuth>
+    public interface ICodeAuthRepository : IRepository<CodeAuth>
     {
-        Task<PhoneAuth> GetAsync(string phoneNumber);
+        Task<CodeAuth> GetAsync(string code);
     }
 }

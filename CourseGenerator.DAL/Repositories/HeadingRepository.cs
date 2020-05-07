@@ -27,14 +27,13 @@ namespace CourseGenerator.DAL.Repositories
                  .Max();
 
                 return newCode;
-                 //.OrderByDescending(h => h.Code)
-                 //
-                 //.FirstOrDefault(c => true);
             }
             else
             {
                 return _context.Headings.Select(h => h.Code).Max();
             }
         }
+
+
     }
 }
