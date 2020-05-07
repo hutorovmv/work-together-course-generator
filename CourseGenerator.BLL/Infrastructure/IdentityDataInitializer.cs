@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
-using AutoMapper;
-using CourseGenerator.DAL.Interfaces;
-using CourseGenerator.DAL.Repositories;
-using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -63,7 +55,7 @@ namespace CourseGenerator.BLL.Infrastructure
             };
             userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
 
-            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByUserNameAsync(userRegistrationDto1.Email).Result;
+            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByNameAsync(userRegistrationDto1.Email).Result;
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 1, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 2, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 3, 1).Wait();

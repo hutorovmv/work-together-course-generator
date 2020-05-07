@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
 using CourseGenerator.BLL.DTO;
-using CourseGenerator.BLL.Extensions;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Interfaces;
-using CourseGenerator.DAL.Pagination;
 using CourseGenerator.Models.Entities.CourseAccess;
-using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.BLL.Services

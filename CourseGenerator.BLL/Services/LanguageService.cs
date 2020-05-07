@@ -3,9 +3,7 @@ using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Info;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.BLL.Services

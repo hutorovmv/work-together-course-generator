@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
@@ -34,7 +33,7 @@ namespace CourseGenerator.BLL.Services
         public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles)
         {
             // Email використовується в якості імені користувача
-            OperationInfo userExistsResult = await NotExistWithUserNameAsync(registrationDto.Email);
+            OperationInfo userExistsResult = await UserNameNotExistsAsync(registrationDto.Email);
             if (!userExistsResult.Succeeded)
                 return userExistsResult;
 
@@ -59,7 +58,7 @@ namespace CourseGenerator.BLL.Services
         /// <param name="username">ім'я користувача</param>
         /// <returns><see cref="OperationInfo.Succeeded"/> <c>true</c> коли такий 
         /// користувач не існує та <c>false</c> - коли існує.</returns>
-        public async Task<OperationInfo> NotExistWithUserNameAsync(string userName)
+        public async Task<OperationInfo> UserNameNotExistsAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
             if (user != null)
@@ -90,7 +89,7 @@ namespace CourseGenerator.BLL.Services
         /// <param name="userName">ім'я користувача</param>
         /// <returns><see cref="OperationInfo.Succeeded"/> - <c>true</c>, коли 
         ///  номер телефону успішно підтверджено та <c>false</c> - коли ні.</returns>
-        public async Task<OperationInfo> ConfirmPhoneNumberAsync(string userName)
+        public async Task<OperationInfo> ConfirmPhoneAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
 
@@ -117,7 +116,7 @@ namespace CourseGenerator.BLL.Services
         /// </summary>
         /// <param name="userName">ім'я користувача</param>
         /// <returns>DTO, що містить детальну інформацію про користувача.</returns>
-        public async Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName)
+        public async Task<UserDetailsDTO> GetDetailsByNameAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
             return _mapper.Map<UserDetailsDTO>(user);
@@ -191,7 +190,7 @@ namespace CourseGenerator.BLL.Services
             return await GetIdentityAsync(user);
         }
 
-        public async Task<OperationInfo> CreatePhoneConfirmAsync(PhoneAuthDTO phoneAuthDto)
+        public async Task<OperationInfo> GetConfirmCodeAsync(PhoneAuthDTO phoneAuthDto)
         {
             try
             {

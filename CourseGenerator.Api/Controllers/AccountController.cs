@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.DTO;
-using CourseGenerator.Models.Entities.Identity;
 using Microsoft.AspNetCore.Authorization;
 using CourseGenerator.Api.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
 using CourseGenerator.Api.Models;
-using Microsoft.AspNetCore.Cors;
 
 namespace CourseGenerator.Api.Controllers
 {
@@ -62,7 +56,7 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Create([FromBody] UserRegistrationModel registrationModel)
+        public async Task<IActionResult> CreateAsync([FromBody] UserRegistrationModel registrationModel)
         {
             UserRegistrationDTO registrationDto = _mapper.Map<UserRegistrationDTO>(registrationModel);
             OperationInfo registrationResult = await _userManagementService
@@ -81,19 +75,20 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="400">Помилка при виконанні запиту</response>
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
+        [Obsolete]
         [Route("~/api/[controller]/confirm/phone")]
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GeneratePhoneNumberConfirmationCode()
+        public async Task<IActionResult> CreatePhoneConfirmAsync()
         {
             Random random = new Random();
             int code = random.Next(100000, 999999);
 
             string userName = HttpContext.User.Identity.Name;
             UserDetailsDTO userDetailsDto = await _userManagementService
-                .GetDetailsByUserNameAsync(userName);
+                .GetDetailsByNameAsync(userName);
 
             if (userDetailsDto.PhoneNumber == null)
                 return BadRequest("User don't have phone number");
@@ -105,7 +100,7 @@ namespace CourseGenerator.Api.Controllers
             };
 
             OperationInfo creationResult = await _userManagementService
-                .CreatePhoneConfirmAsync(phoneAuthDto);
+                .GetConfirmCodeAsync(phoneAuthDto);
             if (!creationResult.Succeeded)
                 return BadRequest(creationResult.Message);
 
@@ -124,7 +119,7 @@ namespace CourseGenerator.Api.Controllers
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Authenticate([FromBody] UserLoginModel loginModel)
+        public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginModel loginModel)
         {
             UserLoginDTO loginDto = _mapper.Map<UserLoginDTO>(loginModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(loginDto);
@@ -142,12 +137,13 @@ namespace CourseGenerator.Api.Controllers
         /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
+        [Obsolete]
         [Route("~/api/[controller]/authenticate/phone")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> AuthenticateWithPhone([FromBody] PhoneAuthModel phoneAuthModel)
+        public async Task<IActionResult> AuthenticatePhoneAsync([FromBody] PhoneAuthModel phoneAuthModel)
         {
             PhoneAuthDTO phoneAuthDto = _mapper.Map<PhoneAuthDTO>(phoneAuthModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuthDto);

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,9 +6,7 @@ using AutoMapper;
 using CourseGenerator.Api.Models;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Interfaces;
-using CourseGenerator.DAL.Pagination;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

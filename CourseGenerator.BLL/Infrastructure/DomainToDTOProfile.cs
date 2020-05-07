@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.Info;

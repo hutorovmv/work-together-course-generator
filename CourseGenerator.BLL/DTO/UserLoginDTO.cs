@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CourseGenerator.BLL.DTO
+﻿namespace CourseGenerator.BLL.DTO
 {
     public class UserLoginDTO
     {
