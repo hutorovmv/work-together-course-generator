@@ -47,6 +47,8 @@ namespace CourseGenerator.DAL.Context
         public DbSet<UserHeading> UserHeadings { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<UserTheme> UserThemes { get; set; }
+        public DbSet<UserLanguagePriority> UserLanguagePriorities { get; set; }
+        public DbSet<HeadingManager> HeadingManagers { get; set; }
         #endregion
 
 
@@ -103,6 +105,8 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new UserGroupConfig());
             modelBuilder.ApplyConfiguration(new GroupMessageConfig());
             modelBuilder.ApplyConfiguration(new CodeAuthConfig());
+            modelBuilder.ApplyConfiguration(new UserLanguagePriorityConfig());
+            modelBuilder.ApplyConfiguration(new HeadingManagerConfig());
 
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);

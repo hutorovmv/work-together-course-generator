@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.InfoByThemes;
 
@@ -21,6 +22,7 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<User> Users { get; set; }
         public ICollection<OrganizationFormLang> OrganizationFormLangs { get; set; }
         public ICollection<ConductingMethodLang> ConductingMethodLangs { get; set; }
+        public ICollection<UserLanguagePriority> UserLanguagePriorities { get; set; }
 
         public Language()
         {
@@ -34,6 +36,7 @@ namespace CourseGenerator.Models.Entities.Info
             Users = new List<User>();
             OrganizationFormLangs = new List<OrganizationFormLang>();
             ConductingMethodLangs = new List<ConductingMethodLang>();
+            UserLanguagePriorities = new List<UserLanguagePriority>();
         }
     }
 }

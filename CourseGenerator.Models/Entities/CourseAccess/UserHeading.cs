@@ -4,7 +4,7 @@ using CourseGenerator.Models.Entities.Identity;
 namespace CourseGenerator.Models.Entities.CourseAccess
 {
     /// <summary>
-    /// Початковий рівень користувача (користувач вказує рівень для рубрик)
+    /// Таблиця, що визначає загальну тематику, яка цікавить користувача
     /// </summary>
     public class UserHeading
     {
