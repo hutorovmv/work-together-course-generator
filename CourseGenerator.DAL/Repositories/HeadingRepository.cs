@@ -1,11 +1,7 @@
 ﻿using CourseGenerator.DAL.Context;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Info;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories
 {

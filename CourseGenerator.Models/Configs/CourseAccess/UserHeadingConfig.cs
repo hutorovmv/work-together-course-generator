@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.CourseAccess;
 
 namespace CourseGenerator.Models.Configs.CourseAccess

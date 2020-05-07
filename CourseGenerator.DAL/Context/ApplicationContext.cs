@@ -11,8 +11,6 @@ using CourseGenerator.Models.Configs.CourseAccess;
 using CourseGenerator.Models.Configs.Identity;
 using CourseGenerator.Models.Configs.Security;
 using CourseGenerator.Models.Entities.Security;
-using MongoDB.Driver;
-using CourseGenerator.Models.Entities.Content;
 
 namespace CourseGenerator.DAL.Context
 {

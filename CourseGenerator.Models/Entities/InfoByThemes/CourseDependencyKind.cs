@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CourseGenerator.Models.Entities.InfoByThemes
+﻿namespace CourseGenerator.Models.Entities.InfoByThemes
 {
     public class CourseDependencyKind
     {

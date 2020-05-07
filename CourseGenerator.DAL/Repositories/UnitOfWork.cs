@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.CourseAccess;
-using CourseGenerator.Models.Entities.Security;
-using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.Info;
 
 namespace CourseGenerator.DAL.Repositories

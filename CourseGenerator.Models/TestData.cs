@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CourseGenerator.Models.Entities.Info;
+﻿using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
 
