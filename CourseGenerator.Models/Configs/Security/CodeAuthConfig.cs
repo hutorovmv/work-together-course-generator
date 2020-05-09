@@ -8,7 +8,7 @@ namespace CourseGenerator.Models.Configs.Security
     {
         public void Configure(EntityTypeBuilder<CodeAuth> builder)
         {
-            builder.HasKey(p => new { p.Code, p.UserId });
+            builder.HasKey(p => new { p.UserId,  p.Code});
             builder.HasIndex(p => p.UserId).IsUnique();
         }
     }
