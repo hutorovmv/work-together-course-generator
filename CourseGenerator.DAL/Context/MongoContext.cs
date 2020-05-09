@@ -7,39 +7,32 @@ namespace CourseGenerator.DAL.Context
 {
     public class MongoContext
     {
-        string _connectionString;
-        string _mongoDbName;
-        MongoClient _client;
+        public string ConnectionString { get; } 
+        public string DbName { get; }
+        
+        IMongoClient _client;
 
         public MongoContext(string dburl, string dbname)
         {
-            _connectionString = dburl;
-            _mongoDbName = dbname;
-            _client = new MongoClient(_connectionString);
+            ConnectionString = dburl;
+            DbName = dbname;
+            _client = new MongoClient(ConnectionString);
         }
 
-        public MongoDatabase GetDataBase()
+        public IMongoDatabase GetDataBase()
         {
-            return _client.GetServer().GetDatabase(_mongoDbName);
+            return _client.GetDatabase(DbName);
         }
 
-        public void DropDataBase(string dbName)
+        public void DropDataBase()
         {
-            var server = _client.GetServer();
-            server.DropDatabase(dbName);
+            _client.DropDatabase(DbName);
         }
 
         public void DropCollection(string collectionName)
         {
-            var database = GetDataBase();
-
-            if (database.CollectionExists(collectionName))
-            {
-                database.DropCollection(collectionName);
-            }
+            IMongoDatabase db = _client.GetDatabase(DbName);
+            db.DropCollection(collectionName);
         }
-
-
-
     }
 }

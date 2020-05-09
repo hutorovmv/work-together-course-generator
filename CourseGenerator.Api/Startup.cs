@@ -184,6 +184,8 @@ namespace CourseGenerator.Api
             services.AddSingleton(c => authOptions);
 
             #region Repositories and Services registration
+            services.AddScoped(c => new MongoContext(Configuration["MongoDB:DbUrl"], 
+                Configuration["MongoDB:DbName"]));
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();

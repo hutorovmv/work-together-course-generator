@@ -11,14 +11,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories
 {
-    public class GenericMongoRepository<T> : IMongoRepository<T> where T : class, IEntity
+    public class GenericMongoRepository<T> : IRepository<T> where T : class, IEntity
     {
         protected readonly MongoContext _context;
-        protected readonly MongoCollection<T> _collection;
-
+        protected readonly IMongoCollection<T> _collection;
 
         public GenericMongoRepository(MongoContext context)
         {
@@ -28,13 +28,24 @@ namespace CourseGenerator.DAL.Repositories
 
         private IQueryable<T> CreateSet() => _collection.AsQueryable<T>();
 
-        public T Insert(T item)
+        public async Task CreateAsync(T item)
         {
             try
             {
-                item.Id = ObjectId.GenerateNewId();
-                _collection.Insert<T>(item);
-                return item;
+                await _collection.InsertOneAsync(item);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async void Update(T item)
+        {
+            try
+            {
+                var expression = new ExpressionFilterDefinition<T>(d => d.Id == item.Id);
+                await _collection.ReplaceOneAsync(expression, item);
             }
             catch(Exception ex)
             {
@@ -42,13 +53,12 @@ namespace CourseGenerator.DAL.Repositories
             }
         }
 
-        public void Update(T item)
+        public async void Delete(T item)
         {
             try
             {
-                var query = Query<T>.EQ(o => o.Id, item.Id);
-                var update = Update<T>.Replace(item);
-                _collection.Update(query, update);
+                var expression = new ExpressionFilterDefinition<T>(d => d.Id == item.Id);
+                await _collection.DeleteOneAsync(expression);
             }
             catch(Exception ex)
             {
@@ -56,25 +66,27 @@ namespace CourseGenerator.DAL.Repositories
             }
         }
 
-        public void Delete(ObjectId id)
+        public async Task<T> GetAsync(params object[] key)
         {
-            try
-            {
-                _collection.Remove(Query<T>.EQ<ObjectId>(p => p.Id, id));
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+            ObjectId? id = null;
+            if (key != null)
+                id = (ObjectId)key.First();
 
-        public T GetById(ObjectId id) => _collection.FindOneById(id);
+            if (id == null)
+                throw new Exception("ObjectId cannot be null");
+
+            var expression = new ExpressionFilterDefinition<T>(d => d.Id == id);
+            var cursor = await _collection.FindAsync(expression);
+            return await cursor.FirstOrDefaultAsync();
+        }
        
 
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-             return _collection.AsQueryable().AsEnumerable();
+            return await _collection.AsQueryable().ToListAsync();
         }
+
+        public void Dispose() { }
     }
 }
