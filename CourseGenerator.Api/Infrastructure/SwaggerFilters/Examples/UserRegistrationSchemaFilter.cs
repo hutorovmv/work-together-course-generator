@@ -1,4 +1,4 @@
-﻿using CourseGenerator.BLL.DTO;
+﻿using CourseGenerator.Api.Models;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -7,7 +7,7 @@ using System;
 namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
 {
     /// <summary>
-    /// Додає приклад для <see cref="UserRegistrationDTO"/>
+    /// Додає приклад для <see cref="UserRegistrationModel"/>
     /// </summary>
     public class UserRegistrationSchemaFilter : ISchemaFilter
     {

@@ -1,4 +1,4 @@
-﻿using CourseGenerator.BLL.DTO;
+﻿using CourseGenerator.Api.Models;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
 {
     /// <summary>
-    /// Додає приклад для <see cref="LevelSelectDTO"/>
+    /// Додає приклад для <see cref="LevelSelectModel"/>
     /// </summary>
     public class LevelSelectSchemaFilter : ISchemaFilter
     {

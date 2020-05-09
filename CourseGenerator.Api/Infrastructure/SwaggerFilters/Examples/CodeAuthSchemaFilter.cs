@@ -6,17 +6,17 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
 {
     /// <summary>
-    /// Додає приклад для <see cref="LanguageSelectModel"/>
+    /// Додає приклад для <see cref="CodeAuthModel"/>
     /// </summary>
-    public class LanguageSelectSchemaFilter : ISchemaFilter
+    public class CodeAuthSchemaFilter : ISchemaFilter
     {
         /// <inheritdoc/>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             schema.Example = new OpenApiObject
             {
-                { "Code", new OpenApiString("ENG") },
-                { "Name", new OpenApiString("Англійська") }
+                { "UserId", new OpenApiString("8538cc1d-93c9-4bfa-966d-fbcef2a407f9") },
+                { "Code", new OpenApiString("cffb56a6-260a-4e0a-831b-3bed6adc3d74") }
             };
         }
     }
