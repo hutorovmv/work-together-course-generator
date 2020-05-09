@@ -68,7 +68,8 @@ namespace CourseGenerator.Api.Controllers
         }
 
         /// <summary>
-        /// Генерує код підтвердження аутентифікації
+        /// Генерує код підтвердження для аутентифікації
+        /// по номеру телефона
         /// </summary>
         /// <returns>Код підтвердження аутентифікації або статус-код</returns>
         /// <response code="201">Код згенеровано</response>
@@ -91,7 +92,7 @@ namespace CourseGenerator.Api.Controllers
                 .GetDetailsByNameAsync(userName);
 
             if (userDetailsDto.PhoneNumber == null)
-                return BadRequest("User don't have phone number");
+                return BadRequest("User don't have phone number.");
 
             PhoneAuthDTO phoneAuthDto = new PhoneAuthDTO
             {
@@ -100,11 +101,41 @@ namespace CourseGenerator.Api.Controllers
             };
 
             OperationInfo creationResult = await _userManagementService
-                .GetConfirmCodeAsync(phoneAuthDto);
+                .SaveConfirmCodeAsync(phoneAuthDto);
             if (!creationResult.Succeeded)
                 return BadRequest(creationResult.Message);
 
             return StatusCode(StatusCodes.Status201Created, phoneAuthDto.Code);
+        }
+
+        /// <summary>
+        /// Генерує код підтвердження для аутентифікації
+        /// по унікальному коду
+        /// </summary>
+        /// <returns>Код підтвердження аутентифікації або статус-код</returns>
+        /// <response code="201">Код згенеровано</response>
+        /// <response code="400">Помилка при виконанні запиту</response>
+        /// <response code="401">Неавторизовано</response>
+        /// <response code="403">Заборонено</response>
+        [Route("~/api/[controller]/confirm/code")]
+        [Authorize]
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CreateCodeConfirmAsync()
+        {
+            CodeAuthDTO codeAuthDto = new CodeAuthDTO
+            {
+                UserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier),
+                Code = Convert.ToString(Guid.NewGuid())
+            };
+
+            OperationInfo creationResult = await _userManagementService
+                .SaveConfirmCodeAsync(codeAuthDto);
+            if (!creationResult.Succeeded)
+                return BadRequest(creationResult.Message);
+
+            return StatusCode(StatusCodes.Status201Created, codeAuthDto.Code);
         }
 
         /// <summary>
@@ -149,6 +180,29 @@ namespace CourseGenerator.Api.Controllers
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(phoneAuthDto);
             if (identity == null)
                 return Unauthorized($"Code \"{phoneAuthDto.Code}\" is invalid.");
+
+            AuthResponse authResponse = CreateAuthResponse(identity);
+            return Ok(authResponse);
+        }
+
+        /// <summary>
+        /// Аутентифікує користувача по унікальному коду
+        /// </summary>
+        /// <param name="codeAuthModel">Id користувача та код</param>
+        /// <returns>Повертає об'єкт, який містить токен та дані користувача</returns>
+        /// <response code="200">Аутентифіковано</response>
+        /// <response code="401">Неавторизовано</response>
+        [Route("~/api/[controller]/authenticate/code")]
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> AuthenticateCodeAsync([FromBody] CodeAuthModel codeAuthModel)
+        {
+            CodeAuthDTO codeAuthDto = _mapper.Map<CodeAuthDTO>(codeAuthModel);
+            ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(codeAuthDto);
+            if (identity == null)
+                return Unauthorized($"Code \"{codeAuthDto.Code}\" is invalid.");
 
             AuthResponse authResponse = CreateAuthResponse(identity);
             return Ok(authResponse);

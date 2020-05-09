@@ -11,7 +11,7 @@ namespace CourseGenerator.BLL.Infrastructure
         {
             CreateMap<UserRegistrationDTO, User>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
-            CreateMap<PhoneAuthDTO, PhoneAuth>();
+            CreateMap<CodeAuthDTO, CodeAuth>();
         }
     }
 }

@@ -22,6 +22,7 @@ namespace CourseGenerator.BLL.Infrastructure
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ThemeId));
             CreateMap<LevelLang, LevelSelectDTO>();
             CreateMap<PhoneAuth, PhoneAuthDTO>();
+            CreateMap<CodeAuth, CodeAuthDTO>();
         }
     }
 }
