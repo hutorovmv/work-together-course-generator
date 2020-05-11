@@ -361,21 +361,21 @@ namespace CourseGenerator.Models
                 MaterialId = 1,
                 LangCode = "ENG",
                 Name = "ASP.NET Core",
-                
+
             },
             new MaterialLang
             {
                 MaterialId = 2,
                 LangCode = "UA",
                 Name = "Запуск приложения. Класс Program",
-               
+
             },
             new MaterialLang
             {
                 MaterialId = 3,
                 LangCode = "UA",
                 Name = "Програмування на C#",
-                
+
             }
         };
 
@@ -676,13 +676,24 @@ namespace CourseGenerator.Models
                 Note = null
             }
         };
-       
+
         #endregion
 
         #region CourseAccess
         public static UserHeading[] UserHeadings;
         public static UserCourse[] UserCourses;
         public static UserTheme[] UserThemes;
+
+        public static MaterialManager[] MaterialManagers =
+        {
+            new MaterialManager
+            {
+                UserId = "User1",
+                MaterialId = 1,
+                IsOwner = false,
+                Note = "Примітка"
+            }
+        };
         #endregion
     }
 }
