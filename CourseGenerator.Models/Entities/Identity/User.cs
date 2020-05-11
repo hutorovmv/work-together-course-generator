@@ -29,7 +29,7 @@ namespace CourseGenerator.Models.Entities.Identity
         public ICollection<UserCourseMessage> SenderCourseMessages { get; set; } 
         public ICollection<UserLanguagePriority> UserLanguagePriorities { get; set; }
         public ICollection<HeadingManager> HeadingManagers { get; set; }
-
+        public ICollection<MaterialManager> MaterialManagers { get; set; }
         public User()
         {
             UserHeadings = new List<UserHeading>();
@@ -45,6 +45,7 @@ namespace CourseGenerator.Models.Entities.Identity
             SenderCourseMessages = new List<UserCourseMessage>();
             UserLanguagePriorities = new List<UserLanguagePriority>();
             HeadingManagers = new List<HeadingManager>();
+            MaterialManagers = new List<MaterialManager>();
         }
     }
 }
