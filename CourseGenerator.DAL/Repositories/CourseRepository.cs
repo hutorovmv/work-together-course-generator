@@ -95,8 +95,7 @@ namespace CourseGenerator.DAL.Repositories
 
             IQueryable<LevelLang> levelLangs = localizedLevels.Union(levelsWithFirstLang).OrderBy(l => l.LevelNumber);
 
-            return await levelLangs.ToListAsync();
-                
+            return await levelLangs.ToListAsync();       
         }
     }
 }
