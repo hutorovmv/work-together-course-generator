@@ -1,4 +1,4 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.Selection;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,7 +7,7 @@ namespace CourseGenerator.Api.Models
     /// <summary>
     /// ViewModel, що представляє курс в меню вибору курсу
     /// </summary>
-    [SwaggerSchemaFilter(typeof(CourseSelectSchemaFilter))]
+    [SwaggerSchemaFilter(typeof(CourseSelectFilter))]
     public class CourseSelectModel
     {
         /// <summary>

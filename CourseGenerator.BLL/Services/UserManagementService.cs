@@ -11,6 +11,8 @@ using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using System.Security.Claims;
 using CourseGenerator.Models.Entities.Security;
+using CourseGenerator.BLL.DTO.Security;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -30,7 +32,7 @@ namespace CourseGenerator.BLL.Services
         /// </summary>
         /// <param name="registrationDto">дані користувача</param>
         /// <returns>Дані про успішність реєстрації.</returns>
-        public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto,
+        public async Task<OperationInfo> CreateAsync(RegisterDTO registrationDto,
             params string[] roles)
         {
             // Email використовується в якості імені користувача
@@ -164,7 +166,7 @@ namespace CourseGenerator.BLL.Services
         /// <param name="username">ім'я користувача</param>
         /// <param name="password">пароль</param>
         /// <returns><see cref="ClaimsIdentity"/> з клеймами користувача.</returns>
-        public async Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto)
+        public async Task<ClaimsIdentity> GetIdentityAsync(LoginDTO userLoginDto)
         {
             User user = await _uow.UserManager.FindByNameAsync(userLoginDto.UserName);
             if (user == null)

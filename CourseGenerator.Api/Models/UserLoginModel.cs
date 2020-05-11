@@ -1,4 +1,4 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,7 +7,7 @@ namespace CourseGenerator.Api.Models
     /// <summary>
     /// ViewModel, що містить дані для автентифікації користувача
     /// </summary>
-    [SwaggerSchemaFilter(typeof(UserLoginSchemaFilter))]
+    [SwaggerSchemaFilter(typeof(LoginFilter))]
     public class UserLoginModel
     {
         /// <summary>

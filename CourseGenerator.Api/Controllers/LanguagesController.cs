@@ -3,7 +3,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
 using CourseGenerator.Api.Models;
-using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

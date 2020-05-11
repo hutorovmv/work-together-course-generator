@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using CourseGenerator.Api.Models;
-using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.DTO.Security;
+using CourseGenerator.BLL.DTO.Selection;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.Api.Infrastructure
 {
@@ -9,12 +11,12 @@ namespace CourseGenerator.Api.Infrastructure
     {
         public ViewModelToDTOProfile()
         {
-            CreateMap<UserRegistrationModel, UserRegistrationDTO>();
-            CreateMap<UserLoginModel, UserLoginDTO>();
+            CreateMap<UserRegistrationModel, RegisterDTO>();
+            CreateMap<UserLoginModel, LoginDTO>();
             CreateMap<LanguageSelectModel, LanguageSelectDTO>();
             CreateMap<LevelSelectModel, LevelSelectDTO>();
             CreateMap<CourseSelectModel, CourseSelectDTO>();
-            CreateMap<ThemeSelectModel, ThemeSelectDTO>();
+            CreateMap<UserThemeSelectModel, UserThemeSelectDTO>();
             CreateMap<PhoneAuthModel, PhoneAuthDTO>();
             CreateMap<CodeAuthModel, CodeAuthDTO>();
         }

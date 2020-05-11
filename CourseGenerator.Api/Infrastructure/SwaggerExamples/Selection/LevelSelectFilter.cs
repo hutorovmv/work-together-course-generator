@@ -3,20 +3,20 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
+namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.Selection
 {
     /// <summary>
-    /// Додає приклад для <see cref="UserLoginModel"/>
+    /// Додає приклад для <see cref="LevelSelectModel"/>
     /// </summary>
-    public class UserLoginSchemaFilter : ISchemaFilter
+    public class LevelSelectFilter : ISchemaFilter
     {
         /// <inheritdoc/>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             schema.Example = new OpenApiObject
             {
-                { "UserName", new OpenApiString("andrewryzhkov@gmail.com") },
-                { "Password", new OpenApiString("Andruha123!") }
+                { "Number", new OpenApiInteger(3) },
+                { "Name", new OpenApiString("Advanced") }
             };
         }
     }

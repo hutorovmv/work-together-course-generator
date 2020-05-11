@@ -1,4 +1,4 @@
-﻿using CourseGenerator.BLL.DTO;
+﻿using CourseGenerator.BLL.DTO.Selection;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,4 +1,4 @@
-﻿namespace CourseGenerator.BLL.DTO
+﻿namespace CourseGenerator.BLL.DTO.Selection
 {
     public class LevelSelectDTO
     {

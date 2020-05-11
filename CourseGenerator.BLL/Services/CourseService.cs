@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Interfaces;
@@ -58,7 +58,7 @@ namespace CourseGenerator.BLL.Services
             return await _uow.CourseRepository.GetLastThemeIdOrNullAsync(userId, courseId);
         }
 
-        public async Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
+        public async Task<IEnumerable<UserThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId, 
             int courseId, int levelId, string langCode)
         {
             IEnumerable<ThemeLang> userCourseThemeLangs = await _uow.ThemeRepository
@@ -67,7 +67,7 @@ namespace CourseGenerator.BLL.Services
             return await CreateThemeSelectDtos(userId, userCourseThemeLangs);
         }
 
-        public async Task<IEnumerable<ThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
+        public async Task<IEnumerable<UserThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
             string langCode)
         {
             IEnumerable<ThemeLang> themeLangs = await _uow.ThemeRepository
@@ -86,13 +86,13 @@ namespace CourseGenerator.BLL.Services
             return levelSelectDtos;
         }
 
-        private async Task<IEnumerable<ThemeSelectDTO>> CreateThemeSelectDtos(string userId, 
+        private async Task<IEnumerable<UserThemeSelectDTO>> CreateThemeSelectDtos(string userId, 
             IEnumerable<ThemeLang> themeLangs)
         {
-            IEnumerable<ThemeSelectDTO> themeSelectDtos = _mapper
-                .Map<IEnumerable<ThemeSelectDTO>>(themeLangs);
+            IEnumerable<UserThemeSelectDTO> themeSelectDtos = _mapper
+                .Map<IEnumerable<UserThemeSelectDTO>>(themeLangs);
 
-            foreach (ThemeSelectDTO themeLang in themeSelectDtos)
+            foreach (UserThemeSelectDTO themeLang in themeSelectDtos)
             {
                 themeLang.IsCompleted = await _uow.ThemeRepository
                     .GetIsCompletedOrNullByThemeIdAsync(userId, themeLang.Id) ?? false;

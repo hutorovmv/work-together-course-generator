@@ -4,12 +4,12 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
+namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.User
 {
     /// <summary>
     /// Додає приклад для <see cref="UserRegistrationModel"/>
     /// </summary>
-    public class UserRegistrationSchemaFilter : ISchemaFilter
+    public class RegistrationFilter : ISchemaFilter
     {
         /// <inheritdoc/>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)

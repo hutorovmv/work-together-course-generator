@@ -29,7 +29,5 @@ namespace CourseGenerator.DAL.Repositories
                 return _context.Headings.Select(h => h.Code).Max();
             }
         }
-
-
     }
 }

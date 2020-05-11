@@ -1,6 +1,6 @@
-﻿namespace CourseGenerator.BLL.DTO
+﻿namespace CourseGenerator.BLL.DTO.Selection
 {
-    public class ThemeSelectDTO
+    public class UserThemeSelectDTO
     {
         /// <summary>
         /// Код теми.

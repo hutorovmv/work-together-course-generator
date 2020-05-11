@@ -2,6 +2,7 @@
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -35,7 +36,7 @@ namespace CourseGenerator.BLL.Infrastructure
         /// <c>UserRegistrationDTO</c> використаний, бо необхідна можливість передати пароль.
         /// </para>
         /// </remarks>
-        public static void AddAdmin(IUserManagementService userManagementService, UserRegistrationDTO adminDto)
+        public static void AddAdmin(IUserManagementService userManagementService, RegisterDTO adminDto)
         {
             userManagementService.CreateAsync(adminDto, "Admin", "ContentAdmin", "User").Wait();
         }
@@ -44,7 +45,7 @@ namespace CourseGenerator.BLL.Infrastructure
             IUserManagementService userManagementService, 
             ICourseService courseService)
         {
-            UserRegistrationDTO userRegistrationDto1 = new UserRegistrationDTO
+            RegisterDTO userRegistrationDto1 = new RegisterDTO
             {
                 Email = "andrewryzhkov@gmail.com",
                 FirstName = "Andrew",

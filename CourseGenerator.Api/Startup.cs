@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
-using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Services;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
@@ -24,6 +23,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.IO;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.Api
 {
@@ -241,7 +241,7 @@ namespace CourseGenerator.Api
             #region User related sample info initialization
             IdentityDataInitializer.AddRoles(roleManager);
 
-            UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
+            RegisterDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<RegisterDTO>();
             IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
             IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
             #endregion

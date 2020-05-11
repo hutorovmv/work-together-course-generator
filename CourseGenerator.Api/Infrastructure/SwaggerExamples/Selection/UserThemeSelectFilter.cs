@@ -3,12 +3,12 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
+namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.Selection
 {
     /// <summary>
-    /// Додає приклад для <see cref="ThemeSelectModel"/>
+    /// Додає приклад для <see cref="UserThemeSelectModel"/>
     /// </summary>
-    public class ThemeSelectSchemaFilter : ISchemaFilter
+    public class UserThemeSelectFilter : ISchemaFilter
     {
         /// <inheritdoc/>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)

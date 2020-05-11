@@ -14,6 +14,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
 using CourseGenerator.Api.Models;
+using CourseGenerator.BLL.DTO.Security;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.Api.Controllers
 {
@@ -58,7 +60,7 @@ namespace CourseGenerator.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAsync([FromBody] UserRegistrationModel registrationModel)
         {
-            UserRegistrationDTO registrationDto = _mapper.Map<UserRegistrationDTO>(registrationModel);
+            RegisterDTO registrationDto = _mapper.Map<RegisterDTO>(registrationModel);
             OperationInfo registrationResult = await _userManagementService
                 .CreateAsync(registrationDto, "User");
 
@@ -152,7 +154,7 @@ namespace CourseGenerator.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AuthenticateAsync([FromBody] UserLoginModel loginModel)
         {
-            UserLoginDTO loginDto = _mapper.Map<UserLoginDTO>(loginModel);
+            LoginDTO loginDto = _mapper.Map<LoginDTO>(loginModel);
             ClaimsIdentity identity = await _userManagementService.GetIdentityAsync(loginDto);
             if (identity == null)
                 return Unauthorized(loginModel);

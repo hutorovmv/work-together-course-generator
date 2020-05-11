@@ -3,20 +3,20 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Examples
+namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.Security
 {
     /// <summary>
-    /// Додає приклад для <see cref="CodeAuthModel"/>
+    /// Додає приклад для <see cref="PhoneAuthModel"/>
     /// </summary>
-    public class CodeAuthSchemaFilter : ISchemaFilter
+    public class PhoneAuthFilter : ISchemaFilter
     {
         /// <inheritdoc/>
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             schema.Example = new OpenApiObject
             {
-                { "UserId", new OpenApiString("8538cc1d-93c9-4bfa-966d-fbcef2a407f9") },
-                { "Code", new OpenApiString("cffb56a6-260a-4e0a-831b-3bed6adc3d74") }
+                { "PhoneNumber", new OpenApiString("380638888888") },
+                { "Code", new OpenApiString("499591") }
             };
         }
     }
