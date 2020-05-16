@@ -2,12 +2,10 @@
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Info;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
 
 namespace CourseGenerator.DAL.Repositories
 {
@@ -16,6 +14,7 @@ namespace CourseGenerator.DAL.Repositories
         public HeadingRepository(ApplicationContext context) : base(context)
         {
         }
+
         /// <summary>
         /// Відбирає останню підрубрику
         /// </summary>
@@ -68,7 +67,8 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         //TODO: Try new variant with regular expressions
-        public async IAsyncEnumerable<HeadingLang> GetParentsLocalAsync(string code, string langCode)
+        public async IAsyncEnumerable<HeadingLang> GetParentsLocalAsync(string code, 
+            string langCode)
         {
             Stack<string> codeByDots = new Stack<string>(code.Split('.'));
             string parent;
@@ -77,11 +77,12 @@ namespace CourseGenerator.DAL.Repositories
             {
                 parent = string.Join('.', codeByDots);
                 codeByDots.Pop();
-                yield return await GetHeadingLangAsync(parent, langCode);
+                yield return await GetLocalOrDefaultAsync(parent, langCode);
             }
         }
 
-        public async Task<HeadingLang> GetHeadingLangAsync(string code, string langCode)
+        public async Task<HeadingLang> GetLocalOrDefaultAsync(string code, 
+            string langCode)
         {
             HeadingLang headingLangs = await _context.HeadingLangs
                 .Include(h => h.Heading)
@@ -98,5 +99,28 @@ namespace CourseGenerator.DAL.Repositories
             return headingLangs;
         }
 
+        public override void Delete(Heading heading)
+        {
+            string code = heading.Code;
+            bool haveChildren = _context.Set<Heading>().Any(h => 
+                h.Code.StartsWith(code) 
+                && h.Code.Length > code.Length);
+
+            if (haveChildren)
+                throw new Exception("This heading contains subheadings");
+
+            bool isConnected = heading.HeadingCompetencies.Any()
+                || heading.CourseHeadings.Any()
+                || heading.HeadingMaterials.Any()
+                || heading.UserHeadings.Any(); // ???
+
+            if (!isConnected)
+                base.Delete(heading);
+            else
+                throw new Exception("There may be connected rows in tables:\n" +
+                    "\tCourseHeadings" +
+                    "\tHeadingMaterials" +
+                    "\tUserHeadings");
+        }
     }
 }

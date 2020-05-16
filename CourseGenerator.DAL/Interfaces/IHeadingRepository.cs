@@ -16,5 +16,6 @@ namespace CourseGenerator.DAL.Interfaces
         /// <returns>Колекцію кодів підрубрик</returns>
         Task<IEnumerable<HeadingLang>> GetSubsLocalAsync(string code, string langCode);
         IAsyncEnumerable<HeadingLang> GetParentsLocalAsync(string code, string langCode);
+        Task<HeadingLang> GetLocalOrDefaultAsync(string code, string langCode);
     }
 }

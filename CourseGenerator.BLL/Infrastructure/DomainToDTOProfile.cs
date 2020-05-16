@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using CourseGenerator.BLL.DTO;
+using CourseGenerator.BLL.DTO.Entities;
+using CourseGenerator.BLL.DTO.Locals;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.DTO.User;
@@ -26,6 +28,8 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<LevelLang, LevelSelectDTO>();
             CreateMap<PhoneAuth, PhoneAuthDTO>();
             CreateMap<CodeAuth, CodeAuthDTO>();
+            CreateMap<Heading, HeadingDTO>();
+            CreateMap<HeadingLang, HeadingLangDTO>();
         }
     }
 }

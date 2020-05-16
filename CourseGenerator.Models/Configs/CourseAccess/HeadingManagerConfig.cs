@@ -22,7 +22,7 @@ namespace CourseGenerator.Models.Configs.CourseAccess
             builder.HasOne(p => p.Heading)
                 .WithMany(p => p.HeadingManagers)
                 .HasForeignKey(p => p.HeadingId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }
