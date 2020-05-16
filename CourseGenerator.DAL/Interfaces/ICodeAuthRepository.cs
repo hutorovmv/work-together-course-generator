@@ -5,6 +5,6 @@ namespace CourseGenerator.DAL.Interfaces
 {
     public interface ICodeAuthRepository : IRepository<CodeAuth>
     {
-        Task<CodeAuth> GetAsync(string code);
+        Task<CodeAuth> GetByCodeAsync(string code);
     }
 }

@@ -18,7 +18,6 @@ namespace CourseGenerator.Api.Infrastructure
             CreateMap<CourseSelectDTO, CourseSelectModel>();
             CreateMap<UserThemeSelectDTO, UserThemeSelectModel>();
             CreateMap<PhoneAuthDTO, PhoneAuthModel>();
-            CreateMap<CodeAuthDTO, CodeAuthModel>();
         }
     }
     #pragma warning restore CS1591

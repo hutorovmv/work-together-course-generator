@@ -12,9 +12,9 @@ namespace CourseGenerator.DAL.Repositories
         {
         }
 
-        public async Task<CodeAuth> GetAsync(string userId)
+        public async Task<CodeAuth> GetByCodeAsync(string code)
         {
-            CodeAuth codeAuth = await _context.CodeAuths.FirstOrDefaultAsync(p => p.UserId == userId);
+            CodeAuth codeAuth = await _context.CodeAuths.FirstOrDefaultAsync(p => p.Code == code);
             return codeAuth;
         }
     }
