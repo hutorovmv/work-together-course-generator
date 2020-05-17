@@ -26,8 +26,8 @@ namespace CourseGenerator.Api.Controllers
     [SwaggerTag("Контролер для роботи з акаунтом")]
     [Produces(MediaTypeNames.Application.Json, 
         new string[] { MediaTypeNames.Application.Xml })]
-    [Route("~/api/[controller]")]
-    public class AccountController : ControllerBase
+    [Route("api/[controller]")]
+    public class AuthenticationController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IUserManagementService _userManagementService;
@@ -40,38 +40,13 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="userManagementService">Сервіс для керування 
         /// користувачами</param>
         /// <param name="authOptions">Налаштування JWT токена</param>
-        public AccountController(IMapper mapper, 
+        public AuthenticationController(IMapper mapper, 
             IUserManagementService userManagementService,
             AuthOptions authOptions)
         {
             _mapper = mapper;
             _userManagementService = userManagementService;
             _authOptions = authOptions;
-        }
-
-        /// <summary>
-        /// Cтворює аккаунт
-        /// </summary>
-        /// <param name="registrationModel">Дані для реєстрації</param>
-        /// <returns>Статус-код</returns>
-        /// <response code="201">Акаунт створено</response>
-        /// <response code="400">Помилка при виконанні запиту</response>
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json, 
-            new string[] { MediaTypeNames.Application.Xml })]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateAsync(
-            [FromBody] UserRegistrationModel registrationModel)
-        {
-            RegisterDTO registrationDto = _mapper
-                .Map<RegisterDTO>(registrationModel);
-            OperationInfo registrationResult = await _userManagementService
-                .CreateAsync(registrationDto, "User");
-
-            if (registrationResult.Succeeded)
-                return StatusCode(StatusCodes.Status201Created);
-            return BadRequest(registrationModel);
         }
 
         /// <summary>
@@ -84,7 +59,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [Obsolete]
-        [Route("~/api/[controller]/confirm/phone")]
+        [Route("confirmation/phone")]
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -124,7 +99,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="400">Помилка при виконанні запиту</response>
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
-        [Route("~/api/[controller]/confirm/code")]
+        [Route("confirmation/code")]
         [Authorize]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -154,7 +129,6 @@ namespace CourseGenerator.Api.Controllers
         /// користувача</returns>
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
-        [Route("~/api/[controller]/authenticate/")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json, 
             new string[] { MediaTypeNames.Application.Xml })]
@@ -182,7 +156,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
         [Obsolete]
-        [Route("~/api/[controller]/authenticate/phone")]
+        [Route("phone")]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json, 
             new string[] { MediaTypeNames.Application.Xml })]
@@ -212,10 +186,9 @@ namespace CourseGenerator.Api.Controllers
         /// користувача</returns>
         /// <response code="200">Аутентифіковано</response>
         /// <response code="401">Неавторизовано</response>
-        [Route("~/api/[controller]/authenticate/code")]
+        [Route("code")]
         [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json, 
-            new string[] { MediaTypeNames.Application.Xml })]
+        [Consumes(MediaTypeNames.Text.Plain)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AuthenticateCodeAsync(
