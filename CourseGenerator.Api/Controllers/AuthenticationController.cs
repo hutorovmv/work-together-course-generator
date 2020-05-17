@@ -188,7 +188,8 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         [Route("code")]
         [HttpPost]
-        [Consumes(MediaTypeNames.Text.Plain)]
+        [Consumes(MediaTypeNames.Application.Json,
+            new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> AuthenticateCodeAsync(

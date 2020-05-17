@@ -30,7 +30,6 @@ namespace CourseGenerator.Api.Controllers
         /// Конструктор
         /// </summary>
         /// <param name="mapper">Об'єкт мапера</param>
-        /// користувачами</param>
         public UsersController(IMapper mapper, 
             IUserManagementService userManagementService)
         {
