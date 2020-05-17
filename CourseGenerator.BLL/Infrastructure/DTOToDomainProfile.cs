@@ -14,10 +14,14 @@ namespace CourseGenerator.BLL.Infrastructure
         public DTOToDomainProfile()
         {
             CreateMap<RegisterDTO, User>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email));
+                .ForMember(dest => dest.UserName, 
+                    opt => opt.MapFrom(src => src.Email));
             CreateMap<CodeAuthDTO, CodeAuth>();
             CreateMap<HeadingDTO, Heading>();
             CreateMap<HeadingLangDTO, HeadingLang>();
+            CreateMap<UserSettingsDTO, User>()
+                .ForAllMembers(opt => 
+                    opt.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

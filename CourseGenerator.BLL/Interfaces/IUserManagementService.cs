@@ -83,7 +83,14 @@ namespace CourseGenerator.BLL.Interfaces
         ///  </returns>
         Task<OperationInfo> ConfirmPhoneAsync(string userName);
 
-        
+        /// <summary>
+        /// Оновлює налаштування користувача.
+        /// </summary>
+        /// <param name="userId">Ідентифікатор користувача</param>
+        /// <param name="preferedLang">Код мови користувача</param>
+        /// <returns>Інформація про успішність виконання</returns>
+        Task<OperationInfo> UpdateProfileAsync(UserSettingsDTO userSettings);
+
         /// <summary>
         /// Зберігає одноразовий код підтвердження 
         /// для аутентифікації користувача.

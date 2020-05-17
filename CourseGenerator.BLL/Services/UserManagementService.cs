@@ -262,5 +262,26 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
+
+        /// inheritdoc/>
+        public async Task<OperationInfo> UpdateProfileAsync(
+            UserSettingsDTO userSettings)
+        {
+            User user = await _uow.UserManager.FindByIdAsync(userSettings.Id);
+            
+            try
+            {
+                user = _mapper.Map(userSettings, user);
+
+                await _uow.UserManager.UpdateAsync(user);
+                await _uow.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+
+            return new OperationInfo(true, "User was updated successfuly");
+        }
     }
 }
