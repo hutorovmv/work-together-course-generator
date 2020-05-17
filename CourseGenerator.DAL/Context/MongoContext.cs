@@ -23,6 +23,11 @@ namespace CourseGenerator.DAL.Context
         {
             return _client.GetDatabase(DbName);
         }
+        public IMongoCollection<T> GetCollection<T>(string collectionName)
+        {
+            IMongoDatabase db = _client.GetDatabase(DbName);
+            return db.GetCollection<T>(collectionName);
+        }
 
         public void DropDataBase()
         {
