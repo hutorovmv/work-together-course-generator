@@ -23,6 +23,7 @@ namespace CourseGenerator.DAL.Repositories
         public IHeadingRepository HeadingRepository { get; set; }
         public ICodeAuthRepository CodeAuthRepository { get; set; }
         public IRepository<HeadingLang> HeadingLangRepository { get; set; }
+        public IHeadingManagerRepository HeadingManagerRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -34,7 +35,8 @@ namespace CourseGenerator.DAL.Repositories
             IHeadingRepository headingRepository,
             ICodeAuthRepository codeAuthRepository,
             IRepository<HeadingLang> headingLangRepository,
-            IRepository<Language> languageRepository)
+            IRepository<Language> languageRepository,
+            IHeadingManagerRepository headingManagerRepository)
         {
             _context = context;
 
@@ -48,6 +50,7 @@ namespace CourseGenerator.DAL.Repositories
             HeadingRepository = headingRepository;
             CodeAuthRepository = codeAuthRepository;
             HeadingLangRepository = headingLangRepository;
+            HeadingManagerRepository = headingManagerRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
