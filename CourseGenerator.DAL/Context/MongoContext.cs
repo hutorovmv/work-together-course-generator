@@ -12,10 +12,10 @@ namespace CourseGenerator.DAL.Context
         
         IMongoClient _client;
 
-        public MongoContext(string dburl, string dbname)
+        public MongoContext(string dbUrl, string dbName)
         {
-            ConnectionString = dburl;
-            DbName = dbname;
+            ConnectionString = dbUrl;
+            DbName = dbName;
             _client = new MongoClient(ConnectionString);
         }
 

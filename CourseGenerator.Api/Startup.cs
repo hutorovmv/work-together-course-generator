@@ -170,7 +170,7 @@ namespace CourseGenerator.Api
 
                 options.OperationFilter<SwaggerAuthJWTAttribute>();
             });
-            
+
 
             #region Sessions configuration
             //services.AddDistributedMemoryCache();
@@ -181,11 +181,12 @@ namespace CourseGenerator.Api
             //});
             #endregion
 
+            MongoDbOptions mongoDbOptions = Configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>();
+
             services.AddSingleton(c => authOptions);
 
             #region Repositories and Services registration
-            services.AddScoped(c => new MongoContext(Configuration["MongoDB:DbUrl"], 
-                Configuration["MongoDB:DbName"]));
+            services.AddScoped(c => new MongoContext(mongoDbOptions.DbUrl, mongoDbOptions.DbName));
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
