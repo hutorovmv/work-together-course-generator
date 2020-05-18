@@ -1,11 +1,15 @@
-﻿using CourseGenerator.Models.Entities.Identity;
+﻿using CourseGenerator.DAL.Context;
+using CourseGenerator.DAL.Pagination;
+using CourseGenerator.Models.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +18,7 @@ namespace CourseGenerator.DAL.Repositories
     public class ApplicationUserManager : UserManager<User>
     {
         public ApplicationUserManager(
-            IUserStore<User> store, 
+            IUserStore<User> store,
             IOptions<IdentityOptions> optionsAccessor, 
             IPasswordHasher<User> passwordHasher, 
             IEnumerable<IUserValidator<User>> userValidators, 
@@ -33,7 +37,7 @@ namespace CourseGenerator.DAL.Repositories
                 services, 
                 logger)
         {
-
+            
         }
 
         /// <summary>
@@ -56,6 +60,32 @@ namespace CourseGenerator.DAL.Repositories
                 return null;
 
             return await Users.FirstOrDefaultAsync(p => p.PhoneNumber == phoneNumber);
+        }
+
+        public async Task<PagedList<User>> FilterPagedAsync(string name, string surname, 
+            string userName, string roleId, int pageSize, int pageIndex)
+        {
+            IQueryable<User> users = Users;
+
+            if (name != null)
+                users = users.Where(u => u.FirstName.StartsWith(name));
+            if(surname != null)
+                users = users.Where(u => u.LastName.StartsWith(surname));
+            if(userName != null)
+                users = users.Where(u => u.UserName.StartsWith(userName));
+
+            if(roleId != null)
+            {
+                var usersStore = Store as UserStore<User>;
+                var context = usersStore.Context as IdentityDbContext<User>;
+                IQueryable<string> usersInRoleIds = context.UserRoles
+                    .Where(ur => ur.RoleId == roleId)
+                    .Select(ur => ur.UserId);
+                
+                users = users.Where(u => usersInRoleIds.Contains(u.Id));
+            }
+
+            return await users.ToPagedListAsync(pageSize, pageIndex);
         }
     }
 }
