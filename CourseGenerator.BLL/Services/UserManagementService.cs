@@ -13,6 +13,8 @@ using System.Security.Claims;
 using CourseGenerator.Models.Entities.Security;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.DAL.Pagination;
+using CourseGenerator.BLL.Extensions;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -44,7 +46,7 @@ namespace CourseGenerator.BLL.Services
             IdentityResult createResult = await _uow.UserManager
                 .CreateAsync(user, registrationDto.Password);
             if (createResult.Errors.Count() > 0)
-                return new OperationInfo(false, 
+                return new OperationInfo(false,
                     createResult.Errors.FirstOrDefault()?.Description);
 
             OperationInfo userHaveRole = await AddToRolesAsync(user, roles);
@@ -67,15 +69,15 @@ namespace CourseGenerator.BLL.Services
         }
 
         /// <inheritdoc/>
-        public async Task<OperationInfo> AddToRolesAsync(User user, 
+        public async Task<OperationInfo> AddToRolesAsync(User user,
             params string[] roles)
         {
             IdentityResult result = await _uow.UserManager
                 .AddToRolesAsync(user, roles);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(false, 
+                return new OperationInfo(false,
                     result.Errors.FirstOrDefault().Description);
-                
+
             return new OperationInfo(true, "Roles was successfully given " +
                 "to user");
         }
@@ -95,7 +97,7 @@ namespace CourseGenerator.BLL.Services
                     return new OperationInfo(true, "Phone number is " +
                         "confirmed successfully");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return new OperationInfo(false, ex.Message);
                 }
@@ -106,10 +108,49 @@ namespace CourseGenerator.BLL.Services
         }
 
         /// <inheritdoc/>
-        public async Task<UserDetailsDTO> GetDetailsByNameAsync(string userName)
+        public async Task<UserDTO> GetByNameAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
-            return _mapper.Map<UserDetailsDTO>(user);
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        /// <inheritdoc/>
+        public async Task<UserDTO> GetAsync(string id)
+        {
+            User user = await _uow.UserManager.FindByIdAsync(id);
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationInfo> DeleteAsync(string id)
+        {
+            try
+            {
+                User user = await _uow.UserManager.FindByIdAsync(id);
+
+                await _uow.UserManager.DeleteAsync(user);
+                await _uow.SaveAsync();
+
+                return new OperationInfo(true, "User was successfuly deleted");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<PagedList<UserDTO>> GetPagedAsync(
+            string firstName = null, string lastName = null, 
+            string userName = null, string roleName = null, 
+            int pageSize = 6, int pageIndex = 1) 
+        {
+            PagedList<User> usersPaged = await _uow.UserManager
+                .FilterPagedAsync(firstName, lastName, userName, roleName, 
+                pageSize, pageIndex);
+            PagedList<UserDTO> userDtosPaged = usersPaged
+                .ConvertPagedList<User, UserDTO>(_mapper);
+            return userDtosPaged;
         }
 
         /// <inheritdoc/>

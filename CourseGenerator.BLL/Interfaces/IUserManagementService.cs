@@ -6,6 +6,8 @@ using CourseGenerator.Models.Entities.Identity;
 using System.Security.Claims;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.User;
+using System.Collections.Generic;
+using CourseGenerator.DAL.Pagination;
 
 namespace CourseGenerator.BLL.Interfaces
 {
@@ -40,10 +42,39 @@ namespace CourseGenerator.BLL.Interfaces
         /// <summary>
         /// Отримує детальні дані про користувача.
         /// </summary>
-        /// <param name="userName">ім'я користувача</param>
+        /// <param name="userName">Ім'я користувача</param>
         /// <returns>DTO, що містить детальну інформацію про користувача.
         /// </returns>
-        Task<UserDetailsDTO> GetDetailsByNameAsync(string userName);
+        Task<UserDTO> GetByNameAsync(string userName);
+
+        /// <summary>
+        /// Отримує детальні дані про користувача.
+        /// </summary>
+        /// <param name="id">Ідентифікатор користувача</param>
+        /// <returns>DTO, що містить детальну інформацію про користувача.
+        /// </returns>
+        Task<UserDTO> GetAsync(string id);
+
+        /// <summary>
+        /// Видаляє користувача.
+        /// </summary>
+        /// <param name="id">Ідентифікатор користувача</param>
+        /// <returns>Інформацію про виконання</returns>
+        Task<OperationInfo> DeleteAsync(string id);
+
+        /// <summary>
+        /// Здійснює відбір користувачів за критеріями
+        /// </summary>
+        /// <param name="firstName">Ім'я</param>
+        /// <param name="lastName">Прізвище</param>
+        /// <param name="userName">Ім'я користувача</param>
+        /// <param name="roleName">Роль</param>
+        /// <param name="pageSize">Розмір сторінки</param>
+        /// <param name="pageIndex">Індекс сторінки</param>
+        /// <returns>Дані про користувачів з пагінацією</returns>
+        Task<PagedList<UserDTO>> GetPagedAsync(string firstName,
+            string lastName, string userName, string roleName, int pageSize = 6,
+            int pageIndex = 1);
 
         /// <summary>
         /// Створює <see cref="ClaimsIdentity"/> з клеймами користувача

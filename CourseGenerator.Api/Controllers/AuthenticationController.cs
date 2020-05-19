@@ -71,8 +71,8 @@ namespace CourseGenerator.Api.Controllers
             int code = random.Next(100000, 999999);
 
             string userName = HttpContext.User.Identity.Name;
-            UserDetailsDTO userDetailsDto = await _userManagementService
-                .GetDetailsByNameAsync(userName);
+            UserDTO userDetailsDto = await _userManagementService
+                .GetByNameAsync(userName);
 
             if (userDetailsDto.PhoneNumber == null)
                 return BadRequest("User don't have phone number.");

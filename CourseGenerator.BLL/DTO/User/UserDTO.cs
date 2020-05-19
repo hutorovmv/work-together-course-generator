@@ -2,7 +2,7 @@
 
 namespace CourseGenerator.BLL.DTO
 {
-    public class UserDetailsDTO
+    public class UserDTO
     {
         /// <summary>
         /// Ідентифікатор.

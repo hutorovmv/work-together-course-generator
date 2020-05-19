@@ -117,7 +117,7 @@ namespace CourseGenerator.Api.Controllers
             OperationInfo result = await _headingService
                 .UpdateAsync(headingDto);
             if (result.Succeeded)
-                return StatusCode(StatusCodes.Status204NoContent);
+                return NoContent();
 
             return BadRequest(result.Message);
         }
@@ -144,7 +144,7 @@ namespace CourseGenerator.Api.Controllers
             OperationInfo result = await _headingService
                 .UpdateLocalAsync(headingLangDto);
             if (result.Succeeded)
-                return StatusCode(StatusCodes.Status204NoContent);
+                return NoContent();
 
             return BadRequest(result.Message);
         }
@@ -166,7 +166,7 @@ namespace CourseGenerator.Api.Controllers
             OperationInfo result = await _headingService
                 .DeleteAsync(id);
             if (result.Succeeded)
-                return StatusCode(StatusCodes.Status204NoContent);
+                return NoContent();
 
             return BadRequest(result.Message);
         }
@@ -193,7 +193,7 @@ namespace CourseGenerator.Api.Controllers
             OperationInfo result = await _headingService
                 .DeleteLocalAsync(id, lang);
             if (result.Succeeded)
-                return StatusCode(StatusCodes.Status204NoContent);
+                return NoContent();
 
             return BadRequest(result.Message);
         }
@@ -272,7 +272,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="200">Успішно отримано підрубрики</response>
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
-        [HttpPost]
+        [HttpGet]
         [Route("{lang}/subheadings")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
