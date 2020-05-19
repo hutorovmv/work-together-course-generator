@@ -1,8 +1,8 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.User;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 
-namespace CourseGenerator.Api.Models
+namespace CourseGenerator.Api.Models.User
 {
     /// <summary>
     /// ViewModel, що представляє об'єкт для налаштувань користувача

@@ -2,7 +2,7 @@
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
-using CourseGenerator.Api.Models;
+using CourseGenerator.Api.Models.Selection;
 using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -14,10 +14,10 @@ namespace CourseGenerator.Api.Controllers
     /// <summary>
     /// Контролер, що містить методи, для роботи з мовами
     /// </summary>
+    [ApiController]
     [Route("api/[controller]")]
     [Produces(MediaTypeNames.Application.Json, 
         new string[] { MediaTypeNames.Application.Xml })]
-    [ApiController]
     [SwaggerTag("Контролер, що містить методи, для роботи з мовами")]
     public class LanguagesController : ControllerBase
     {

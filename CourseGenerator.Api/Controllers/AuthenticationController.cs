@@ -13,20 +13,21 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
-using CourseGenerator.Api.Models;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.Api.Models.Security;
+using CourseGenerator.Api.Models.User;
 
 namespace CourseGenerator.Api.Controllers
 {
     /// <summary>
-    /// Контролер для роботи з акаунтом
+    /// Контролер для роботи з аутентифікацією
     /// </summary>
     [ApiController]
-    [SwaggerTag("Контролер для роботи з акаунтом")]
+    [Route("api/[controller]")]
+    [SwaggerTag("Контролер для роботи з аутентифікацією")]
     [Produces(MediaTypeNames.Application.Json, 
         new string[] { MediaTypeNames.Application.Xml })]
-    [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
         private readonly IMapper _mapper;

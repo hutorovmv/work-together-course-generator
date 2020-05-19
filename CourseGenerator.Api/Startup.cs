@@ -203,6 +203,7 @@ namespace CourseGenerator.Api
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<IHeadingService, HeadingService>();
             #endregion
         }
 

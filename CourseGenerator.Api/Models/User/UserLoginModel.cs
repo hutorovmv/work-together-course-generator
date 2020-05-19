@@ -1,8 +1,8 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.User;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseGenerator.Api.Models
+namespace CourseGenerator.Api.Models.User
 {
     /// <summary>
     /// ViewModel, що містить дані для автентифікації користувача

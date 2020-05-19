@@ -1,9 +1,9 @@
-﻿using CourseGenerator.Api.Models;
+﻿using CourseGenerator.Api.Models.Security;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.Security
+namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Security
 {
     /// <summary>
     /// Додає приклад для <see cref="PhoneAuthModel"/>

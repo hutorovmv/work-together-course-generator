@@ -1,8 +1,8 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.Security;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Security;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseGenerator.Api.Models
+namespace CourseGenerator.Api.Models.Security
 {
     /// <summary>
     /// ViewModel, що представляє об'єкт для автентифікації

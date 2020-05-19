@@ -1,9 +1,9 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.Selection;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Selection;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseGenerator.Api.Models
+namespace CourseGenerator.Api.Models.Selection
 {
     /// <summary>
     /// ViewModel, що представляє мову в меню вибору мови

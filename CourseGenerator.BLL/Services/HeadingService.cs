@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CourseGenerator.BLL.Services
 {
     /// <summary>
-    /// Сервіс для роботи з рубриками
+    /// Реалізація сервісу для роботи з рубриками
     /// </summary>
     public class HeadingService : IHeadingService
     {
@@ -33,13 +33,8 @@ namespace CourseGenerator.BLL.Services
         }
 
         // TODO: Add user permissions check
-
-        /// <summary>
-        /// Створює нелокалізовану частину сутності - Рубрика.
-        /// </summary>
-        /// <param name="headingDto">Об'єкт передачі даних для нелокалізованої 
-        /// частини</param>
-        /// <returns>Інформацію про успішність виконання операції</returns>
+    
+        /// <inheritdoc/>
         public async Task<OperationInfo> CreateAsync(HeadingDTO headingDto)
         {
             try
@@ -57,26 +52,15 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
-
-        /// <summary>
-        /// Створює локалізацію для вказаної рубрики вказаною мовою.
-        /// </summary>
-        /// <param name="headingLangDto">Об'єкт передачі даних, що містить 
-        /// локалізації для полів,
-        /// що її потребують</param>
-        /// <param name="headingId">Ідентифікатор рубрики, яка 
-        /// локалізується</param>
-        /// <param name="langCode">Код мови локалізації</param>
-        /// <returns>Інформацію про успішність виконання операції</returns>
+        
+        /// <inheritdoc/>
         public async Task<OperationInfo> CreateLocalAsync(
-            HeadingLangDTO headingLangDto, int headingId, string langCode)
+            HeadingLangDTO headingLangDto)
         {
             try
             {
                 HeadingLang headingLang = _mapper
                     .Map<HeadingLang>(headingLangDto);
-                headingLang.HeadingId = headingId;
-                headingLang.LangCode = langCode;
 
                 await _uow.HeadingLangRepository.CreateAsync(headingLang);
                 await _uow.SaveAsync();
@@ -89,13 +73,8 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
-
-        /// <summary>
-        /// Оновлює нелокалізовану частину сутності - Рубрика.
-        /// </summary>
-        /// <param name="headingDto">Об'єкт передачі даних для нелокалізованої 
-        /// частини</param>
-        /// <returns>Інформацію про успішність виконання операції</returns>
+        
+        /// <inheritdoc/>
         public async Task<OperationInfo> UpdateAsync(HeadingDTO headingDto)
         {
             try
@@ -113,26 +92,15 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
-
-        /// <summary>
-        /// Створює локалізацію для вказаної рубрики вказаною мовою.
-        /// </summary>
-        /// <param name="headingLangDto">Об'єкт передачі даних, що містить 
-        /// локалізації для полів,
-        /// що її потребують</param>
-        /// <param name="headingId">Ідентифікатор рубрики, яка 
-        /// локалізується</param>
-        /// <param name="langCode">Код мови локалізації</param>
-        /// <returns>Інформацію про успішність виконання операції</returns>
+        
+        /// <inheritdoc/>
         public async Task<OperationInfo> UpdateLocalAsync(
-            HeadingDTO headingLangDto, int headingId, string langCode)
+            HeadingLangDTO headingLangDto)
         {
             try
             {
                 HeadingLang headingLang = _mapper
                     .Map<HeadingLang>(headingLangDto);
-                headingLang.HeadingId = headingId;
-                headingLang.LangCode = langCode;
 
                 _uow.HeadingLangRepository.Update(headingLang);
                 await _uow.SaveAsync();
@@ -145,20 +113,15 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
-
-        /// <summary>
-        /// Видаляє рубрику та всі (та всі її локалізації).
-        /// </summary>
-        /// <param name="headingDto">Об'єкт передачі даних для нелокалізованої 
-        /// частини</param>
-        /// <returns>Інформацію про успішність виконання операції</returns>
-        public async Task<OperationInfo> Delete(HeadingDTO headingDto)
+        
+        /// <inheritdoc/>
+        public async Task<OperationInfo> DeleteAsync(int id)
         {
             try
             {
                 // TODO: Check if there are subheadings of other users
                 Heading heading = await _uow.HeadingRepository
-                    .GetAsync(headingDto.Id);
+                    .GetAsync(id);
 
                 _uow.HeadingRepository.Delete(heading);
                 await _uow.SaveAsync();
@@ -171,65 +134,62 @@ namespace CourseGenerator.BLL.Services
                 return new OperationInfo(false, ex.Message);
             }
         }
-                                                                                
-        /// <summary>
-        /// Отримує нелокалізовану частину сутності - Рубрика.
-        /// </summary>
-        /// <param name="headingId">Ідентифікатор рубрики, яка локалізується
-        /// </param>
-        /// <returns>Об'єкт передачі даних для нелокалізованої частини</returns>
-        public async Task<HeadingDTO> GetAsync(int headingId)
+
+        /// <inheritdoc/>
+        public async Task<OperationInfo> DeleteLocalAsync(int id, 
+            string langCode)
         {
-            Heading heading = await _uow.HeadingRepository.GetAsync(headingId);
-            return _mapper.Map<HeadingDTO>(heading);
+            try
+            {
+                HeadingLang headingLang = await _uow.HeadingLangRepository
+                    .GetAsync(id);
+
+                _uow.HeadingLangRepository.Delete(headingLang);
+                await _uow.SaveAsync();
+
+                return new OperationInfo(true, "HeadingLang was deleted " +
+                    "successfuly");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
         }
 
-        /// <summary>
-        /// Отримує локалізовану частину сутності - Рубрика.
-        /// </summary>
-        /// <param name="headingId">Ідентифікатор рубрики, 
-        /// для якої призначена локалізується</param>
-        /// <param name="langCode">Код мови локалізації</param>
-        /// <returns>Об'єкт передачі даних для локалізованої частини</returns>
-        public async Task<HeadingLangDTO> GetLocalAsync(int headingId, 
+        // TODO: Check if there are subheadings of other users
+        /// <inheritdoc/>
+        public async Task<HeadingDTO> GetAsync(int id)
+        {
+            Heading heading = await _uow.HeadingRepository.GetAsync(id);
+            return _mapper.Map<HeadingDTO>(heading);
+        }
+        
+        /// <inheritdoc/>
+        public async Task<HeadingLangDTO> GetLocalAsync(int id, 
             string langCode)
         {
             HeadingLang headingLang = await _uow.HeadingLangRepository
-                .GetAsync(headingId, langCode);
+                .GetAsync(id, langCode);
             return _mapper.Map<HeadingLangDTO>(headingLang);
         }
-
-        /// <summary>
-        /// Отримує ієрархію рубрик до даної рубрики включно.
-        /// </summary>
-        /// <param name="code">Код рубрики, для якої необхідно отримати ієрархію
-        /// </param>
-        /// <param name="langCode">Код мови</param>
-        /// <returns>Локалізовану ієрархію рубрик, до даної включно</returns>
-        public IEnumerable<HeadingLangDTO> GetParentsLocalAsync(string code,
+        
+        /// <inheritdoc/>
+        public IEnumerable<HeadingLangDTO> GetParentsLocal(string code,
             string langCode)
         {
             IAsyncEnumerable<HeadingLang> parents = _uow.HeadingRepository
-                .GetParentsLocalAsync(code,
-                langCode);
+                .GetParentsLocalAsync(code, langCode);
             IEnumerable<HeadingLangDTO> parentDtos = _mapper
                 .Map<IEnumerable<HeadingLangDTO>>(parents);
             return parentDtos;
         }
-
-        /// <summary>
-        /// Отримує підрубрики для даної рубрики.
-        /// </summary>
-        /// <param name="code">Код рубрики, для якої необзідно отримати 
-        /// підрубрики</param>
-        /// <param name="langCode">Код мови</param>
-        /// <returns>Отримує всіх прямих потомків даної підрубрики</returns>
+        
+        /// <inheritdoc/>
         public async Task<IEnumerable<HeadingLangDTO>> GetSubsLocalAsync(
             string code, string langCode)
         {
             IEnumerable<HeadingLang> subHeadings = await _uow.HeadingRepository
-                .GetSubsLocalAsync(code,
-                langCode);
+                .GetSubsLocalAsync(code, langCode);
             IEnumerable<HeadingLangDTO> subHeadingDtos = _mapper
                 .Map<IEnumerable<HeadingLangDTO>>(subHeadings);
             return subHeadingDtos;

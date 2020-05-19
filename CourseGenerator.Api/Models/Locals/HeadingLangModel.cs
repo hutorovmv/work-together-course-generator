@@ -1,10 +1,14 @@
-﻿namespace CourseGenerator.BLL.DTO.Locals
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.Locals;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace CourseGenerator.Api.Models.Locals
 {
     /// <summary>
-    /// Об'єкт для передачі локалізованої частини
+    /// ViewModel, для локалізованої частини
     /// сутності - Рубрика
     /// </summary>
-    public class HeadingLangDTO
+    [SwaggerSchemaFilter(typeof(HeadingLangFilter))]
+    public class HeadingLangModel
     {
         /// <summary>
         /// Ідентифікатор рубрики

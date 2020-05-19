@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CourseGenerator.Api.Models;
+using CourseGenerator.Api.Models.User;
 using CourseGenerator.BLL.DTO.User;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.Interfaces;
@@ -18,10 +18,10 @@ namespace CourseGenerator.Api.Controllers
     /// </summary>
     [Authorize]
     [ApiController]
+    [Route("api/[controller]")]
     [SwaggerTag("Контролер для роботи з налаштуваннями")]
     [Produces(MediaTypeNames.Application.Json,
         new string[] { MediaTypeNames.Application.Xml })]
-    [Route("api/[controller]")]
     public class SettingsController : ControllerBase
     {
         private readonly IMapper _mapper;

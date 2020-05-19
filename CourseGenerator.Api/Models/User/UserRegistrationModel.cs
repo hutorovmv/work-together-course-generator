@@ -1,9 +1,9 @@
-﻿using CourseGenerator.Api.Infrastructure.SwaggerExamples.User;
+﻿using CourseGenerator.Api.Infrastructure.SwaggerFilters.User;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CourseGenerator.Api.Models
+namespace CourseGenerator.Api.Models.User
 {
     /// <summary>
     /// ViewModel, дані для реєстрації користувача
@@ -28,7 +28,7 @@ namespace CourseGenerator.Api.Models
         /// </summary>
         [Required]
         public string FirstName { get; set; }
-        
+
         /// <summary>
         /// Прізвище
         /// </summary>

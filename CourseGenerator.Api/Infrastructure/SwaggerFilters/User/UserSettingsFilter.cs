@@ -1,10 +1,10 @@
-﻿using CourseGenerator.Api.Models;
+﻿using CourseGenerator.Api.Models.User;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.User
+namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.User
 {
     /// <summary>
     /// Додає приклад для <see cref="UserSettingsModel"/>

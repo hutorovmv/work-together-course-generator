@@ -1,5 +1,11 @@
 ﻿using AutoMapper;
-using CourseGenerator.Api.Models;
+using CourseGenerator.Api.Models.Entities;
+using CourseGenerator.Api.Models.Locals;
+using CourseGenerator.Api.Models.Security;
+using CourseGenerator.Api.Models.Selection;
+using CourseGenerator.Api.Models.User;
+using CourseGenerator.BLL.DTO.Entities;
+using CourseGenerator.BLL.DTO.Locals;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.DTO.User;
@@ -18,6 +24,8 @@ namespace CourseGenerator.Api.Infrastructure
             CreateMap<CourseSelectDTO, CourseSelectModel>();
             CreateMap<UserThemeSelectDTO, UserThemeSelectModel>();
             CreateMap<PhoneAuthDTO, PhoneAuthModel>();
+            CreateMap<HeadingDTO, HeadingModel>();
+            CreateMap<HeadingLangDTO, HeadingLangModel>();
         }
     }
     #pragma warning restore CS1591

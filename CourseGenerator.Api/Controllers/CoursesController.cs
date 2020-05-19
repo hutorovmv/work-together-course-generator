@@ -3,7 +3,7 @@ using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using CourseGenerator.Api.Models;
+using CourseGenerator.Api.Models.Selection;
 using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -14,13 +14,14 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CourseGenerator.Api.Controllers
 {
     /// <summary>
-    /// Контролер для роботи з даними про курсів
+    /// Контролер для роботи з даними про курси
     /// </summary>
-    [ApiController]
     [Authorize]
-    [SwaggerTag("Контролер для роботи з даними про курсів")]
-    [Produces(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+    [ApiController]
     [Route("api/[controller]")]
+    [SwaggerTag("Контролер для роботи з даними про курси")]
+    [Produces(MediaTypeNames.Application.Json, 
+        new string[] { MediaTypeNames.Application.Xml })]
     public class CoursesController : ControllerBase
     {
         private readonly IMapper _mapper;

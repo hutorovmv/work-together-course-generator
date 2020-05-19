@@ -1,9 +1,9 @@
-﻿using CourseGenerator.Api.Models;
+﻿using CourseGenerator.Api.Models.Selection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CourseGenerator.Api.Infrastructure.SwaggerExamples.Selection
+namespace CourseGenerator.Api.Infrastructure.SwaggerFilters.Selection
 {
     /// <summary>
     /// Додає приклад для <see cref="CourseSelectModel"/>
