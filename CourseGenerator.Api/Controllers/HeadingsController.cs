@@ -54,6 +54,8 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json,
+            new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateAsync(HeadingModel headingModel)
@@ -80,6 +82,8 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="404">Помилка при виконанні</response>
         [HttpPost]
         [Route("{lang}")]
+        [Consumes(MediaTypeNames.Application.Json,
+            new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateLocalAsync(
@@ -108,6 +112,8 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpPut]
+        [Consumes(MediaTypeNames.Application.Json,
+            new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateAsync(HeadingModel headingModel)
@@ -134,6 +140,10 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="403">Заборонено</response>
         [HttpPut]
         [Route("{lang}")]
+        [Consumes(MediaTypeNames.Application.Json,
+            new string[] { MediaTypeNames.Application.Xml })]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> UpdateLocalAsync(
             HeadingLangModel headingLangModel, string lang)
         {
@@ -204,12 +214,10 @@ namespace CourseGenerator.Api.Controllers
         /// <param name="id">Ідентифікатор рубрики</param>
         /// <returns>Статус-код або повідомлення про помилку</returns>
         /// <response code="200">Рубрику успішно отримано</response>
-        /// <response code="400">Помилка при виконанні</response>
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetAsync(int id)
         {
             HeadingDTO headingDto = await _headingService.GetAsync(id);
@@ -229,7 +237,6 @@ namespace CourseGenerator.Api.Controllers
         [HttpGet]
         [Route("{lang}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetLocalAsync(int id, string lang)
         {
             HeadingLangDTO headingLangDto = await _headingService
@@ -252,7 +259,6 @@ namespace CourseGenerator.Api.Controllers
         [HttpGet]
         [Route("{lang}/parents")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetParentsLocal(string code, 
             string lang)
         {
@@ -275,7 +281,6 @@ namespace CourseGenerator.Api.Controllers
         [HttpGet]
         [Route("{lang}/subheadings")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetSubsLocalAsync(string code, 
             string lang)
         {
