@@ -11,6 +11,6 @@ namespace CourseGenerator.Models.Entities.Content
         public string Heading { get; set; }
 
         [BsonIgnoreIfDefault]
-        public ObjectId FileId { get; set; }
+        public string FileId { get; set; }
     }
 }

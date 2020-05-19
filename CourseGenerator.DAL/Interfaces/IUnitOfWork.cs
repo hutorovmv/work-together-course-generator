@@ -21,6 +21,7 @@ namespace CourseGenerator.DAL.Interfaces
         ICodeAuthRepository CodeAuthRepository { get; set; }
         IRepository<HeadingLang> HeadingLangRepository { get; set; }
         IHeadingManagerRepository HeadingManagerRepository { get; set; }
+        IFileRepository FileRepository { get; set; }
 
         Task SaveAsync();
     }

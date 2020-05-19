@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories
 {
-    public class FileMongoRepository
+    public class FileMongoRepository:IFileRepository
     {
         protected readonly MongoContext _context;
         IGridFSBucket gridFS; 
@@ -22,16 +22,17 @@ namespace CourseGenerator.DAL.Repositories
             gridFS = new GridFSBucket(_context.GetDataBase());
         }
 
-        public async Task<ObjectId> CreateAsync(FileStream item)
+        public async Task<string> CreateAsync(FileStream item)
         {
-            return await gridFS.UploadFromStreamAsync(item.Name,item);
+            var photoId = await gridFS.UploadFromStreamAsync(item.Name, item);
+            return photoId.ToString();
         }
 
-        public async Task DeleteAsync(ObjectId id)
+        public async Task DeleteAsync(string id)
         {
             try
             {
-                await gridFS.DeleteAsync(id);
+                await gridFS.DeleteAsync(new ObjectId(id));
             }
             catch (Exception ex)
             {
@@ -43,7 +44,7 @@ namespace CourseGenerator.DAL.Repositories
         {
         }
 
-        public async Task<byte[]> GetFile(ObjectId Id)
+        public async Task<byte[]> GetFile(string Id)
         {
             //var expression = new ExpressionFilterDefinition<GridFSFileInfo>(d => d.Id == Id);
             //var file = await gridFS.FindAsync(expression);
@@ -51,11 +52,11 @@ namespace CourseGenerator.DAL.Repositories
 
             //return fileInfo; //Повертає об'єкт типу GridFsFileInfo, що містить основну інформацію про файл. 
 
-            var photo = gridFS.DownloadAsBytesAsync(Id);
+            var photo = gridFS.DownloadAsBytesAsync(new ObjectId(Id));
             return await photo;
         }
 
-        public async void Update(FileStream item, ObjectId Id)
+        public async Task Update(FileStream item, string Id)
         {
             await gridFS.UploadFromStreamAsync(
             item.Name,

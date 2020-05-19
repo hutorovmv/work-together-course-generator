@@ -1,7 +1,4 @@
 ﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CourseGenerator.DAL.Context
 {
@@ -12,11 +9,12 @@ namespace CourseGenerator.DAL.Context
         
         IMongoClient _client;
 
-        public MongoContext(string dbUrl, string dbName)
+        public MongoContext(string dbUrl)
         {
-            ConnectionString = dbUrl;
-            DbName = dbName;
+            ConnectionString = dbUrl;            
             _client = new MongoClient(ConnectionString);
+            var connection = new MongoUrlBuilder(dbUrl);
+            DbName = connection.DatabaseName;
         }
 
         public IMongoDatabase GetDataBase()
@@ -40,4 +38,6 @@ namespace CourseGenerator.DAL.Context
             db.DropCollection(collectionName);
         }
     }
+    
+
 }

@@ -10,7 +10,7 @@ namespace CourseGenerator.Models.Entities.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PhotoUrl { get; set; }
+        public string PhotoId { get; set; }
         public DateTime? BirthDate { get; set; }
         public string PreferedLangCode { get; set; }
         public Language PreferedLang { get; set; }

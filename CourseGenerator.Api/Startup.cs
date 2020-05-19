@@ -24,6 +24,7 @@ using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.IO;
 using CourseGenerator.BLL.DTO.User;
+using MongoDB.Driver;
 
 namespace CourseGenerator.Api
 {
@@ -180,13 +181,13 @@ namespace CourseGenerator.Api
             //    options.IdleTimeout = TimeSpan.FromDays(1);
             //});
             #endregion
-
-            MongoDbOptions mongoDbOptions = Configuration.GetSection(nameof(MongoDbOptions)).Get<MongoDbOptions>();
-
+          
+            string connectionStringMongoDb = Configuration.GetConnectionString("CourseGeneratorMongoDB");
+            
             services.AddSingleton(c => authOptions);
 
             #region Repositories and Services registration
-            services.AddScoped(c => new MongoContext(mongoDbOptions.DbUrl, mongoDbOptions.DbName));
+            services.AddScoped(c => new MongoContext(connectionStringMongoDb));
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
