@@ -28,7 +28,7 @@ namespace CourseGenerator.BLL.Services
         {
             try
             {
-                await _uow.UserCourseRepository.CreateAsync(new UserCourse
+                await _uow.UserCoursesRepository.CreateAsync(new UserCourse
                 {
                     UserId = userId,
                     CourseId = courseId,

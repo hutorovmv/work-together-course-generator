@@ -581,7 +581,7 @@ namespace CourseGenerator.Models
                 CourseId = 3,
                 LevelNumber = 1,
                 Number = 5,
-                ParentId = 4,
+                ParentId = null,
                 MaterialId = 1,
                 Note = null
             },
@@ -591,7 +591,7 @@ namespace CourseGenerator.Models
                 CourseId = 3,
                 LevelNumber = 1,
                 Number = 6,
-                ParentId = 4,
+                ParentId = 5,
                 MaterialId = 1,
                 Note = null
             }

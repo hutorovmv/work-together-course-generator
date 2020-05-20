@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IFileRepository:IDisposable
+    public interface IFileRepository: IDisposable
     {
         Task<string> CreateAsync(FileStream item);
 

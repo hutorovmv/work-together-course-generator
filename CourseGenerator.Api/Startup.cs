@@ -25,6 +25,7 @@ using System.Reflection;
 using System.IO;
 using CourseGenerator.BLL.DTO.User;
 using MongoDB.Driver;
+using CourseGenerator.Models.Entities.InfoByThemes;
 
 namespace CourseGenerator.Api
 {
@@ -192,12 +193,14 @@ namespace CourseGenerator.Api
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IRepository<CourseLang>, CourseLangRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
-            services.AddScoped<IRepository<UserCourse>, GenericEFRepository<UserCourse>>();
             services.AddScoped<IHeadingRepository, HeadingRepository>();
             services.AddScoped<ICodeAuthRepository, CodeAuthRepository>();
             services.AddScoped<IRepository<HeadingLang>, HeadingLangRepository>();
             services.AddScoped<IHeadingManagerRepository, HeadingManagerRepository>();
+            services.AddScoped<IUserCoursesRepository, UserCourseRepository>();
+            services.AddScoped<IFileRepository, FileMongoRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

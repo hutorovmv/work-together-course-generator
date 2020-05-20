@@ -5,8 +5,8 @@ using System.Text;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface IHeadingManagerRepository: IRepository<HeadingManager>
+    public interface IUserCoursesRepository: IRepository<UserCourse>
     {
-        bool HasAcces(string userId, int headingId);
+        bool HasAcces(string userId, int courseId);
     }
 }
