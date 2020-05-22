@@ -130,6 +130,7 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new UserLanguagePriorityConfig());
             modelBuilder.ApplyConfiguration(new HeadingManagerConfig());
             modelBuilder.ApplyConfiguration(new MaterialManagerConfig());
+            modelBuilder.ApplyConfiguration(new CourseManagerConfig());
 
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);
