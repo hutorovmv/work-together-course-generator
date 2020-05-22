@@ -4,6 +4,7 @@ using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +95,15 @@ namespace CourseGenerator.DAL.Repositories
             IQueryable<LevelLang> levelLangs = localizedLevels.Union(levelsWithFirstLang).OrderBy(l => l.LevelNumber);
 
             return await levelLangs.ToListAsync();       
+        }
+
+        public async Task<IEnumerable<Heading>> GetHeadingsAsync(int courseId)
+        {
+            IQueryable<Heading> headingsOfCourse = _context.CourseHeadings
+                .Where(hc => hc.CourseId == courseId)
+                .Select(hc => hc.Heading);
+
+            return await headingsOfCourse.ToListAsync();
         }
     }
 }

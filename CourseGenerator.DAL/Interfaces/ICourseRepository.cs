@@ -16,6 +16,7 @@ namespace CourseGenerator.DAL.Interfaces
         Task<IEnumerable<LevelLang>> GetLevelLangByCourseIdAsync(
             int courseId, string langCode);
 
+        Task<IEnumerable<Heading>> GetHeadingsAsync(int courseId);
 
     }
 }

@@ -27,6 +27,8 @@ namespace CourseGenerator.DAL.Repositories
         public IHeadingManagerRepository HeadingManagerRepository { get; set; }
         public IFileRepository FileRepository { get; set; }
         public IUserCoursesRepository UserCoursesRepository { get; set; }
+        public IMaterialRepository MaterialRepository { get; set; }
+        public IRepository<MaterialLang> MaterialLangRepository { get; set; }
         
 
         public UnitOfWork(ApplicationContext context,
@@ -41,6 +43,8 @@ namespace CourseGenerator.DAL.Repositories
             IRepository<Language> languageRepository,
             IFileRepository fileRepository,
             IUserCoursesRepository userCoursesRepository,
+            IMaterialRepository materialRepository,
+            IRepository<MaterialLang> materialLangRepository,
             IHeadingManagerRepository headingManagerRepository)
         {
             _context = context;
@@ -57,6 +61,8 @@ namespace CourseGenerator.DAL.Repositories
             HeadingManagerRepository = headingManagerRepository;
             FileRepository = fileRepository;
             UserCoursesRepository = userCoursesRepository;
+            MaterialRepository = materialRepository;
+            MaterialLangRepository = materialLangRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -85,6 +91,11 @@ namespace CourseGenerator.DAL.Repositories
                 CodeAuthRepository.Dispose();
                 PhoneAuthRepository.Dispose();
                 HeadingLangRepository.Dispose();
+                HeadingManagerRepository.Dispose();
+                FileRepository.Dispose();
+                UserCoursesRepository.Dispose();
+                MaterialRepository.Dispose();
+                MaterialLangRepository.Dispose();
             }
             disposed = true;
         }

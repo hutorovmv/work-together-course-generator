@@ -28,6 +28,7 @@ namespace CourseGenerator.DAL.Context
         public DbSet<MaterialType> MaterialTypes { get; set; }
         public DbSet<MaterialTypeLang> MaterialTypeLangs { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialBlock> MaterialBlocks { get; set; }
         public DbSet<MaterialLang> MaterialLangs { get; set; }
         public DbSet<MaterialCompetency> MaterialCompetencies { get; set; }
         public DbSet<HeadingMaterial> HeadingMaterials { get; set; }

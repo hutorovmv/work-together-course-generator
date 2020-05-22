@@ -201,6 +201,8 @@ namespace CourseGenerator.Api
             services.AddScoped<IHeadingManagerRepository, HeadingManagerRepository>();
             services.AddScoped<IUserCoursesRepository, UserCourseRepository>();
             services.AddScoped<IFileRepository, FileMongoRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<IRepository<MaterialLang>, MaterialLangRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
