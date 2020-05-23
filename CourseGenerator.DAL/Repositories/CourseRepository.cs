@@ -105,5 +105,6 @@ namespace CourseGenerator.DAL.Repositories
 
             return await headingsOfCourse.ToListAsync();
         }
+
     }
 }

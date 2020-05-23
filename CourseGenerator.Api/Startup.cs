@@ -203,6 +203,7 @@ namespace CourseGenerator.Api
             services.AddScoped<IFileRepository, FileMongoRepository>();
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IRepository<MaterialLang>, MaterialLangRepository>();
+            services.AddScoped<ICourseManagerRepository, CourseManagerRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

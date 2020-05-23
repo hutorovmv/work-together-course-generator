@@ -40,7 +40,7 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<HeadingLang>> GetSubsLocalAsync(string code, string langCode)
+        public async Task<IEnumerable<HeadingLang>> GetChildrenLocalAsync(string code, string langCode)
         {
             int point = code.Count(s => s == '.');
 
@@ -66,8 +66,14 @@ namespace CourseGenerator.DAL.Repositories
             return await headingLangs.ToListAsync();
         }
 
+        /// <summary>
+        /// Метод, що отримує усі рубрики вищого рівня
+        /// </summary>
+        /// <param name="code">Код рубрики, у вигляді Х.Х.Х</param>
+        /// <param name="langCode">Код мови, для рубрик вищого рівня</param>
+        /// <returns></returns>
         //TODO: Try new variant with regular expressions
-        public async IAsyncEnumerable<HeadingLang> GetParentsLocalAsync(string code, 
+        public async IAsyncEnumerable<HeadingLang> GetAncestorsAsync(string code, 
             string langCode)
         {
             Stack<string> codeByDots = new Stack<string>(code.Split('.'));
@@ -75,8 +81,8 @@ namespace CourseGenerator.DAL.Repositories
 
             for(int i = 0; i < codeByDots.Count - 1; i++)
             {
-                parent = string.Join('.', codeByDots);
                 codeByDots.Pop();
+                parent = string.Join('.', codeByDots);  
                 yield return await GetLocalOrDefaultAsync(parent, langCode);
             }
         }
@@ -122,6 +128,22 @@ namespace CourseGenerator.DAL.Repositories
                     "\tHeadingMaterials" +
                     "\tUserHeadings");
         }
+
+        public async Task<IEnumerable<HeadingLang>> GetRootLocalAsync(string langCode)
+        {
+            return await _context.HeadingLangs
+                .Include(hl => hl.Heading)
+                .Where(hl => !hl.Heading.Code.Contains('.') && hl.LangCode == langCode).ToListAsync();
+        }
+
+        public async Task<HeadingLang> GetParentsLocalAsync(string id, string langCode)
+        {
+            Stack<string> codeByDots = new Stack<string>(id.Split('.'));
+            codeByDots.Pop();
+            string parent = string.Join('.', codeByDots);
+            return await GetLocalOrDefaultAsync(parent, langCode);
+        }
+
     }
 
 }

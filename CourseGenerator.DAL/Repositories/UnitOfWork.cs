@@ -15,7 +15,7 @@ namespace CourseGenerator.DAL.Repositories
         private readonly ApplicationContext _context;
 
         public ApplicationUserManager UserManager { get; set; }
-        public RoleManager<Role> RoleManager { get; set; }     
+        public RoleManager<Role> RoleManager { get; set; }
         public IRepository<Language> LanguageRepository { get; set; }
         public ICourseRepository CourseRepository { get; set; }
         public IRepository<CourseLang> CourseLangRepository { get; set; }
@@ -29,7 +29,7 @@ namespace CourseGenerator.DAL.Repositories
         public IUserCoursesRepository UserCoursesRepository { get; set; }
         public IMaterialRepository MaterialRepository { get; set; }
         public IRepository<MaterialLang> MaterialLangRepository { get; set; }
-        
+        public ICourseManagerRepository CourseManagerRepository {get;set;}
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -45,7 +45,8 @@ namespace CourseGenerator.DAL.Repositories
             IUserCoursesRepository userCoursesRepository,
             IMaterialRepository materialRepository,
             IRepository<MaterialLang> materialLangRepository,
-            IHeadingManagerRepository headingManagerRepository)
+            IHeadingManagerRepository headingManagerRepository,
+            ICourseManagerRepository courseManagerRepository)
         {
             _context = context;
 
@@ -63,6 +64,7 @@ namespace CourseGenerator.DAL.Repositories
             UserCoursesRepository = userCoursesRepository;
             MaterialRepository = materialRepository;
             MaterialLangRepository = materialLangRepository;
+            CourseManagerRepository = courseManagerRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -96,6 +98,7 @@ namespace CourseGenerator.DAL.Repositories
                 UserCoursesRepository.Dispose();
                 MaterialRepository.Dispose();
                 MaterialLangRepository.Dispose();
+                CourseManagerRepository.Dispose();
             }
             disposed = true;
         }

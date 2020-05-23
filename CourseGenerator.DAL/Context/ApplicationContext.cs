@@ -58,6 +58,7 @@ namespace CourseGenerator.DAL.Context
         #endregion
 
         #region CourseAccess
+        public DbSet<CourseManager> CourseManagers { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<GroupMessage> GroupMessages { get; set; }
         public DbSet<UserCourseMessage> UserCourseMessages { get; set; }

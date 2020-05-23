@@ -17,7 +17,6 @@ namespace CourseGenerator.DAL.Repositories
         {
             return _context.HeadingManagers
                 .Any(uh => uh.HeadingId == headingId && uh.UserId == userId);
-
         }
     }
 }
