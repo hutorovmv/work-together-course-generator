@@ -40,12 +40,12 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<HeadingLang>> GetChildrenLocalAsync(string code, string langCode)
+        public async Task<IEnumerable<HeadingLang>> GetChildrenLocalAsync(string id, string langCode)
         {
-            int point = code.Count(s => s == '.');
+            int point = id.Count(s => s == '.');
 
             IQueryable<string> subHeadingCodes = _context.Headings
-                .Where(h => h.Code.StartsWith(code) && h.Code.Count(s => s == '.') - point == 1)
+                .Where(h => h.Code.StartsWith(id) && h.Code.Count(s => s == '.') - point == 1)
                 .Select(h => h.Code);
 
             IQueryable<HeadingLang> headingsLocal = _context.HeadingLangs

@@ -22,7 +22,8 @@ namespace CourseGenerator.DAL.Interfaces
         /// <summary>
         /// Метод, що знаходить об'єкти вище за ієрархією заданою мовою
         /// </summary>
-        /// <param name="id">Властивість, на якій формується ієрархія</param>
+        /// <param name="id">Властивість, на якій формується ієрархія,
+        /// Id теми вищого рівня</param>
         /// <param name="langCode">Код мови, якою повертаються об'єкти</param>
         /// <returns>Колекцію об'єктів, на рівень вище від прийнятого</returns>
         Task<TEntity> GetParentsLocalAsync(TId id, string langCode);
@@ -30,7 +31,8 @@ namespace CourseGenerator.DAL.Interfaces
         /// <summary>
         /// Метод, що знаходить об'єкти нижче за ієрархією заданою мовою
         /// </summary>
-        /// <param name="id">Властивість, на якій формується ієрархія</param>
+        /// <param name="id">Властивість, на якій формується ієрархія, 
+        /// Id матеріалу, для якого потрібно отрімати матеріали нижчого рівня</param>
         /// <param name="langCode">Код мови, якою повертаються об'єкти</param>
         /// <returns>Колекцію об'єктів, на рівень нижче від прийнятого</returns>
         Task<IEnumerable<TEntity>> GetChildrenLocalAsync(TId id, string langCode);

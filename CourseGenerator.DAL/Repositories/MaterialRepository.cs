@@ -2,6 +2,7 @@
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Info;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,24 +22,24 @@ namespace CourseGenerator.DAL.Repositories
                 .Select(cm => cm.ChildMaterial).ToListAsync();
         }
 
-        public Task<IEnumerable<MaterialLang>> GetChildrenLocalAsync(int id, string langCode)
+        public async Task<IEnumerable<MaterialLang>> GetChildrenLocalAsync(int id, string langCode)
         {
-            //IQueryable<Material> materialsChild = _context.Materials
-            //    .Include(m => m.MaterialBlocksChild)
-            //    .Select(mc => mc.MaterialBlocksChild
-            //    .Where(mc => mc.ParentId == id));
+            IQueryable<MaterialLang> childMaterialLang= _context.MaterialLangs
+                .Where(ml => ml.LangCode == langCode)
+                .Include(ml => ml.Material)
+                .ThenInclude(m => m.MaterialBlocksParent.Where(mb => mb.ParentId == id)
+                .Select(mb => mb.ChildMaterial));
 
-            //return await materialsChild.Include(mc => mc.MaterialLangs)
-            //.Select(ml => ml.MaterialLangs
-            //.Where (ml => ml.LangCode == langCode)).ToListAsync();
+            if(childMaterialLang == null)
+            {
+                return await _context.MaterialLangs
+                    .Include(ml => ml.Material)
+                    .ThenInclude(m => m.MaterialBlocksParent.Where(mb => mb.ParentId == id)
+                    .Select(mb => mb.ChildMaterial)).ToListAsync();
+            }
 
-            //IQueryable<int> childMaterial = _context.MaterialBlocks
-            //    .Where(cm => cm.ChildId == id)
-            //    .Select(cm => cm.ChildId);
+            return await childMaterialLang.ToListAsync();
 
-            //return await _context.MaterialLangs
-            //    .Where(cml => cml.LangCode == langCode && childMaterial.Contains(cml.MaterialId)).ToListAsync();
-            throw new NotImplementedException();
         }
 
         public async Task<MaterialLang> GetParentsLocalAsync(int id, string langCode)
@@ -62,13 +63,28 @@ namespace CourseGenerator.DAL.Repositories
 
         }
 
-        public Task<IEnumerable<MaterialLang>> GetRootLocalAsync(string langCode)
+        public async Task<IEnumerable<MaterialLang>> GetRootLocalAsync(string langCode)
         {
-            //IQueryable<MaterialBlock> materialParent = _context.Materials
-            //    .Include(m => m.MaterialBlocksParent)
-            //    .Where(m => m.MaterialBlocksParent)
 
-            throw new NotImplementedException();
+            //IQueryable<Material> rootMaterials = _context.MaterialBlocks
+            //    .Where(m => m.ParentId == null)
+            //    .Select(m => m.ParentMaterial);
+
+            IQueryable<MaterialLang> materialLangs = _context.MaterialLangs
+                .Where(rm => rm.LangCode == langCode)
+                .Include(rm => rm.Material)
+                .ThenInclude(m => m.MaterialBlocksParent.Where(p => p.ParentId == null)
+                .Select(m => m.ParentMaterial));
+
+            if(materialLangs == null)
+            {
+                return await _context.MaterialLangs
+                    .Include(ml => ml.Material)
+                    .ThenInclude(m => m.MaterialBlocksParent.Where(p => p.ParentId == null)
+                    .Select(m => m.ParentMaterial)).ToListAsync();
+            }
+
+            return await materialLangs.ToListAsync();
         }
     }
 }
