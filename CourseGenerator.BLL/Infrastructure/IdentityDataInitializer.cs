@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
-using AutoMapper;
-using CourseGenerator.DAL.Interfaces;
-using CourseGenerator.DAL.Repositories;
-using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.BLL.DTO.User;
 
 namespace CourseGenerator.BLL.Infrastructure
 {
@@ -43,7 +36,7 @@ namespace CourseGenerator.BLL.Infrastructure
         /// <c>UserRegistrationDTO</c> використаний, бо необхідна можливість передати пароль.
         /// </para>
         /// </remarks>
-        public static void AddAdmin(IUserManagementService userManagementService, UserRegistrationDTO adminDto)
+        public static void AddAdmin(IUserManagementService userManagementService, RegisterDTO adminDto)
         {
             userManagementService.CreateAsync(adminDto, "Admin", "ContentAdmin", "User").Wait();
         }
@@ -52,7 +45,7 @@ namespace CourseGenerator.BLL.Infrastructure
             IUserManagementService userManagementService, 
             ICourseService courseService)
         {
-            UserRegistrationDTO userRegistrationDto1 = new UserRegistrationDTO
+            RegisterDTO userRegistrationDto1 = new RegisterDTO
             {
                 Email = "andrewryzhkov@gmail.com",
                 FirstName = "Andrew",
@@ -63,7 +56,7 @@ namespace CourseGenerator.BLL.Infrastructure
             };
             userManagementService.CreateAsync(userRegistrationDto1, "User").Wait();
 
-            UserDetailsDTO userDetailsDto1 = userManagementService.GetDetailsByUserNameAsync(userRegistrationDto1.Email).Result;
+            UserDTO userDetailsDto1 = userManagementService.GetByNameAsync(userRegistrationDto1.Email).Result;
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 1, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 2, 1).Wait();
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 3, 1).Wait();

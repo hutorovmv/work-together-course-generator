@@ -2,9 +2,6 @@
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.Models.Entities.Security;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Repositories

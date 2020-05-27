@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using CourseGenerator.DAL.Pagination;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CourseGenerator.BLL.Extensions
 {

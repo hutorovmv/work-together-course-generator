@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace CourseGenerator.Api.Infrastructure
+﻿namespace CourseGenerator.Api.Infrastructure
 {
     /// <summary>
     /// Об'єкт, що відправляється користувачу

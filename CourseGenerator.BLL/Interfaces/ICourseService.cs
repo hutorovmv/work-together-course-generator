@@ -1,9 +1,7 @@
-﻿using CourseGenerator.BLL.DTO;
+﻿using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Infrastructure;
-using CourseGenerator.DAL.Pagination;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.BLL.Interfaces
@@ -15,10 +13,10 @@ namespace CourseGenerator.BLL.Interfaces
         Task<IEnumerable<CourseSelectDTO>> GetUserCoursesLocalizedAsync(string userId,
             string langCode);
 
-        Task<IEnumerable<ThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId,
+        Task<IEnumerable<UserThemeSelectDTO>> GetUserCourseThemesLocalizedAsync(string userId,
             int courseId, int LevelNumber, string langCode);
 
-        Task<IEnumerable<ThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
+        Task<IEnumerable<UserThemeSelectDTO>> GetChildrenLocalAsync(string userId, int themeId, 
             string langCode);
 
         Task<IEnumerable<LevelSelectDTO>> GetCourseLevelsLocalAsync(int courseId, string langCode);

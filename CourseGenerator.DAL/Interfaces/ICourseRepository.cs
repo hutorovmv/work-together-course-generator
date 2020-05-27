@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CourseGenerator.DAL.Pagination;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 
@@ -19,6 +16,7 @@ namespace CourseGenerator.DAL.Interfaces
         Task<IEnumerable<LevelLang>> GetLevelLangByCourseIdAsync(
             int courseId, string langCode);
 
+        Task<IEnumerable<Heading>> GetHeadingsAsync(int courseId);
 
     }
 }

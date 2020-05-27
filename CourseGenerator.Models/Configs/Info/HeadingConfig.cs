@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using CourseGenerator.Models.Entities.Info;
 
@@ -13,7 +10,7 @@ namespace CourseGenerator.Models.Configs.Info
         {
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Code).IsRequired();
+            builder.HasIndex(p => p.Code).IsUnique();
             builder.Property(p => p.UDC).IsRequired();
             builder.Property(p => p.Note).IsUnicode();
         }

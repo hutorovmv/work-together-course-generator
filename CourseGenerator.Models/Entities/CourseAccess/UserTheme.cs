@@ -1,9 +1,6 @@
 ﻿using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CourseGenerator.Models.Entities.CourseAccess
 {

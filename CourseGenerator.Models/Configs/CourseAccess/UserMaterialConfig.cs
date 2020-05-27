@@ -1,9 +1,6 @@
 ﻿using CourseGenerator.Models.Entities.CourseAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CourseGenerator.Models.Configs.CourseAccess
 {

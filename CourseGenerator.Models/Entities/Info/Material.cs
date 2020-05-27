@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using static CourseGenerator.Models.Entities.Info.MaterialStructureKind;
@@ -28,7 +26,7 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<UserMaterialMessage> UserMaterialMessages { get; set; }
         public ICollection<MaterialOrganizationForm> MaterialOrganizationForms { get; set; }
         public ICollection<MaterialConductingMethod> MaterialConductingMethods { get; set; }
-
+        public ICollection<MaterialManager> MaterialManagers { get; set; }
         public Material()
         {
             MaterialCompetencies = new List<MaterialCompetency>();
@@ -45,6 +43,7 @@ namespace CourseGenerator.Models.Entities.Info
             UserMaterialMessages = new List<UserMaterialMessage>();
             MaterialOrganizationForms = new List<MaterialOrganizationForm>();
             MaterialConductingMethods = new List<MaterialConductingMethod>();
+            MaterialManagers = new List<MaterialManager>();
         }
     }
 }

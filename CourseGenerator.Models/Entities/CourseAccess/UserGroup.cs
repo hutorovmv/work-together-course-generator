@@ -1,7 +1,4 @@
 ﻿using CourseGenerator.Models.Entities.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CourseGenerator.Models.Entities.CourseAccess
 {

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using CourseGenerator.Api.Models;
-using CourseGenerator.BLL.DTO;
+using CourseGenerator.Api.Models.Selection;
+using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces;
-using CourseGenerator.DAL.Pagination;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,13 +14,14 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace CourseGenerator.Api.Controllers
 {
     /// <summary>
-    /// Контролер для роботи з даними про курсів
+    /// Контролер для роботи з даними про курси
     /// </summary>
-    [ApiController]
     [Authorize]
-    [SwaggerTag("Контролер для роботи з даними про курсів")]
-    [Produces(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
+    [ApiController]
     [Route("api/[controller]")]
+    [SwaggerTag("Контролер для роботи з даними про курси")]
+    [Produces(MediaTypeNames.Application.Json, 
+        new string[] { MediaTypeNames.Application.Xml })]
     public class CoursesController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -100,18 +97,18 @@ namespace CourseGenerator.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        public async Task<IActionResult> GetUserCourseThemeChildrenAsync(int themeId, 
+        public async Task<IActionResult> GetUserThemeChildrenAsync(int themeId, 
             string langCode)
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            IEnumerable<ThemeSelectDTO> childThemeDtos = await _courseService
+            IEnumerable<UserThemeSelectDTO> childThemeDtos = await _courseService
                 .GetChildrenLocalAsync(userId, themeId, langCode);
             if (childThemeDtos == null)
                 return RedirectToAction(""); // TODO: specify appropriate action name
 
-            IEnumerable<ThemeSelectModel> themeSelectModels = _mapper
-                .Map<IEnumerable<ThemeSelectModel>>(childThemeDtos);
+            IEnumerable<UserThemeSelectModel> themeSelectModels = _mapper
+                .Map<IEnumerable<UserThemeSelectModel>>(childThemeDtos);
             return Ok(childThemeDtos);
         }
 
@@ -131,7 +128,7 @@ namespace CourseGenerator.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status302Found)]
-        public async Task<IActionResult> GetUserCourseThemesLocalAsync(int courseId, 
+        public async Task<IActionResult> GetUserThemesLocalAsync(int courseId, 
             int levelId, string langCode)
         {
             string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -140,11 +137,11 @@ namespace CourseGenerator.Api.Controllers
             if (lastThemeId != null)
                 return RedirectToAction(""); // TODO: specify appropriate action name
 
-            IEnumerable<ThemeSelectDTO> themeSelectDtos = await _courseService
+            IEnumerable<UserThemeSelectDTO> themeSelectDtos = await _courseService
                 .GetUserCourseThemesLocalizedAsync(userId, courseId, levelId, langCode);
 
-            IEnumerable<ThemeSelectModel> themeSelectModels = _mapper
-                .Map<IEnumerable<ThemeSelectModel>>(themeSelectDtos);
+            IEnumerable<UserThemeSelectModel> themeSelectModels = _mapper
+                .Map<IEnumerable<UserThemeSelectModel>>(themeSelectDtos);
             return Ok(themeSelectModels);
         }
     }

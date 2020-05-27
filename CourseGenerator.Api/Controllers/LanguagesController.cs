@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using AutoMapper;
-using CourseGenerator.Api.Models;
-using CourseGenerator.BLL.DTO;
+using CourseGenerator.Api.Models.Selection;
+using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces;
-using CourseGenerator.DAL.Interfaces;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -18,9 +14,10 @@ namespace CourseGenerator.Api.Controllers
     /// <summary>
     /// Контролер, що містить методи, для роботи з мовами
     /// </summary>
-    [Route("api/[controller]")]
-    [Produces(MediaTypeNames.Application.Json, new string[] { MediaTypeNames.Application.Xml })]
     [ApiController]
+    [Route("api/[controller]")]
+    [Produces(MediaTypeNames.Application.Json, 
+        new string[] { MediaTypeNames.Application.Xml })]
     [SwaggerTag("Контролер, що містить методи, для роботи з мовами")]
     public class LanguagesController : ControllerBase
     {
@@ -32,7 +29,8 @@ namespace CourseGenerator.Api.Controllers
         /// </summary>
         /// <param name="mapper">Мапер (<see cref="IMapper"/>)</param>
         /// <param name="languageService">Сервіс для роботу з мовами</param>
-        public LanguagesController(IMapper mapper, ILanguageService languageService)
+        public LanguagesController(IMapper mapper, 
+            ILanguageService languageService)
         {
             _mapper = mapper;
             _languageService = languageService;
@@ -45,9 +43,10 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="200">Мови відібрано успішно</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IEnumerable<LanguageSelectModel>> GetLanguageSelectCollection()
+        public async Task<IEnumerable<LanguageSelectModel>> GetSelectsAsync()
         {
-            IEnumerable<LanguageSelectDTO> langSelectDtos = await _languageService.GetAllAsync();
+            IEnumerable<LanguageSelectDTO> langSelectDtos = await 
+                _languageService.GetAllAsync();
             IEnumerable<LanguageSelectModel> lengSelectModels = _mapper
                 .Map<IEnumerable<LanguageSelectModel>>(langSelectDtos);
             return lengSelectModels;

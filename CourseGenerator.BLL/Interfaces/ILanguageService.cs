@@ -1,8 +1,6 @@
-﻿using CourseGenerator.BLL.DTO;
-using CourseGenerator.Models.Entities.Info;
+﻿using CourseGenerator.BLL.DTO.Selection;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.BLL.Interfaces

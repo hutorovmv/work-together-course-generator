@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
@@ -12,6 +11,10 @@ using CourseGenerator.BLL.DTO;
 using CourseGenerator.Models.Entities.Identity;
 using System.Security.Claims;
 using CourseGenerator.Models.Entities.Security;
+using CourseGenerator.BLL.DTO.Security;
+using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.DAL.Pagination;
+using CourseGenerator.BLL.Extensions;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -26,15 +29,13 @@ namespace CourseGenerator.BLL.Services
             _uow = uow;
         }
 
-        /// <summary>
-        /// Створює користувача.
-        /// </summary>
-        /// <param name="registrationDto">дані користувача</param>
-        /// <returns>Дані про успішність реєстрації.</returns>
-        public async Task<OperationInfo> CreateAsync(UserRegistrationDTO registrationDto, params string[] roles)
+        /// <inheritdoc/>
+        public async Task<OperationInfo> CreateAsync(
+            RegisterDTO registrationDto, params string[] roles)
         {
             // Email використовується в якості імені користувача
-            OperationInfo userExistsResult = await NotExistWithUserNameAsync(registrationDto.Email);
+            OperationInfo userExistsResult = await UserNameNotExistsAsync(
+                registrationDto.Email);
             if (!userExistsResult.Succeeded)
                 return userExistsResult;
 
@@ -42,9 +43,11 @@ namespace CourseGenerator.BLL.Services
             User user = new User();
             user = _mapper.Map<User>(registrationDto);
 
-            IdentityResult createResult = await _uow.UserManager.CreateAsync(user, registrationDto.Password);
+            IdentityResult createResult = await _uow.UserManager
+                .CreateAsync(user, registrationDto.Password);
             if (createResult.Errors.Count() > 0)
-                return new OperationInfo(false, createResult.Errors.FirstOrDefault()?.Description);
+                return new OperationInfo(false,
+                    createResult.Errors.FirstOrDefault()?.Description);
 
             OperationInfo userHaveRole = await AddToRolesAsync(user, roles);
             if (!userHaveRole.Succeeded)
@@ -53,44 +56,34 @@ namespace CourseGenerator.BLL.Services
             return new OperationInfo(true, "User created successfuly");
         }
 
-        /// <summary>
-        /// Перевіряє чи існує користувач за іменем користувача.
-        /// </summary>
-        /// <param name="username">ім'я користувача</param>
-        /// <returns><see cref="OperationInfo.Succeeded"/> <c>true</c> коли такий 
-        /// користувач не існує та <c>false</c> - коли існує.</returns>
-        public async Task<OperationInfo> NotExistWithUserNameAsync(string userName)
+        /// <inheritdoc/>
+        public async Task<OperationInfo> UserNameNotExistsAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
             if (user != null)
-                return new OperationInfo(false, $"User with username = {userName} exists");
+                return new OperationInfo(false, $"User with " +
+                    $"username = {userName} exists");
 
-            return new OperationInfo(true, "There is no user with such username");
+            return new OperationInfo(true, "There is no user with " +
+                "such username");
         }
 
-        /// <summary>
-        /// Додає користувача до ролей.
-        /// </summary>
-        /// <param name="user">користувач</param>
-        /// <param name="role">роль</param>
-        /// <returns><see cref="OperationInfo.Succeeded"> - <c>true</c>, коли 
-        /// користувач успішно доданий до ролей та <c>false</c> - коли ні.</returns>
-        public async Task<OperationInfo> AddToRolesAsync(User user, params string[] roles)
+        /// <inheritdoc/>
+        public async Task<OperationInfo> AddToRolesAsync(User user,
+            params string[] roles)
         {
-            IdentityResult result = await _uow.UserManager.AddToRolesAsync(user, roles);
+            IdentityResult result = await _uow.UserManager
+                .AddToRolesAsync(user, roles);
             if (result.Errors.Count() > 0)
-                return new OperationInfo(false, result.Errors.FirstOrDefault().Description);
-                
-            return new OperationInfo(true, "Roles was successfully given to user");
+                return new OperationInfo(false,
+                    result.Errors.FirstOrDefault().Description);
+
+            return new OperationInfo(true, "Roles was successfully given " +
+                "to user");
         }
 
-        /// <summary>
-        /// Встановлює значення <c>true</c> для <see cref="User.PhoneNumberConfirmed" />.
-        /// </summary>
-        /// <param name="userName">ім'я користувача</param>
-        /// <returns><see cref="OperationInfo.Succeeded"/> - <c>true</c>, коли 
-        ///  номер телефону успішно підтверджено та <c>false</c> - коли ні.</returns>
-        public async Task<OperationInfo> ConfirmPhoneNumberAsync(string userName)
+        /// <inheritdoc/>
+        public async Task<OperationInfo> ConfirmPhoneAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
 
@@ -101,32 +94,75 @@ namespace CourseGenerator.BLL.Services
                     user.PhoneNumberConfirmed = true;
                     await _uow.UserManager.UpdateAsync(user);
                     await _uow.SaveAsync();
-                    return new OperationInfo(true, "Phone number is confirmed successfully");
+                    return new OperationInfo(true, "Phone number is " +
+                        "confirmed successfully");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return new OperationInfo(false, ex.Message);
                 }
             }
 
-            return new OperationInfo(false, "Phone number is already confirmed");
+            return new OperationInfo(false, "Phone number is already " +
+                "confirmed");
         }
 
-        /// <summary>
-        /// Отримує детальні дані про користувача.
-        /// </summary>
-        /// <param name="userName">ім'я користувача</param>
-        /// <returns>DTO, що містить детальну інформацію про користувача.</returns>
-        public async Task<UserDetailsDTO> GetDetailsByUserNameAsync(string userName)
+        /// <inheritdoc/>
+        public async Task<UserDTO> GetByNameAsync(string userName)
         {
             User user = await _uow.UserManager.FindByNameAsync(userName);
-            return _mapper.Map<UserDetailsDTO>(user);
+            return _mapper.Map<UserDTO>(user);
         }
 
+        /// <inheritdoc/>
+        public async Task<UserDTO> GetAsync(string id)
+        {
+            User user = await _uow.UserManager.FindByIdAsync(id);
+            return _mapper.Map<UserDTO>(user);
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationInfo> DeleteAsync(string id)
+        {
+            try
+            {
+                User user = await _uow.UserManager.FindByIdAsync(id);
+
+                await _uow.UserManager.DeleteAsync(user);
+                await _uow.SaveAsync();
+
+                return new OperationInfo(true, "User was successfuly deleted");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<PagedList<UserDTO>> GetPagedAsync(
+            string firstName = null, string lastName = null, 
+            string userName = null, string roleName = null, 
+            int pageSize = 6, int pageIndex = 1) 
+        {
+            PagedList<User> usersPaged = await _uow.UserManager
+                .FilterPagedAsync(firstName, lastName, userName, roleName, 
+                pageSize, pageIndex);
+            PagedList<UserDTO> userDtosPaged = usersPaged
+                .ConvertPagedList<User, UserDTO>(_mapper);
+            return userDtosPaged;
+        }
+
+        /// <inheritdoc/>
         public void Dispose() => _uow.Dispose();
 
-        // TODO: Зробити метод GetIdentityByPhoneNumber
-        
+        /// <summary>
+        /// Створює <see cref="ClaimsIdentity"/> для вказаного 
+        /// користувача.
+        /// </summary>
+        /// <param name="user">Користувач</param>
+        /// <returns><see cref="ClaimsIdentity"/> для даного користувача
+        /// </returns>
         private async Task<ClaimsIdentity> GetIdentityAsync(User user)
         {
             var claims = new List<Claim>
@@ -139,7 +175,8 @@ namespace CourseGenerator.BLL.Services
             };
 
             IList<string> roles = await _uow.UserManager.GetRolesAsync(user);
-            claims.AddRange(roles.Select(r => new Claim(ClaimsIdentity.DefaultRoleClaimType, r)));
+            claims.AddRange(roles.Select(r => new Claim(ClaimsIdentity
+                .DefaultRoleClaimType, r)));
 
             ClaimsIdentity identity = new ClaimsIdentity(claims, 
                 "Token", 
@@ -148,50 +185,72 @@ namespace CourseGenerator.BLL.Services
             return identity;
         }
 
-        /// <summary>
-        /// Створює <see cref="ClaimsIdentity"/> з клеймами користувача
-        /// з таким іменем користувача та паролем.
-        /// </summary>
-        /// <param name="username">ім'я користувача</param>
-        /// <param name="password">пароль</param>
-        /// <returns><see cref="ClaimsIdentity"/> з клеймами користувача.</returns>
-        public async Task<ClaimsIdentity> GetIdentityAsync(UserLoginDTO userLoginDto)
+        /// <inheritdoc/>
+        public async Task<ClaimsIdentity> GetIdentityAsync(
+            LoginDTO userLoginDto)
         {
-            User user = await _uow.UserManager.FindByNameAsync(userLoginDto.UserName);
+            User user = await _uow.UserManager.FindByNameAsync(
+                userLoginDto.UserName);
             if (user == null)
                 return null;
 
-            bool isPasswordValid = await _uow.UserManager.CheckPasswordAsync(user, userLoginDto.Password);
+            bool isPasswordValid = await _uow.UserManager
+                .CheckPasswordAsync(user, userLoginDto.Password);
             if (!isPasswordValid)
                 return null;
 
             return await GetIdentityAsync(user);
         }
 
-        public async Task<ClaimsIdentity> GetIdentityAsync(PhoneAuthDTO phoneAuthDto)
+        /// <inheritdoc/>
+        public async Task<ClaimsIdentity> GetIdentityAsync(
+            PhoneAuthDTO phoneAuthDto)
         {
-            bool codeIsValid = await _uow.PhoneAuthRepository
-                .GetAsync(phoneAuthDto.PhoneNumber, phoneAuthDto.Code) != null;
-            if (!codeIsValid)
+            PhoneAuth phoneAuth = await _uow.PhoneAuthRepository
+                .GetAsync(phoneAuthDto.PhoneNumber, phoneAuthDto.Code);
+            if (phoneAuth == null)
                 return null;
-
-            PhoneAuth phoneAuth = _mapper.Map<PhoneAuth>(phoneAuthDto);
 
             try
             {
                 _uow.PhoneAuthRepository.Delete(phoneAuth);
                 await _uow.SaveAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // log something
+                return null;
             }
 
-            User user = await _uow.UserManager.FindByPhoneNumberAsync(phoneAuth.PhoneNumber);
+            User user = await _uow.UserManager
+                .FindByPhoneNumberAsync(phoneAuth.PhoneNumber);
             return await GetIdentityAsync(user);
         }
 
-        public async Task<OperationInfo> CreatePhoneConfirmAsync(PhoneAuthDTO phoneAuthDto)
+        /// <inheritdoc/>
+        public async Task<ClaimsIdentity> GetIdentityAsync(string code)
+        {
+            CodeAuth codeAuth = await _uow.CodeAuthRepository
+                .GetByCodeAsync(code);
+            if (codeAuth == null)
+                return null;
+
+            try
+            {
+                _uow.CodeAuthRepository.Delete(codeAuth);
+                await _uow.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            User user = await _uow.UserManager.FindByIdAsync(codeAuth.UserId);
+            return await GetIdentityAsync(user);
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationInfo> SaveConfirmCodeAsync(
+            PhoneAuthDTO phoneAuthDto)
         {
             try
             {
@@ -208,12 +267,62 @@ namespace CourseGenerator.BLL.Services
                 await _uow.PhoneAuthRepository.CreateAsync(phoneAuth);
                 await _uow.SaveAsync();
                 
-                return new OperationInfo(true, "Phone number confirmation code was added successfully.");
+                return new OperationInfo(true, "Phone number confirmation " +
+                    "code was added successfully.");
             }
             catch (Exception ex)
             {
                 return new OperationInfo(false, ex.Message);
             }
+        }
+
+        /// <inheritdoc/>
+        public async Task<OperationInfo> SaveConfirmCodeAsync(
+            CodeAuthDTO codeAuthDto)
+        {
+            try
+            {
+                CodeAuth codeAuth = await _uow.CodeAuthRepository
+                    .GetAsync(codeAuthDto.UserId);
+
+                if (codeAuth != null)
+                {
+                    _uow.CodeAuthRepository.Delete(codeAuth);
+                    await _uow.SaveAsync();
+                }
+
+                codeAuth = _mapper.Map<CodeAuth>(codeAuthDto);
+                await _uow.CodeAuthRepository.CreateAsync(codeAuth);
+                await _uow.SaveAsync();
+
+                return new OperationInfo(true, "Confirmation code was added " +
+                    "successfully.");
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+        }
+
+        /// inheritdoc/>
+        public async Task<OperationInfo> UpdateProfileAsync(
+            UserSettingsDTO userSettings)
+        {
+            User user = await _uow.UserManager.FindByIdAsync(userSettings.Id);
+            
+            try
+            {
+                user = _mapper.Map(userSettings, user);
+
+                await _uow.UserManager.UpdateAsync(user);
+                await _uow.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                return new OperationInfo(false, ex.Message);
+            }
+
+            return new OperationInfo(true, "User was updated successfuly");
         }
     }
 }

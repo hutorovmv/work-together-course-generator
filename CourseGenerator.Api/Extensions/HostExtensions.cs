@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using CourseGenerator.DAL.Context;
 
 namespace CourseGenerator.Api.Extensions
 {
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
     public static class HostExtensions
     {
         public static IHost InitDatabase(this IHost host)
