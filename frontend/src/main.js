@@ -5,6 +5,9 @@ import Register from './components/Registration.vue'
 import Auth from './components/Authentication.vue'
 import Home from './components/Home.vue'
 import App from './App.vue'
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import $ from "jquery";
 
 Vue.config.productionTip = false
 
@@ -19,6 +22,10 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+$(function() {
+  
 })
 
 new Vue({

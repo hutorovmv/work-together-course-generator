@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="wrapper" v-if="$router.currentRoute.fullPath === '/'">
+      <div class="wrapper" v-if="$router.currentRoute.fullPath === '/'">
       <!-- <div class="test" @click="test()">asdfasdf</div> -->
       <router-link to="/register" class="register__link link"  :class="{hide: clicked}">To register</router-link>
     </div>
@@ -70,22 +70,43 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px !important;
+}
+
 .link {
   text-decoration: none;
-  color: rgb(107, 145, 221);
+  // color: #007bff;
   font-size: 25px;
   &.hide{
     display: none;
   }
 }
 .wrapper {
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  h1 {
-    color: rgb(107, 145, 221);
+  flex-grow: 1;
+  // h1 {
+  //   color: #007bff;
+  // }
+}
+.main-wrapper{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body a{
+  text-decoration: none;
+  color: inherit;
+  transition: all .3s;
+  &:hover{
+    color: #7367f0;
   }
 }
 </style>
