@@ -13,7 +13,7 @@ namespace CourseGenerator.DAL.Repositories
     {
         public HeadingManagerRepository(ApplicationContext context): base(context){}
 
-        public bool HasAcces(string userId, int headingId)
+        public bool HasAccess(string userId, int headingId)
         {
             return _context.HeadingManagers
                 .Any(uh => uh.HeadingId == headingId && uh.UserId == userId);

@@ -204,6 +204,7 @@ namespace CourseGenerator.Api
             services.AddScoped<IMaterialRepository, MaterialRepository>();
             services.AddScoped<IRepository<MaterialLang>, MaterialLangRepository>();
             services.AddScoped<ICourseManagerRepository, CourseManagerRepository>();
+            services.AddScoped<IMaterialManagerRepository, MaterialManagerRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

@@ -30,6 +30,7 @@ namespace CourseGenerator.DAL.Repositories
         public IMaterialRepository MaterialRepository { get; set; }
         public IRepository<MaterialLang> MaterialLangRepository { get; set; }
         public ICourseManagerRepository CourseManagerRepository {get;set;}
+        public IMaterialManagerRepository MaterialManagerRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
             ApplicationUserManager userManager,
@@ -46,6 +47,7 @@ namespace CourseGenerator.DAL.Repositories
             IMaterialRepository materialRepository,
             IRepository<MaterialLang> materialLangRepository,
             IHeadingManagerRepository headingManagerRepository,
+            IMaterialManagerRepository materialManagerRepository,
             ICourseManagerRepository courseManagerRepository)
         {
             _context = context;
@@ -65,6 +67,7 @@ namespace CourseGenerator.DAL.Repositories
             MaterialRepository = materialRepository;
             MaterialLangRepository = materialLangRepository;
             CourseManagerRepository = courseManagerRepository;
+            MaterialManagerRepository = materialManagerRepository;
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
@@ -99,6 +102,7 @@ namespace CourseGenerator.DAL.Repositories
                 MaterialRepository.Dispose();
                 MaterialLangRepository.Dispose();
                 CourseManagerRepository.Dispose();
+                MaterialLangRepository.Dispose();
             }
             disposed = true;
         }

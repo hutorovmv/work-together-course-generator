@@ -27,6 +27,7 @@ namespace CourseGenerator.DAL.Interfaces
         IMaterialRepository MaterialRepository { get; set; }
         IRepository<MaterialLang> MaterialLangRepository { get; set; }
         ICourseManagerRepository CourseManagerRepository { get; set; }
+        IMaterialManagerRepository MaterialManagerRepository { get; set; }
 
         Task SaveAsync();
     }

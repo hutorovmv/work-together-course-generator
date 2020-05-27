@@ -14,7 +14,7 @@ namespace CourseGenerator.DAL.Repositories
     {
         public CourseManagerRepository(ApplicationContext context) : base(context){}
 
-        public bool HasAcces(string userId, int courseId)
+        public bool HasAccess(string userId, int courseId)
         {
             return _context.CourseManagers
                 .Any(cm => cm.CourseId == courseId && cm.UserId == userId);
