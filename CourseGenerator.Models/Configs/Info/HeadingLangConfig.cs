@@ -21,7 +21,7 @@ namespace CourseGenerator.Models.Configs.Info
             builder.HasOne(p => p.Heading)
                 .WithMany(p => p.HeadingLangs)
                 .HasForeignKey(p => p.HeadingId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

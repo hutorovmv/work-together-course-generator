@@ -95,6 +95,13 @@ namespace CourseGenerator.Models
                 Name = "Програмування",
                 Description = "У цій рубриці знаходяться матеріали про програмування",
                 LangCode = "UA"
+            },
+            new HeadingLang
+            {
+                HeadingId = 5,
+                Name = "New Heading",
+                Description = "Heading for test",
+                LangCode = "ENG"
             }
         };
 
