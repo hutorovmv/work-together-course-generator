@@ -42,24 +42,56 @@ namespace CourseGenerator.DAL.Repositories
 
         }
 
-        public async Task<MaterialLang> GetParentsLocalAsync(int id, string langCode)
+        //public async Task<IEnumerable<MaterialLang>> GetParentsLocalAsync(int id, string langCode)
+        //{
+
+        //    Material parentMaterial = await _context.MaterialBlocks
+        //        .Where(mb => mb.ParentId == id)
+        //        .Select(mb => mb.ParentMaterial).FirstOrDefaultAsync();
+
+        //    MaterialLang localMaterial = await _context.MaterialLangs
+        //        .Where(ml => ml.LangCode == langCode 
+        //        && ml.MaterialId == parentMaterial.Id).FirstOrDefaultAsync();
+
+        //    if (localMaterial == null)
+        //    {
+        //        return await _context.MaterialLangs
+        //            .Where(ml => ml.MaterialId == parentMaterial.Id).FirstOrDefaultAsync();
+        //    }
+
+        //    return localMaterial;
+
+        //}
+
+        public async Task<IEnumerable<MaterialLang>> GetParentsLocalAsync(int id, string langCode)
         {
 
-            Material parentMaterial = await _context.MaterialBlocks
-                .Where(mb => mb.ParentId == id)
-                .Select(mb => mb.ParentMaterial).FirstOrDefaultAsync();
+            int? parentMaterialId = await _context.MaterialBlocks
+                .Where(mb => mb.ChildId == id)
+                .Select(mb => mb.ParentId).FirstOrDefaultAsync();
 
-            MaterialLang localMaterial = await _context.MaterialLangs
-                .Where(ml => ml.LangCode == langCode 
-                && ml.MaterialId == parentMaterial.Id).FirstOrDefaultAsync();
+            int? higherParentId = await _context.MaterialBlocks
+                .Where(mb => mb.ChildId == parentMaterialId)
+                .Select(mb => mb.ParentId).FirstOrDefaultAsync();
+
+            if (higherParentId == null)
+                await GetRootLocalAsync(langCode);
+
+            IQueryable<MaterialLang> localMaterial = _context.MaterialLangs
+                .Where(ml => ml.LangCode == langCode)
+                .Include(ml => ml.Material)
+                .ThenInclude(ml => ml.MaterialBlocksParent.Where(mbp => mbp.ParentId == higherParentId)
+                .Select(mbp => mbp.ChildMaterial));
 
             if (localMaterial == null)
             {
                 return await _context.MaterialLangs
-                    .Where(ml => ml.MaterialId == parentMaterial.Id).FirstOrDefaultAsync();
+                .Include(ml => ml.Material)
+                .ThenInclude(ml => ml.MaterialBlocksParent.Where(mbp => mbp.ParentId == higherParentId)
+                .Select(mbp => mbp.ChildMaterial)).ToListAsync();
             }
 
-            return localMaterial;
+            return await localMaterial.ToListAsync();
 
         }
 

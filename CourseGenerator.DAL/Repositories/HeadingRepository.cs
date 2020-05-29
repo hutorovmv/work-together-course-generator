@@ -136,12 +136,25 @@ namespace CourseGenerator.DAL.Repositories
                 .Where(hl => !hl.Heading.Code.Contains('.') && hl.LangCode == langCode).ToListAsync();
         }
 
-        public async Task<HeadingLang> GetParentsLocalAsync(string id, string langCode)
+        public async Task<IEnumerable<HeadingLang>> GetParentsLocalAsync(string id, string langCode)
         {
             Stack<string> codeByDots = new Stack<string>(id.Split('.'));
             codeByDots.Pop();
             string parent = string.Join('.', codeByDots);
-            return await GetLocalOrDefaultAsync(parent, langCode);
+
+            IQueryable<HeadingLang> headingLangs = _context.HeadingLangs
+                .Include(h => h.Heading)
+                .Where(h => h.Heading.Code == parent
+                && h.LangCode == langCode);
+
+            if (headingLangs == null)
+            {
+                headingLangs = _context.HeadingLangs
+                    .Include(hl => hl.Heading)
+                    .Where(h => h.Heading.Code == parent);
+            }
+
+            return await headingLangs.ToListAsync();
         }
 
     }

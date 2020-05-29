@@ -177,7 +177,7 @@ namespace CourseGenerator.BLL.Services
         public IEnumerable<HeadingLangDTO> GetParentsLocal(string code,
             string langCode)
         {
-            Task<HeadingLang> parents = _uow.HeadingRepository
+            Task<IEnumerable<HeadingLang>> parents = _uow.HeadingRepository
                 .GetParentsLocalAsync(code, langCode);
             IEnumerable<HeadingLangDTO> parentDtos = _mapper
                 .Map<IEnumerable<HeadingLangDTO>>(parents);
