@@ -157,6 +157,21 @@ namespace CourseGenerator.DAL.Repositories
             return await headingLangs.ToListAsync();
         }
 
+        public async Task<IEnumerable<MaterialLang>> GetMaterialLangsAsync(int id, string langCode)
+        {
+            IQueryable<MaterialLang> materialLangs = _context.MaterialLangs
+                .Include(ml => ml.Material)
+                .ThenInclude(m => m.HeadingMaterials.Where(hm => hm.HeadingId == id))
+                .Where(ml => ml.LangCode == langCode);
+
+            if (materialLangs == null)
+                return await _context.MaterialLangs
+                .Include(ml => ml.Material)
+                .ThenInclude(m => m.HeadingMaterials.Where(hm => hm.HeadingId == id)).ToListAsync();
+
+            return await materialLangs.ToListAsync();
+        }
+
     }
 
 }
