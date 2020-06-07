@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CourseGenerator.DAL.Interfaces
 {
-    public interface ICourseManagerRepository: IRepository<CourseManager>, IAccessManager<CourseManager, int>
+    public interface ICourseManagerRepository: IRepository<CourseManager>, IAccessManager<CourseManager>
     {
 
     }

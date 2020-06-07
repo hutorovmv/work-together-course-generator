@@ -1,10 +1,12 @@
-﻿namespace CourseGenerator.BLL.DTO.Locals
+﻿using CourseGenerator.BLL.Interfaces.Other;
+
+namespace CourseGenerator.BLL.DTO.Locals
 {
     /// <summary>
     /// Об'єкт для передачі локалізованої частини
     /// сутності - Рубрика
     /// </summary>
-    public class HeadingLangDTO
+    public class HeadingLangDTO : ILocal
     {
         /// <summary>
         /// Ідентифікатор рубрики

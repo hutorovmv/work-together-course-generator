@@ -15,6 +15,7 @@ namespace CourseGenerator.Api.Controllers
     /// Контролер, що містить методи, для роботи з мовами
     /// </summary>
     [ApiController]
+    //[ApiExplorerSettings(GroupName = "Language")]
     [Route("api/[controller]")]
     [Produces(MediaTypeNames.Application.Json, 
         new string[] { MediaTypeNames.Application.Xml })]

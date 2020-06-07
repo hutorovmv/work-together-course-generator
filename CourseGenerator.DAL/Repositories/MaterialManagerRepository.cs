@@ -12,10 +12,10 @@ namespace CourseGenerator.DAL.Repositories
     {
         public MaterialManagerRepository(ApplicationContext context): base(context){}
 
-        public bool HasAccess(string userId, int materialId)
+        public bool HasAccess(string userId, params object[] id)
         {
             return _context.MaterialManagers
-                .Any(mm => mm.MaterialId == materialId && mm.UserId == userId);
+                .Any(mm => new object[] { mm.MaterialId }  == id && mm.UserId == userId);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace CourseGenerator.DAL.Repositories
     {
         private readonly ApplicationContext _context;
 
+        public IHeadingRepository HeadingRepository { get; set; }
         public ApplicationUserManager UserManager { get; set; }
         public RoleManager<Role> RoleManager { get; set; }
         public IRepository<Language> LanguageRepository { get; set; }
@@ -21,7 +22,6 @@ namespace CourseGenerator.DAL.Repositories
         public IRepository<CourseLang> CourseLangRepository { get; set; }
         public IPhoneAuthRepository PhoneAuthRepository { get; set; }
         public IThemeRepository ThemeRepository { get; set; }
-        public IHeadingRepository HeadingRepository { get; set; }
         public ICodeAuthRepository CodeAuthRepository { get; set; }
         public IRepository<HeadingLang> HeadingLangRepository { get; set; }
         public IHeadingManagerRepository HeadingManagerRepository { get; set; }
@@ -33,12 +33,12 @@ namespace CourseGenerator.DAL.Repositories
         public IMaterialManagerRepository MaterialManagerRepository { get; set; }
 
         public UnitOfWork(ApplicationContext context,
+            IHeadingRepository headingRepository,
             ApplicationUserManager userManager,
             RoleManager<Role> roleManager,
             ICourseRepository courseRepository,
             IPhoneAuthRepository phoneAuthRepository,
             IThemeRepository themeRepository,
-            IHeadingRepository headingRepository,
             ICodeAuthRepository codeAuthRepository,
             IRepository<HeadingLang> headingLangRepository,
             IRepository<Language> languageRepository,
@@ -71,6 +71,33 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         public async Task SaveAsync() => await _context.SaveChangesAsync();
+
+        //public object GetRepository<TEntity>()
+        //{
+        //    var type = this.GetType();
+        //    foreach (var prop in type.GetProperties())
+        //    {
+        //        if (prop.PropertyType == typeof(TEntity))
+        //            return prop.GetValue(this);
+        //    }
+
+        //    return null;
+        //}
+
+        public object GetRepository<TEntity, TInterface>() 
+            where TEntity : class
+            where TInterface : class
+        {
+            var type = this.GetType();
+            foreach (var prop in type.GetProperties())
+            {
+                //prop.PropertyType is IRepository<TEntity> 
+                if (typeof(TInterface).IsAssignableFrom(prop.PropertyType))
+                    return prop.GetValue(this);
+            }
+
+            return null;
+        }
 
         public void Dispose()
         {
