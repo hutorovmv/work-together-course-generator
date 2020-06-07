@@ -131,19 +131,17 @@ namespace CourseGenerator.DAL.Repositories
 
         public async Task<IEnumerable<HeadingLang>> GetRootLocalAsync(string langCode)
         {
-            IQueryable<HeadingLang> headingLocalized = _context.HeadingLangs
-                .Include(hl => hl.Heading)
+            IEnumerable<HeadingLang> headingLocalized = _context.HeadingLangs
+                .Include(hl => hl.Heading).AsEnumerable()
                 .Where(hl => !hl.Heading.Code.Contains('.') && hl.LangCode == langCode);
 
-            IQueryable<HeadingLang> headingWithFirstLang = _context.HeadingLangs
-                 .Include(hl => hl.Heading)
-                 .Where(hl => !headingLocalized
-                    .Select(hl => hl.Heading.Code)
-                    .Contains(hl.Heading.Code));
+            IEnumerable<HeadingLang> headingWithFirstLang = _context.HeadingLangs
+                 .Include(hl => hl.Heading).AsEnumerable()
+                 .Where(hl => !hl.Heading.Code.Any() && !headingLocalized.Any(h => h.Heading.Code == hl.Heading.Code));
 
-            IQueryable<HeadingLang> headingLangs = headingLocalized.Union(headingWithFirstLang).OrderBy(hl => hl.Heading.Code);
+            IEnumerable<HeadingLang> headingLangs = headingLocalized.Union(headingWithFirstLang);
 
-            return await headingLangs.ToListAsync();
+            return headingLangs;
         }
 
         public async Task<IEnumerable<HeadingLang>> GetParentsLocalAsync(string id, string langCode)
