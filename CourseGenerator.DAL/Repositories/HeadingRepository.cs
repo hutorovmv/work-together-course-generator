@@ -40,30 +40,43 @@ namespace CourseGenerator.DAL.Repositories
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<HeadingLang>> GetChildrenLocalAsync(string id, string langCode)
+        public async Task<IEnumerable<HeadingLang>> GetChildrenLocalAsync(
+            string id, string langCode)
         {
-            int point = id.Count(s => s == '.');
+            int dots = id.Count(s => s == '.');
 
-            IQueryable<string> subHeadingCodes = _context.Headings
-                .Where(h => h.Code.StartsWith(id) && h.Code.Count(s => s == '.') - point == 1)
-                .Select(h => h.Code);
+            //IEnumerable<string> subHeadingCodes = (await _context.Headings
+            //    .Where(h => h.Code.StartsWith(id))
+            //    .ToListAsync())
+            //    .Where(h => h.Code.ToCharArray().Count(s => s == '.') - point == 1)
+            //    .Select(h => h.Code);
 
-            IQueryable<HeadingLang> headingsLocal = _context.HeadingLangs
-                .Include(hl => hl.Heading)
-                .Where(hl => hl.LangCode == langCode 
-                && subHeadingCodes.Contains(hl.Heading.Code));
+            //IQueryable<HeadingLang> headingsLocal = _context.HeadingLangs
+            //    .Include(hl => hl.Heading)
+            //    .Where(hl => hl.LangCode == langCode 
+            //    && subHeadingCodes.Contains(hl.Heading.Code));
 
-            IQueryable<HeadingLang> headingsDefault = _context.HeadingLangs
-                .Include(hl => hl.Heading)
-                .Where(hl => !headingsLocal
-                    .Select(hl => hl.Heading.Code) // TODO: rename param if errors
-                    .Contains(hl.Heading.Code));
+            //IQueryable<HeadingLang> headingsDefault = _context.HeadingLangs
+            //    .Include(hl => hl.Heading)
+            //    .Where(hl => !headingsLocal
+            //        .Select(hl => hl.Heading.Code) // TODO: rename param if errors
+            //        .Contains(hl.Heading.Code));
 
-            IQueryable<HeadingLang> headingLangs = headingsLocal
-                .Union(headingsDefault)
-                .OrderBy(l => l.Heading.Code); // TODO: inclure l.Heading if errors
+            //IQueryable<HeadingLang> headingLangs = headingsLocal
+            //    .Union(headingsDefault)
+            //    .OrderBy(l => l.Heading.Code); // TODO: inclure l.Heading if errors
 
-            return await headingLangs.ToListAsync();
+            IEnumerable<HeadingLang> headingLocalized = (await _context.HeadingLangs
+               .Include(h => h.Heading).ToListAsync())
+               .Where(h => h.Heading.Code.Count(s => s == '.') - dots  == 1 && h.LangCode == langCode);
+
+            IEnumerable<HeadingLang> headingsWithFirstLang = (await _context.HeadingLangs
+                .Include(h => h.Heading).ToListAsync())
+                .Where(h => h.Heading.Code.Count(s => s == '.') - dots == 1 && !headingLocalized.Any(hl => hl.Heading.Code == h.Heading.Code));
+
+            IEnumerable<HeadingLang> headingLangs = headingLocalized.Union(headingsWithFirstLang);
+
+            return headingLangs;
         }
 
         /// <summary>
@@ -131,38 +144,35 @@ namespace CourseGenerator.DAL.Repositories
 
         public async Task<IEnumerable<HeadingLang>> GetRootLocalAsync(string langCode)
         {
-            IEnumerable<HeadingLang> headingLocalized = _context.HeadingLangs
-                .Include(hl => hl.Heading).AsEnumerable()
-                .Where(hl => !hl.Heading.Code.Contains('.') && hl.LangCode == langCode);
+            IEnumerable<HeadingLang> headingLocalized = (await _context.HeadingLangs
+                .Include(hl => hl.Heading).ToListAsync())
+                .Where(hl => hl.LangCode == langCode  && !hl.Heading.Code.Contains('.'));
 
-            IEnumerable<HeadingLang> headingWithFirstLang = _context.HeadingLangs
-                 .Include(hl => hl.Heading).AsEnumerable()
-                 .Where(hl => !hl.Heading.Code.Any() && !headingLocalized.Any(h => h.Heading.Code == hl.Heading.Code));
+            IEnumerable<HeadingLang> headingWithFirstLang = (await _context.HeadingLangs
+                 .Include(hl => hl.Heading).ToListAsync())
+                 .Where(hl => !hl.Heading.Code.Contains('.') && !headingLocalized.Any(h => h.Heading.Code == hl.Heading.Code));
 
             IEnumerable<HeadingLang> headingLangs = headingLocalized.Union(headingWithFirstLang);
 
             return headingLangs;
         }
 
-        public async Task<IEnumerable<HeadingLang>> GetParentsLocalAsync(string id, string langCode)
+        public async Task<IEnumerable<HeadingLang>> GetParentsLocalAsync(
+            string id, string langCode)
         {
-            Stack<string> codeByDots = new Stack<string>(id.Split('.'));
-            codeByDots.Pop();
-            string parent = string.Join('.', codeByDots);
+            var dots = id.Count(s => s == '.');
 
-            IQueryable<HeadingLang> headingLangs = _context.HeadingLangs
-                .Include(h => h.Heading)
-                .Where(h => h.Heading.Code == parent
-                && h.LangCode == langCode);
+            IEnumerable<HeadingLang> headingLocalized = (await _context.HeadingLangs
+                .Include(h => h.Heading).ToListAsync())
+                .Where(h => dots - h.Heading.Code.Count(s => s == '.') == 1 && h.LangCode == langCode);
 
-            if (headingLangs == null)
-            {
-                headingLangs = _context.HeadingLangs
-                    .Include(hl => hl.Heading)
-                    .Where(h => h.Heading.Code == parent);
-            }
+            IEnumerable<HeadingLang> headingsWithFirstLang = (await _context.HeadingLangs
+                .Include(h => h.Heading).ToListAsync())
+                .Where(h => dots - h.Heading.Code.Count(s => s == '.') == 1 && !headingLocalized.Any(hl => hl.Heading.Code == h.Heading.Code));
 
-            return await headingLangs.ToListAsync();
+            IEnumerable<HeadingLang> headingLangs = headingLocalized.Union(headingsWithFirstLang);
+
+            return headingLangs;
         }
 
         public async Task<IEnumerable<MaterialLang>> GetMaterialLangsAsync(int id, string langCode)
@@ -179,6 +189,15 @@ namespace CourseGenerator.DAL.Repositories
 
             return await materialLangs.ToListAsync();
         }
+
+        public async Task<string> GetCode(int id)
+        {
+            return await _context.Headings
+                .Where(h => h.Id == id)
+                .Select(h => h.Code).FirstOrDefaultAsync();
+        }
+
+
 
     }
 

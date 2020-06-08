@@ -64,6 +64,13 @@ namespace CourseGenerator.Models
                 Code = "2",
                 UDC = "2",
                 Note = "Нова рубрика"
+            },
+            new Heading
+            {
+                Id = 6,
+                Code = "1.1.1.1",
+                UDC = "1.1.1.1",
+                Note = null
             }
         };
 

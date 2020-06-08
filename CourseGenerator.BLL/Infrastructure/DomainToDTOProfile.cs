@@ -30,7 +30,8 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<PhoneAuth, PhoneAuthDTO>();
             CreateMap<Heading, HeadingDTO>();
             CreateMap<HeadingLang, HeadingLangDTO>();
-            CreateMap<HeadingLang, HeadingSelectDTO>();
+            CreateMap<HeadingLang, HeadingSelectDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HeadingId));
             CreateMap<HeadingManager, HeadingManagerDTO>();
         }
     }
