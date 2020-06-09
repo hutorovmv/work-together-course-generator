@@ -79,7 +79,7 @@ namespace CourseGenerator.Api.Controllers.Generic
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpGet]
-        [Route("{lang}/hierarchy/parents")]
+        [Route("{lang}/hierarchy/parents/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public virtual async Task<IActionResult> GetParentsLocalAsync(TId id,
             string lang)
@@ -104,7 +104,7 @@ namespace CourseGenerator.Api.Controllers.Generic
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpGet]
-        [Route("{lang}/hierarchy/children")]
+        [Route("{lang}/hierarchy/children/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public virtual async Task<IActionResult> GetChildrenLocalAsync(TId id,
             string lang)

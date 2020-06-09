@@ -10,6 +10,7 @@ using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -158,7 +159,14 @@ namespace CourseGenerator.BLL.Services
             if (!result.Succeeded)
                 return null;
 
-            return await _hierarchyService.GetRootLocalAsync(userId, langCode);
+            IEnumerable<HeadingSelectDTO> items = await _hierarchyService
+                .GetRootLocalAsync(userId, langCode);
+
+            return items.Select(p => 
+            {
+                p.Code = _uow.HeadingRepository.GetCode(p.Id);
+                return p;
+            });
         }
 
         public async Task<IEnumerable<HeadingSelectDTO>> GetParentsLocalAsync(
@@ -170,8 +178,14 @@ namespace CourseGenerator.BLL.Services
             if (!result.Succeeded)
                 return null;
 
-            return await _hierarchyService.GetParentsLocalAsync(userId,
-                langCode, id);
+            IEnumerable<HeadingSelectDTO> items = await _hierarchyService
+                .GetParentsLocalAsync(userId, langCode, id);
+
+            return items.Select(p =>
+            {
+                p.Code = _uow.HeadingRepository.GetCode(p.Id);
+                return p;
+            });
         }
 
         public async Task<IEnumerable<HeadingSelectDTO>> GetChildrenLocalAsync(
@@ -183,8 +197,14 @@ namespace CourseGenerator.BLL.Services
             if (!result.Succeeded)
                 return null;
 
-            return await _hierarchyService.GetChildrenLocalAsync(userId,
-                langCode, id);
+            IEnumerable<HeadingSelectDTO> items = await _hierarchyService
+                .GetChildrenLocalAsync(userId, langCode, id);
+
+            return items.Select(p =>
+            {
+                p.Code = _uow.HeadingRepository.GetCode(p.Id);
+                return p;
+            });
         }
 
 

@@ -190,15 +190,11 @@ namespace CourseGenerator.DAL.Repositories
             return await materialLangs.ToListAsync();
         }
 
-        public async Task<string> GetCode(int id)
+        public string GetCode(int id)
         {
-            return await _context.Headings
+            return _context.Headings
                 .Where(h => h.Id == id)
-                .Select(h => h.Code).FirstOrDefaultAsync();
+                .Select(h => h.Code).FirstOrDefault();
         }
-
-
-
     }
-
 }

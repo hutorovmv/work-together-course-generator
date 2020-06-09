@@ -105,9 +105,9 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="403">Заборонено</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPagedAsync(string firstName, 
-            string lastName, string userName, string roleName, int pageSize = 6, 
-            int pageIndex = 1)
+        public async Task<IActionResult> GetPagedAsync(string firstName = null, 
+            string lastName = null, string userName = null, 
+            string roleName = null, int pageSize = 6, int pageIndex = 1)
         {
             PagedList<UserDTO> userDto = await _userManagementService
                 .GetPagedAsync(firstName, lastName, userName, roleName,
