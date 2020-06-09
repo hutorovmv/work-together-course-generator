@@ -52,6 +52,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpPost]
+        [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json,
             new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
