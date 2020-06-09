@@ -81,5 +81,19 @@ namespace CourseGenerator.DAL.Repositories
 
             return await themeLangs.ToListAsync();
         }
+
+        public async Task<IEnumerable<ThemeLang>> GetThemeCoursesAsync(int courseId, string langCode)
+        {
+            IQueryable<ThemeLang> themeLangs = _context.ThemeLangs
+                .Include(tl => tl.Theme)
+                .Where(tl => tl.LangCode == langCode && tl.Theme.CourseId == courseId);
+
+            if(themeLangs == null)
+                return await _context.ThemeLangs
+                    .Include(tl => tl.Theme)
+                    .Where(tl => tl.Theme.CourseId == courseId).ToListAsync();
+
+            return await themeLangs.ToListAsync();
+        }
     }
 }

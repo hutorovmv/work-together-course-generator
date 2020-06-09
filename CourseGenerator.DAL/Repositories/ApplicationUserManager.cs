@@ -39,6 +39,29 @@ namespace CourseGenerator.DAL.Repositories
         {
             
         }
+        public async Task<bool> IsAdmin(string userId)
+        {
+            User user = await FindByIdAsync(userId);
+            return await IsInRoleAsync(user, "Admin");
+        }
+
+        public async Task<bool> IsContentAdmin(string userId)
+        {
+            User user = await FindByIdAsync(userId);
+            return await IsInRoleAsync(user, "ContentAdmin");
+        }
+
+        public async Task<bool> IsContentManager(string userId)
+        {
+            User user = await FindByIdAsync(userId);
+            return await IsInRoleAsync(user, "ContentManager");
+        }
+
+        public async Task<bool> IsUser(string userId)
+        {
+            User user = await FindByIdAsync(userId);
+            return await IsInRoleAsync(user, "User");
+        }
 
         /// <summary>
         /// Шукає користувача за номером телефону.

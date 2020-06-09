@@ -5,6 +5,7 @@ using CourseGenerator.BLL.DTO.Locals;
 using CourseGenerator.BLL.DTO.Security;
 using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
@@ -29,6 +30,9 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<PhoneAuth, PhoneAuthDTO>();
             CreateMap<Heading, HeadingDTO>();
             CreateMap<HeadingLang, HeadingLangDTO>();
+            CreateMap<HeadingLang, HeadingSelectDTO>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HeadingId));
+            CreateMap<HeadingManager, HeadingManagerDTO>();
         }
     }
 }

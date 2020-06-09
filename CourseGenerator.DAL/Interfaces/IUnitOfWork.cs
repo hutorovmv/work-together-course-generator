@@ -30,5 +30,9 @@ namespace CourseGenerator.DAL.Interfaces
         IMaterialManagerRepository MaterialManagerRepository { get; set; }
 
         Task SaveAsync();
+
+        object GetRepository<TEntity, TInterface>()
+            where TEntity : class
+            where TInterface : class;
     }
 }

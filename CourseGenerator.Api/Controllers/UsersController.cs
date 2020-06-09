@@ -19,6 +19,7 @@ namespace CourseGenerator.Api.Controllers
     /// </summary>
     [Authorize]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "User")]
     [Route("api/[controller]")]
     [SwaggerTag("Контролер для роботи з користувачами")]
     [Produces(MediaTypeNames.Application.Json,
@@ -51,6 +52,7 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="401">Неавторизовано</response>
         /// <response code="403">Заборонено</response>
         [HttpPost]
+        [AllowAnonymous]
         [Consumes(MediaTypeNames.Application.Json,
             new string[] { MediaTypeNames.Application.Xml })]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -103,9 +105,9 @@ namespace CourseGenerator.Api.Controllers
         /// <response code="403">Заборонено</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPagedAsync(string firstName, 
-            string lastName, string userName, string roleName, int pageSize = 6, 
-            int pageIndex = 1)
+        public async Task<IActionResult> GetPagedAsync(string firstName = null, 
+            string lastName = null, string userName = null, 
+            string roleName = null, int pageSize = 6, int pageIndex = 1)
         {
             PagedList<UserDTO> userDto = await _userManagementService
                 .GetPagedAsync(firstName, lastName, userName, roleName,

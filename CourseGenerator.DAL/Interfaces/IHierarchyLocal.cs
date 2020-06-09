@@ -26,7 +26,7 @@ namespace CourseGenerator.DAL.Interfaces
         /// Id теми вищого рівня</param>
         /// <param name="langCode">Код мови, якою повертаються об'єкти</param>
         /// <returns>Колекцію об'єктів, на рівень вище від прийнятого</returns>
-        Task<TEntity> GetParentsLocalAsync(TId id, string langCode);
+        Task<IEnumerable<TEntity>> GetParentsLocalAsync(TId id, string langCode);
 
         /// <summary>
         /// Метод, що знаходить об'єкти нижче за ієрархією заданою мовою

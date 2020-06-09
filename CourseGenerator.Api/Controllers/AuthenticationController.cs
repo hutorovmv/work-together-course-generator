@@ -24,6 +24,7 @@ namespace CourseGenerator.Api.Controllers
     /// Контролер для роботи з аутентифікацією
     /// </summary>
     [ApiController]
+    //[ApiExplorerSettings(GroupName = "User")]
     [Route("api/[controller]")]
     [SwaggerTag("Контролер для роботи з аутентифікацією")]
     [Produces(MediaTypeNames.Application.Json, 

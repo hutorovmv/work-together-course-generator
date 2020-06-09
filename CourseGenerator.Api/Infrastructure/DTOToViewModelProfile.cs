@@ -26,6 +26,8 @@ namespace CourseGenerator.Api.Infrastructure
             CreateMap<PhoneAuthDTO, PhoneAuthModel>();
             CreateMap<HeadingDTO, HeadingModel>();
             CreateMap<HeadingLangDTO, HeadingLangModel>();
+            CreateMap<HeadingSelectDTO, HeadingSelectModel>();
+            CreateMap<HeadingManagerDTO, HeadingManagerModel>();
         }
     }
     #pragma warning restore CS1591

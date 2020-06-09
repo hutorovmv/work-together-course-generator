@@ -13,10 +13,10 @@ namespace CourseGenerator.DAL.Repositories
     {
         public HeadingManagerRepository(ApplicationContext context): base(context){}
 
-        public bool HasAccess(string userId, int headingId)
+        public bool HasAccess(string userId, params object[] id)
         {
             return _context.HeadingManagers
-                .Any(uh => uh.HeadingId == headingId && uh.UserId == userId);
+                .Any(uh => new object[] { uh.HeadingId }  == id && uh.UserId == userId);
         }
     }
 }

@@ -17,15 +17,19 @@ using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Api.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.IO;
 using CourseGenerator.BLL.DTO.User;
-using MongoDB.Driver;
 using CourseGenerator.Models.Entities.InfoByThemes;
+using CourseGenerator.BLL.Interfaces.Generic;
+using CourseGenerator.BLL.Services.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CourseGenerator.BLL.DTO.Entities;
+using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Api.Extensions;
 
 namespace CourseGenerator.Api
 {
@@ -166,10 +170,14 @@ namespace CourseGenerator.Api
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
-
+                
+                // SwaggerTag is used instead of xml comment for controller
+                options.IncludeXmlComments(xmlPath, includeControllerXmlComments: false);
                 options.EnableAnnotations();
-
+                
+                //options.TagActionsBy(api => new[] { api.GroupName });
+                //options.DocInclusionPredicate((name, api) => true);
+                
                 options.OperationFilter<SwaggerAuthJWTAttribute>();
             });
 
@@ -190,6 +198,7 @@ namespace CourseGenerator.Api
             #region Repositories and Services registration
             services.AddScoped(c => new MongoContext(connectionStringMongoDb));
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
+            //services.AddScoped(typeof(IHierarchyLocal<,>), typeof(HierarchyLocal<,>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -212,6 +221,19 @@ namespace CourseGenerator.Api
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
             services.AddScoped<IHeadingService, HeadingService>();
+
+            services.AddScoped(typeof(ICrudService<,>), typeof(CrudService<,>));
+            services.AddScoped(typeof(ICrudLocalService<,>), 
+                typeof(CrudLocalService<,>));
+            services.AddScoped(typeof(IAccessCheckService<>),
+                typeof(AccessCheckService<>));
+            services.AddScoped(typeof(IHierarchyLocalService<,,>), 
+                typeof(HierarchyLocalService<,,>));
+            services.AddScoped(typeof(IManagerAccessService<,>),
+                typeof(ManagerAccessService<,>));
+
+            services.AddScoped<IHeadingServiceUpgrade, HeadingServiceUpgrade>();
+
             #endregion
         }
 
