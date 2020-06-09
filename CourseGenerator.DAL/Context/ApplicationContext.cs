@@ -28,15 +28,29 @@ namespace CourseGenerator.DAL.Context
         public DbSet<MaterialType> MaterialTypes { get; set; }
         public DbSet<MaterialTypeLang> MaterialTypeLangs { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialBlock> MaterialBlocks { get; set; }
         public DbSet<MaterialLang> MaterialLangs { get; set; }
         public DbSet<MaterialCompetency> MaterialCompetencies { get; set; }
         public DbSet<HeadingMaterial> HeadingMaterials { get; set; }
+        public DbSet<ConductingMethod> ConductingMethods { get; set; }
+        public DbSet<ConductingMethodLang> ConductingMethodLangs { get; set; }
+        public DbSet<ContentType> ContentTypes { get; set; }
+        public DbSet<MaterialConductingMethod> MaterialConductingMethods { get; set; }
+        public DbSet<MaterialDependency> MaterialDependencies { get; set; }
+        public DbSet<MaterialDependencyKind> MaterialDependencyKinds { get; set; }
+        public DbSet<MaterialOrganizationForm> MaterialOrganizationForms { get; set; }
+        public DbSet<MaterialStructureKind> MaterialStructureKinds { get; set; }
+        public DbSet<OrganizationForm> OrganizationForms { get; set; }
+        public DbSet<OrganizationFormLang> OrganizationFormLangs { get; set; }
+
         #endregion
 
         #region InfoByThemes
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseLang> CourseLangs { get; set; }
         public DbSet<CourseDependency> CourseDependencies { get; set; }
+        public DbSet<CourseDependencyKind> CourseDependencyKinds { get; set; }
+        public DbSet<CourseMaterial> CourseMaterials { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<ThemeLang> ThemeLangs { get; set; }
         public DbSet<CourseHeading> CourseHeadings { get; set; }
@@ -44,12 +58,25 @@ namespace CourseGenerator.DAL.Context
         #endregion
 
         #region CourseAccess
+        public DbSet<CourseManager> CourseManagers { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupMessage> GroupMessages { get; set; }
+        public DbSet<UserCourseMessage> UserCourseMessages { get; set; }
+        public DbSet<UserMaterialMessage> UserMaterialMessages { get; set; }
+        public DbSet<UserGroup> UserGroups { get; set; }
+        public DbSet<UserMaterial> UserMaterials { get; set; }
         public DbSet<UserHeading> UserHeadings { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<UserTheme> UserThemes { get; set; }
+        public DbSet<UserMaterialResult> UserMaterialResults { get; set; }
+        public DbSet<UserLanguagePriority> UserLanguagePriorities { get; set; }
+        public DbSet<HeadingManager> HeadingManagers { get; set; }
+        public DbSet<MaterialManager> MaterialManagers { get; set; }
         #endregion
 
+
         public DbSet<PhoneAuth> PhoneAuths { get; set; }
+        public DbSet<CodeAuth> CodeAuths { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) {}
 
@@ -100,6 +127,11 @@ namespace CourseGenerator.DAL.Context
             modelBuilder.ApplyConfiguration(new GroupConfig());
             modelBuilder.ApplyConfiguration(new UserGroupConfig());
             modelBuilder.ApplyConfiguration(new GroupMessageConfig());
+            modelBuilder.ApplyConfiguration(new CodeAuthConfig());
+            modelBuilder.ApplyConfiguration(new UserLanguagePriorityConfig());
+            modelBuilder.ApplyConfiguration(new HeadingManagerConfig());
+            modelBuilder.ApplyConfiguration(new MaterialManagerConfig());
+            modelBuilder.ApplyConfiguration(new CourseManagerConfig());
 
             #region Info block
             modelBuilder.Entity<Language>().HasData(TestData.Languages);

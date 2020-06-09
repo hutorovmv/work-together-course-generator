@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CourseGenerator.Models.Entities.Info
+﻿namespace CourseGenerator.Models.Entities.Info
 {
     public class MaterialDependency
     {

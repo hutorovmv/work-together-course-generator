@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using CourseGenerator.Models.Entities.Info;
 
@@ -16,7 +13,8 @@ namespace CourseGenerator.Models.Configs.Info
 
             builder.HasOne(p => p.Heading)
                 .WithMany(p => p.HeadingCompetencies)
-                .HasForeignKey(p => p.HeadingId);
+                .HasForeignKey(p => p.HeadingId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(p => p.Competency)
                 .WithMany(p => p.HeadingCompetencies)

@@ -1,7 +1,5 @@
 ﻿using CourseGenerator.Models.Entities.InfoByThemes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CourseGenerator.DAL.Interfaces
@@ -14,5 +12,7 @@ namespace CourseGenerator.DAL.Interfaces
             string langCode, int courseId, int levelId);
 
         Task<IEnumerable<ThemeLang>> GetChildrenLocalAsync(int parentId, string levelCode);
+
+        Task<IEnumerable<ThemeLang>> GetThemeCoursesAsync(int courseId, string langCode);
     }
 }

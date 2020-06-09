@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CourseGenerator.Models.Entities.Info;
+﻿using CourseGenerator.Models.Entities.Info;
 
 namespace CourseGenerator.Models.Entities.InfoByThemes
 {

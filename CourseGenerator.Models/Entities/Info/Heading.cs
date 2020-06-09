@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
 
@@ -26,6 +24,7 @@ namespace CourseGenerator.Models.Entities.Info
         public ICollection<UserHeading> UserHeadings { get; set; }
         public ICollection<CourseHeading> CourseHeadings { get; set; }
         public ICollection<HeadingLang> HeadingLangs { get; set; }
+        public ICollection<HeadingManager> HeadingManagers { get; set; }
 
         public Heading()
         {
@@ -34,6 +33,7 @@ namespace CourseGenerator.Models.Entities.Info
             UserHeadings = new List<UserHeading>();
             CourseHeadings = new List<CourseHeading>();
             HeadingLangs = new List<HeadingLang>();
+            HeadingManagers = new List<HeadingManager>();
         }
     }
 }

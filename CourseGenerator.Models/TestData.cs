@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CourseGenerator.Models.Entities.Info;
+﻿using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
 
@@ -35,30 +33,44 @@ namespace CourseGenerator.Models
             new Heading
             {
                 Id = 1,
-                Code = "01",
+                Code = "1",
                 UDC = "01",
                 Note = "Примітка"
             },
             new Heading
             {
                 Id = 2,
-                Code = "01.01",
-                UDC = "01.01",
+                Code = "1.1",
+                UDC = "1.1",
                 Note = "Дочірня рубрика минулої"
             },
             new Heading
             {
                 Id = 3,
-                Code = "01.01.01",
-                UDC = "01.01.01",
+                Code = "1.1.1",
+                UDC = "1.1.1",
                 Note = null
             },
             new Heading
             {
                 Id = 4,
-                Code = "02",
-                UDC = "02",
+                Code = "1.1.2",
+                UDC = "1.1.2",
+                Note = null
+            },
+            new Heading
+            {
+                Id = 5,
+                Code = "2",
+                UDC = "2",
                 Note = "Нова рубрика"
+            },
+            new Heading
+            {
+                Id = 6,
+                Code = "1.1.1.1",
+                UDC = "1.1.1.1",
+                Note = null
             }
         };
 
@@ -90,6 +102,13 @@ namespace CourseGenerator.Models
                 Name = "Програмування",
                 Description = "У цій рубриці знаходяться матеріали про програмування",
                 LangCode = "UA"
+            },
+            new HeadingLang
+            {
+                HeadingId = 5,
+                Name = "New Heading",
+                Description = "Heading for test",
+                LangCode = "ENG"
             }
         };
 
@@ -356,21 +375,21 @@ namespace CourseGenerator.Models
                 MaterialId = 1,
                 LangCode = "ENG",
                 Name = "ASP.NET Core",
-                
+
             },
             new MaterialLang
             {
                 MaterialId = 2,
                 LangCode = "UA",
                 Name = "Запуск приложения. Класс Program",
-               
+
             },
             new MaterialLang
             {
                 MaterialId = 3,
                 LangCode = "UA",
                 Name = "Програмування на C#",
-                
+
             }
         };
 
@@ -576,7 +595,7 @@ namespace CourseGenerator.Models
                 CourseId = 3,
                 LevelNumber = 1,
                 Number = 5,
-                ParentId = 4,
+                ParentId = null,
                 MaterialId = 1,
                 Note = null
             },
@@ -586,7 +605,7 @@ namespace CourseGenerator.Models
                 CourseId = 3,
                 LevelNumber = 1,
                 Number = 6,
-                ParentId = 4,
+                ParentId = 5,
                 MaterialId = 1,
                 Note = null
             }
@@ -671,13 +690,24 @@ namespace CourseGenerator.Models
                 Note = null
             }
         };
-       
+
         #endregion
 
         #region CourseAccess
         public static UserHeading[] UserHeadings;
         public static UserCourse[] UserCourses;
         public static UserTheme[] UserThemes;
+
+        public static MaterialManager[] MaterialManagers =
+        {
+            new MaterialManager
+            {
+                UserId = "User1",
+                MaterialId = 1,
+                IsOwner = false,
+                Note = "Примітка"
+            }
+        };
         #endregion
     }
 }

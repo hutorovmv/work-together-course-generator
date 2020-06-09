@@ -1,21 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.BLL.Infrastructure;
-using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.Services;
 using CourseGenerator.DAL.Interfaces;
 using CourseGenerator.DAL.Context;
@@ -24,18 +17,23 @@ using CourseGenerator.Models.Entities.Identity;
 using CourseGenerator.Api.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Reflection;
 using System.IO;
+using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.Models.Entities.InfoByThemes;
+using CourseGenerator.BLL.Interfaces.Generic;
+using CourseGenerator.BLL.Services.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CourseGenerator.BLL.DTO.Entities;
+using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Api.Extensions;
 
 namespace CourseGenerator.Api
 {
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -172,13 +170,17 @@ namespace CourseGenerator.Api
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                options.IncludeXmlComments(xmlPath);
-
+                
+                // SwaggerTag is used instead of xml comment for controller
+                options.IncludeXmlComments(xmlPath, includeControllerXmlComments: false);
                 options.EnableAnnotations();
-
+                
+                //options.TagActionsBy(api => new[] { api.GroupName });
+                //options.DocInclusionPredicate((name, api) => true);
+                
                 options.OperationFilter<SwaggerAuthJWTAttribute>();
             });
-            
+
 
             #region Sessions configuration
             //services.AddDistributedMemoryCache();
@@ -188,22 +190,50 @@ namespace CourseGenerator.Api
             //    options.IdleTimeout = TimeSpan.FromDays(1);
             //});
             #endregion
-
+          
+            string connectionStringMongoDb = Configuration.GetConnectionString("CourseGeneratorMongoDB");
+            
             services.AddSingleton(c => authOptions);
 
             #region Repositories and Services registration
+            services.AddScoped(c => new MongoContext(connectionStringMongoDb));
             services.AddScoped(typeof(IRepository<>), typeof(GenericEFRepository<>));
+            //services.AddScoped(typeof(IHierarchyLocal<,>), typeof(HierarchyLocal<,>));
             services.AddScoped<IPhoneAuthRepository, PhoneAuthRepository>();
             services.AddScoped<IRepository<Language>, GenericEFRepository<Language>>();
             services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IRepository<CourseLang>, CourseLangRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
-            services.AddScoped<IRepository<UserCourse>, GenericEFRepository<UserCourse>>();
+            services.AddScoped<IHeadingRepository, HeadingRepository>();
+            services.AddScoped<ICodeAuthRepository, CodeAuthRepository>();
+            services.AddScoped<IRepository<HeadingLang>, HeadingLangRepository>();
+            services.AddScoped<IHeadingManagerRepository, HeadingManagerRepository>();
+            services.AddScoped<IUserCoursesRepository, UserCourseRepository>();
+            services.AddScoped<IFileRepository, FileMongoRepository>();
+            services.AddScoped<IMaterialRepository, MaterialRepository>();
+            services.AddScoped<IRepository<MaterialLang>, MaterialLangRepository>();
+            services.AddScoped<ICourseManagerRepository, CourseManagerRepository>();
+            services.AddScoped<IMaterialManagerRepository, MaterialManagerRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageService, LanguageService>();
+            services.AddScoped<IHeadingService, HeadingService>();
+
+            services.AddScoped(typeof(ICrudService<,>), typeof(CrudService<,>));
+            services.AddScoped(typeof(ICrudLocalService<,>), 
+                typeof(CrudLocalService<,>));
+            services.AddScoped(typeof(IAccessCheckService<>),
+                typeof(AccessCheckService<>));
+            services.AddScoped(typeof(IHierarchyLocalService<,,>), 
+                typeof(HierarchyLocalService<,,>));
+            services.AddScoped(typeof(IManagerAccessService<,>),
+                typeof(ManagerAccessService<,>));
+
+            services.AddScoped<IHeadingServiceUpgrade, HeadingServiceUpgrade>();
+
             #endregion
         }
 
@@ -245,7 +275,7 @@ namespace CourseGenerator.Api
             #region User related sample info initialization
             IdentityDataInitializer.AddRoles(roleManager);
 
-            UserRegistrationDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<UserRegistrationDTO>();
+            RegisterDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<RegisterDTO>();
             IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
             IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
             #endregion

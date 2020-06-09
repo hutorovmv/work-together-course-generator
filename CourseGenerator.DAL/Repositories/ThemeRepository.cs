@@ -2,7 +2,6 @@
 using CourseGenerator.Models.Entities.InfoByThemes;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using CourseGenerator.Models.Entities.CourseAccess;
@@ -79,6 +78,20 @@ namespace CourseGenerator.DAL.Repositories
                               .Contains(tl.ThemeId));
 
             IQueryable<ThemeLang> themeLangs = themesWithSpecifiedLang.Union(themesWithFirstLang);
+
+            return await themeLangs.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ThemeLang>> GetThemeCoursesAsync(int courseId, string langCode)
+        {
+            IQueryable<ThemeLang> themeLangs = _context.ThemeLangs
+                .Include(tl => tl.Theme)
+                .Where(tl => tl.LangCode == langCode && tl.Theme.CourseId == courseId);
+
+            if(themeLangs == null)
+                return await _context.ThemeLangs
+                    .Include(tl => tl.Theme)
+                    .Where(tl => tl.Theme.CourseId == courseId).ToListAsync();
 
             return await themeLangs.ToListAsync();
         }

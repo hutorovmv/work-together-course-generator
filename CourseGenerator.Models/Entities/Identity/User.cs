@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
@@ -11,7 +10,7 @@ namespace CourseGenerator.Models.Entities.Identity
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PhotoUrl { get; set; }
+        public string PhotoId { get; set; }
         public DateTime? BirthDate { get; set; }
         public string PreferedLangCode { get; set; }
         public Language PreferedLang { get; set; }
@@ -28,7 +27,10 @@ namespace CourseGenerator.Models.Entities.Identity
         public ICollection<GroupMessage> GroupMessages { get; set; }
         public ICollection<UserCourseMessage> UserCourseMessages { get; set; }
         public ICollection<UserCourseMessage> SenderCourseMessages { get; set; } 
-
+        public ICollection<UserLanguagePriority> UserLanguagePriorities { get; set; }
+        public ICollection<HeadingManager> HeadingManagers { get; set; }
+        public ICollection<MaterialManager> MaterialManagers { get; set; }
+        public ICollection<CourseManager> CourseManagers { get; set; }
         public User()
         {
             UserHeadings = new List<UserHeading>();
@@ -42,6 +44,10 @@ namespace CourseGenerator.Models.Entities.Identity
             GroupMessages = new List<GroupMessage>();
             UserCourseMessages = new List<UserCourseMessage>();
             SenderCourseMessages = new List<UserCourseMessage>();
+            UserLanguagePriorities = new List<UserLanguagePriority>();
+            HeadingManagers = new List<HeadingManager>();
+            MaterialManagers = new List<MaterialManager>();
+            CourseManagers = new List<CourseManager>();
         }
     }
 }
