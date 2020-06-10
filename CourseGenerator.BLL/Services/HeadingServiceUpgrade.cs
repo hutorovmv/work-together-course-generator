@@ -11,6 +11,7 @@ using CourseGenerator.Models.Entities.Info;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -53,7 +54,7 @@ namespace CourseGenerator.BLL.Services
             HeadingDTO dto)
         {
             OperationInfo result = await _accessCheckService
-                .HasCreateAccess(userId);
+                .HasCreateAccess(userId, dto.Id);
 
             if (!result.Succeeded)
                 return null;
@@ -65,7 +66,7 @@ namespace CourseGenerator.BLL.Services
             params object[] id)
         {
             OperationInfo result = await _accessCheckService
-                .HasGetAccess(userId);
+                .HasGetAccess(userId, id);
 
             if (!result.Succeeded)
                 return null;
@@ -77,7 +78,7 @@ namespace CourseGenerator.BLL.Services
             HeadingDTO dto)
         {
             OperationInfo result = await _accessCheckService
-                .HasUpdateAccess(userId);
+                .HasUpdateAccess(userId, dto.Id);
 
             if (!result.Succeeded)
                 return null;
@@ -89,7 +90,7 @@ namespace CourseGenerator.BLL.Services
             params object[] id)
         {
             OperationInfo result = await _accessCheckService
-                .HasDeleteAccess(userId);
+                .HasDeleteAccess(userId, id);
 
             if (!result.Succeeded)
                 return null;
@@ -103,7 +104,7 @@ namespace CourseGenerator.BLL.Services
             HeadingLangDTO dto)
         {
             OperationInfo result = await _accessCheckService
-                .HasCreateAccess(userId);
+                .HasCreateAccess(userId, dto.HeadingId);
 
             if (!result.Succeeded)
                 return null;
@@ -115,7 +116,7 @@ namespace CourseGenerator.BLL.Services
             string langCode, params object[] id)
         {
             OperationInfo result = await _accessCheckService
-                .HasGetAccess(userId);
+                .HasGetAccess(userId, id);
 
             if (!result.Succeeded)
                 return null;
@@ -127,7 +128,7 @@ namespace CourseGenerator.BLL.Services
             HeadingLangDTO dto)
         {
             OperationInfo result = await _accessCheckService
-                .HasUpdateAccess(userId);
+                .HasUpdateAccess(userId, dto.HeadingId);
 
             if (!result.Succeeded)
                 return null;
@@ -139,7 +140,7 @@ namespace CourseGenerator.BLL.Services
             string langCode, params object[] id)
         {
             OperationInfo result = await _accessCheckService
-                .HasDeleteAccess(userId);
+                .HasDeleteAccess(userId, id);
 
             if (!result.Succeeded)
                 return null;
@@ -153,58 +154,28 @@ namespace CourseGenerator.BLL.Services
         public async Task<IEnumerable<HeadingSelectDTO>> GetRootLocalAsync(
             string userId, string langCode)
         {
-            OperationInfo result = await _accessCheckService
-                .HasHierarchyAccess(userId);
-
-            if (!result.Succeeded)
-                return null;
-
             IEnumerable<HeadingSelectDTO> items = await _hierarchyService
                 .GetRootLocalAsync(userId, langCode);
 
-            return items.Select(p => 
-            {
-                p.Code = _uow.HeadingRepository.GetCode(p.Id);
-                return p;
-            });
+            return await SelectAccessableAsync(userId, items);
         }
 
         public async Task<IEnumerable<HeadingSelectDTO>> GetParentsLocalAsync(
             string userId, string langCode, string id)
         {
-            OperationInfo result = await _accessCheckService
-                .HasHierarchyAccess(userId);
-
-            if (!result.Succeeded)
-                return null;
-
             IEnumerable<HeadingSelectDTO> items = await _hierarchyService
                 .GetParentsLocalAsync(userId, langCode, id);
 
-            return items.Select(p =>
-            {
-                p.Code = _uow.HeadingRepository.GetCode(p.Id);
-                return p;
-            });
+            return await SelectAccessableAsync(userId, items);
         }
 
         public async Task<IEnumerable<HeadingSelectDTO>> GetChildrenLocalAsync(
             string userId, string langCode, string id)
         {
-            OperationInfo result = await _accessCheckService
-                .HasHierarchyAccess(userId);
-
-            if (!result.Succeeded)
-                return null;
-
             IEnumerable<HeadingSelectDTO> items = await _hierarchyService
                 .GetChildrenLocalAsync(userId, langCode, id);
 
-            return items.Select(p =>
-            {
-                p.Code = _uow.HeadingRepository.GetCode(p.Id);
-                return p;
-            });
+            return await SelectAccessableAsync(userId, items);
         }
 
 
@@ -258,6 +229,25 @@ namespace CourseGenerator.BLL.Services
             return await DeleteManagerAsync(userId, id);
         }
 
+
+        private async Task<List<HeadingSelectDTO>> SelectAccessableAsync(
+            string userId, IEnumerable<HeadingSelectDTO> items)
+        {
+            List<HeadingSelectDTO> itemList = new List<HeadingSelectDTO>(items);
+            
+            for (int i = 0; i < itemList.Count; i++)
+            {
+                OperationInfo result = await _accessCheckService
+                    .HasGetAccess(userId, itemList[i].Id);
+                if (!result.Succeeded)
+                    itemList.RemoveAt(i--);
+                else
+                    itemList[i].Code = await _uow.HeadingRepository
+                        .GetCode(itemList[i].Id);
+            }
+
+            return itemList;
+        }
 
         public virtual void Dispose()
         {

@@ -19,7 +19,8 @@ namespace CourseGenerator.BLL.Services.Generic
                 IAccessManager<TAccessEntity>>() as IAccessManager<TAccessEntity>;
         }
 
-        public virtual async Task<OperationInfo> HasCreateAccess(string userId)
+        public virtual async Task<OperationInfo> HasCreateAccess(string userId,
+            params object[] id)
         {
             bool hasAccess = await _uow.UserManager.IsContentAdmin(userId);
             
@@ -29,7 +30,8 @@ namespace CourseGenerator.BLL.Services.Generic
             return new OperationInfo(true, "Access granted");
         }
 
-        public virtual async Task<OperationInfo> HasGetAccess(string userId)
+        public virtual async Task<OperationInfo> HasGetAccess(string userId,
+            params object[] id)
         {
             bool hasAccess = await _uow.UserManager.IsContentAdmin(userId)
                 || _accessManager.HasAccess(userId);
@@ -40,7 +42,8 @@ namespace CourseGenerator.BLL.Services.Generic
             return new OperationInfo(true, "Access granted");
         }
 
-        public virtual async Task<OperationInfo> HasUpdateAccess(string userId)
+        public virtual async Task<OperationInfo> HasUpdateAccess(string userId,
+            params object[] id)
         {
             bool hasAccess = await _uow.UserManager.IsContentAdmin(userId);
 
@@ -50,21 +53,10 @@ namespace CourseGenerator.BLL.Services.Generic
             return new OperationInfo(true, "Access granted");
         }
 
-        public virtual async Task<OperationInfo> HasDeleteAccess(string userId)
+        public virtual async Task<OperationInfo> HasDeleteAccess(string userId,
+            params object[] id)
         {
             bool hasAccess = await _uow.UserManager.IsContentAdmin(userId);
-
-            if (!hasAccess)
-                return new OperationInfo(false, $"Not permitted");
-
-            return new OperationInfo(true, "Access granted");
-        }
-
-        public virtual async Task<OperationInfo> HasHierarchyAccess(
-            string userId)
-        {
-            bool hasAccess = await _uow.UserManager.IsContentAdmin(userId)
-                || _accessManager.HasAccess(userId);
 
             if (!hasAccess)
                 return new OperationInfo(false, $"Not permitted");
