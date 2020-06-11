@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>c1050377-05eb-41cd-869a-e255668af125</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0-preview.3.20215.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0-preview.3.20215.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-preview.3.20215.2" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
+    <PackageReference Include="Telegram.Bot" Version="15.5.1" />
+  </ItemGroup>
+
+</Project>
