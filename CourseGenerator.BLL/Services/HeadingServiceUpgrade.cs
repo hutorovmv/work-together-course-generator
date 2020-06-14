@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using AutoMapper;
 
 namespace CourseGenerator.BLL.Services
 {
@@ -30,9 +31,12 @@ namespace CourseGenerator.BLL.Services
             _accessCheckService;
         protected readonly IManagerAccessService<HeadingManager,
             HeadingManagerDTO> _managerAccessService;
+        
         protected readonly IUnitOfWork _uow;
+        protected readonly IMapper _mapper;
 
         public HeadingServiceUpgrade(
+            IMapper mapper,
             IUnitOfWork uow,
             ICrudService<Heading, HeadingDTO> crudService,
             ICrudLocalService<HeadingLang, HeadingLangDTO> localCrudService,
@@ -43,6 +47,8 @@ namespace CourseGenerator.BLL.Services
                 managerAccessService)
         {
             _uow = uow;
+            _mapper = mapper;
+
             _crudService = crudService;
             _localCrudService = localCrudService;
             _hierarchyService = hierarchyService;
@@ -50,16 +56,30 @@ namespace CourseGenerator.BLL.Services
             _managerAccessService = managerAccessService;
         }
 
-        public async Task<OperationInfo> CreateAsync(string userId,
+        public async Task<int?> CreateAsync(string userId,
             HeadingDTO dto)
         {
             OperationInfo result = await _accessCheckService
                 .HasCreateAccess(userId, dto.Id);
 
-            if (!result.Succeeded)
+            if (!result.Succeeded || dto == null)
                 return null;
 
-            return await _crudService.CreateAsync(userId, dto);
+            try
+            {
+                Heading entity = _mapper.Map<Heading>(dto);
+
+                await _uow.HeadingRepository.CreateAsync(entity);
+                await _uow.SaveAsync();
+
+                return entity.Id;
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return null;
         }
 
         public async Task<HeadingDTO> GetAsync(string userId,
@@ -96,6 +116,17 @@ namespace CourseGenerator.BLL.Services
                 return null;
 
             return await _crudService.DeleteAsync(userId, id);
+        }
+
+        async Task<OperationInfo> ICrudService<Heading, HeadingDTO>
+            .CreateAsync(string userId, HeadingDTO dto)
+        {
+            bool result = await CreateAsync(userId, dto) != null;
+            
+            if (result)
+                return new OperationInfo(true, "Heading created successfully");
+
+            return new OperationInfo(false, "Error while creating heading");
         }
 
 

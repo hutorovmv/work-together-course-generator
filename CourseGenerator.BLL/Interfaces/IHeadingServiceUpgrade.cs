@@ -5,6 +5,7 @@ using CourseGenerator.BLL.DTO.Selection;
 using CourseGenerator.BLL.Interfaces.Generic;
 using CourseGenerator.Models.Entities.CourseAccess;
 using CourseGenerator.Models.Entities.Info;
+using System.Threading.Tasks;
 
 namespace CourseGenerator.BLL.Interfaces
 {
@@ -13,5 +14,6 @@ namespace CourseGenerator.BLL.Interfaces
         IHierarchyLocalService<string, HeadingLang, HeadingSelectDTO>,
         IManagerAccessService<HeadingManager, HeadingManagerDTO>
     {
+        new Task<int?> CreateAsync(string userId, HeadingDTO dto);
     }
 }

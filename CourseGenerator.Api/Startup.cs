@@ -277,8 +277,8 @@ namespace CourseGenerator.Api
             RegisterDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<RegisterDTO>();
             IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
             IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
-            mongoInitializer.Drop();
-            mongoInitializer.Initialize();
+            //mongoInitializer.Drop();
+            //mongoInitializer.Initialize();
             #endregion
 
             //app.UseSession();
