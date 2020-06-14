@@ -26,7 +26,8 @@ namespace CourseGenerator.BLL.Infrastructure
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CourseId));
             CreateMap<ThemeLang, UserThemeSelectDTO>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ThemeId));
-            CreateMap<LevelLang, LevelSelectDTO>();
+            CreateMap<LevelLang, LevelSelectDTO>()
+                .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.LevelNumber));
             CreateMap<PhoneAuth, PhoneAuthDTO>();
             CreateMap<Heading, HeadingDTO>();
             CreateMap<HeadingLang, HeadingLangDTO>();
