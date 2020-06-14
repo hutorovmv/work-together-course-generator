@@ -54,7 +54,7 @@ namespace CourseGenerator.BLL.Infrastructure
                 Password = "Andruha123!",
                 PreferedLangCode = "eng"
             };
-            userManagementService.CreateAsync(userRegistrationDto1, /*"ContentAdmin",*/ "User").Wait();
+            userManagementService.CreateAsync(userRegistrationDto1, "ContentAdmin", "User").Wait();
 
             UserDTO userDetailsDto1 = userManagementService.GetByNameAsync(userRegistrationDto1.Email).Result;
             courseService.AddUserToCourseAsync(userDetailsDto1.Id, 1, 1).Wait();

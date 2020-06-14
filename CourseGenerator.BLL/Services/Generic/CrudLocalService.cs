@@ -56,7 +56,7 @@ namespace CourseGenerator.BLL.Services.Generic
         protected virtual object[] GeneratePK(string langCode,
             params object[] id)
         {
-            return id.Prepend(langCode).ToArray();
+            return id.Append(langCode).ToArray();
         }
 
         public virtual void Dispose() => _uow.Dispose();
