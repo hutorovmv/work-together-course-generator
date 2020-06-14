@@ -345,6 +345,30 @@ namespace CourseGenerator.Models
                 Id = 3,
                 IsPractical = false,
                 Note = null
+            },
+            new Material
+            {
+                Id = 4,
+                IsPractical = false,
+                Note = null
+            },
+            new Material
+            {
+                Id = 5,
+                IsPractical = false,
+                Note = null
+            },
+            new Material
+            {
+                Id = 6,
+                IsPractical = true,
+                Note = "Практична робота"
+            },
+            new Material
+            {
+                Id = 7,
+                IsPractical = false,
+                Note = "Ієрархії класів"
             }
         };
 
@@ -389,8 +413,31 @@ namespace CourseGenerator.Models
                 MaterialId = 3,
                 LangCode = "UA",
                 Name = "Програмування на C#",
-
-            }
+            },
+            new MaterialLang
+            {
+                MaterialId = 4,
+                LangCode = "UA",
+                Name = "Оператор if",
+            },
+            new MaterialLang
+            {
+                MaterialId = 5,
+                LangCode = "UA",
+                Name = "Оператор switch",
+            },
+            new MaterialLang
+            {
+                MaterialId = 6,
+                LangCode = "UA",
+                Name = "Практична робота з операторами розгалуження"
+            },
+            new MaterialLang
+            {
+                MaterialId = 7,
+                LangCode = "ENG",
+                Name = "Class Hierarchy"
+            },
         };
 
         public static MaterialCompetency[] MaterialCompetencies = {
@@ -608,6 +655,42 @@ namespace CourseGenerator.Models
                 ParentId = 5,
                 MaterialId = 1,
                 Note = null
+            },
+            new Theme
+            {
+                Id = 7,
+                CourseId = 1,
+                LevelNumber = 1,
+                Number = 7,
+                ParentId = 1,
+                MaterialId = 4
+            },
+            new Theme
+            {
+                Id = 8,
+                CourseId = 1,
+                LevelNumber = 1,
+                Number = 8,
+                ParentId = 1,
+                MaterialId = 5
+            },
+            new Theme
+            {
+                Id = 9,
+                CourseId = 1,
+                LevelNumber = 2,
+                Number = 9,
+                ParentId = 1,
+                MaterialId = 6
+            },
+            new Theme
+            {
+                Id = 10,
+                CourseId = 1,
+                LevelNumber = 3,
+                Number = 10,
+                ParentId = null,
+                MaterialId = 7
             }
         };
 
@@ -660,8 +743,37 @@ namespace CourseGenerator.Models
                 LangCode = "ENG",
                 Name = "Dependency injection",
                 Description = null
-            }
-
+            },
+            new ThemeLang
+            {
+                ThemeId = 7,
+                LangCode = "UA",
+                Name = "Використання оператору if",
+                Description = "У цій темі описано нюанси використання " +
+                "оператору розгалуження if"
+            },
+            new ThemeLang
+            {
+                ThemeId = 8,
+                LangCode = "UA",
+                Name = "Використання оператору switch",
+                Description = "У цій темі описано нюанси використання " +
+                "оператору розгалуження switch"
+            },
+            new ThemeLang
+            {
+                ThemeId = 9,
+                LangCode = "UA",
+                Name = "Практична робота з розгалуженням",
+                Description = null
+            },
+            new ThemeLang
+            {
+                ThemeId = 10,
+                LangCode = "ENG",
+                Name = "Class Hierarchy",
+                Description = null
+            },
         };
 
         public static CourseHeading[] CourseHeadings = {
