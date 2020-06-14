@@ -2,6 +2,7 @@
 using CourseGenerator.Api.Models.User;
 using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.DTO.User;
+using CourseGenerator.BLL.Extensions;
 using CourseGenerator.BLL.Infrastructure;
 using CourseGenerator.BLL.Interfaces;
 using CourseGenerator.DAL.Pagination;
@@ -109,11 +110,12 @@ namespace CourseGenerator.Api.Controllers
             string lastName = null, string userName = null, 
             string roleName = null, int pageSize = 6, int pageIndex = 1)
         {
-            PagedList<UserDTO> userDto = await _userManagementService
+            PagedList<UserDTO> userDtoPaged = await _userManagementService
                 .GetPagedAsync(firstName, lastName, userName, roleName,
                 pageSize, pageIndex);
-            UserModel userModel = _mapper.Map<UserModel>(userDto);
-            return Ok(userDto);
+            PagedList<UserModel> userModelsPaged = userDtoPaged
+                .ConvertPagedList<UserDTO, UserModel>(_mapper);
+            return Ok(userModelsPaged);
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using CourseGenerator.Api.Models.Locals;
 using CourseGenerator.Api.Models.Security;
 using CourseGenerator.Api.Models.Selection;
 using CourseGenerator.Api.Models.User;
+using CourseGenerator.BLL.DTO;
 using CourseGenerator.BLL.DTO.Entities;
 using CourseGenerator.BLL.DTO.Locals;
 using CourseGenerator.BLL.DTO.Security;
@@ -28,6 +29,7 @@ namespace CourseGenerator.Api.Infrastructure
             CreateMap<HeadingLangDTO, HeadingLangModel>();
             CreateMap<HeadingSelectDTO, HeadingSelectModel>();
             CreateMap<HeadingManagerDTO, HeadingManagerModel>();
+            CreateMap<UserDTO, UserModel>();
         }
     }
     #pragma warning restore CS1591
