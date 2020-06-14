@@ -71,14 +71,49 @@ namespace CourseGenerator.Models
                 Code = "1.1.1.1",
                 UDC = "1.1.1.1",
                 Note = null
-            }
+            },
+            new Heading
+            {
+                Id = 7,
+                Code = "2.1",
+                UDC = "2.1",
+                Note = "New Test Heading"
+            },
+            new Heading
+            {
+                Id = 8,
+                Code = "3",
+                UDC = "3",
+                Note = null
+            },
+            new Heading
+            {
+                Id = 9,
+                Code = "4",
+                UDC = "3",
+                Note = null
+            },
+            new Heading
+            {
+                Id = 10,
+                Code = "5",
+                UDC = "3",
+                Note = null
+            },
+            new Heading
+            {
+                Id = 11,
+                Code = "6",
+                UDC = "3",
+                Note = null
+            },
         };
 
         public static HeadingLang[] HeadingLangs = {
             new HeadingLang
             {
                 HeadingId = 1,
-                Name = "Алгоритми ",
+                Name = "Алгоритми",
                 Description = "У цій рубриці знаходяться статті та матеріали про алгоритмізацію",
                 LangCode = "UA"
             },
@@ -109,7 +144,49 @@ namespace CourseGenerator.Models
                 Name = "New Heading",
                 Description = "Heading for test",
                 LangCode = "ENG"
-            }
+            },
+            new HeadingLang
+            {
+                HeadingId = 6,
+                Name = "New SubHeading",
+                Description = "This SubHeading is heading for previous",
+                LangCode = "ENG"
+            },
+            new HeadingLang
+            {
+                HeadingId = 7,
+                Name = "SubHeading for second heading",
+                Description = "This is good subheading",
+                LangCode = "ENG"
+            },
+            new HeadingLang
+            {
+                HeadingId = 8,
+                Name = "Файлове введення/виведення",
+                Description = null,
+                LangCode = "UA"
+            },
+            new HeadingLang
+            {
+                HeadingId = 9,
+                Name = "Класи і об'єкти",
+                Description = null,
+                LangCode = "UA"
+            },
+            new HeadingLang
+            {
+                HeadingId = 10,
+                Name = "Узагальнене проектування",
+                Description = null,
+                LangCode = "UA"
+            },
+            new HeadingLang
+            {
+                HeadingId = 11,
+                Name = "Успадкування",
+                Description = null,
+                LangCode = "UA"
+            },
         };
 
         public static Level[] Levels = {
@@ -369,7 +446,25 @@ namespace CourseGenerator.Models
                 Id = 7,
                 IsPractical = false,
                 Note = "Ієрархії класів"
-            }
+            },
+            new Material
+            {
+                Id = 8,
+                IsPractical = false,
+                Note = "Покажчики першого порядку"
+            },
+            new Material
+            {
+                Id = 9,
+                IsPractical = false,
+                Note = "Покажчики на методи"
+            },
+            new Material
+            {
+                Id = 10,
+                IsPractical = false,
+                Note = "Покажчики на масиви"
+            },
         };
 
         public static MaterialBlock[] MaterialBlocks =
@@ -437,6 +532,24 @@ namespace CourseGenerator.Models
                 MaterialId = 7,
                 LangCode = "ENG",
                 Name = "Class Hierarchy"
+            },
+            new MaterialLang
+            {
+                MaterialId = 8,
+                LangCode = "UA",
+                Name = "Покажчики першого порядку"
+            },
+             new MaterialLang
+            {
+                MaterialId = 9,
+                LangCode = "UA",
+                Name = "Покажчики на методи"
+            },
+              new MaterialLang
+            {
+                MaterialId = 10,
+                LangCode = "UA",
+                Name = "Покажчики на масиви"
             },
         };
 
@@ -691,7 +804,34 @@ namespace CourseGenerator.Models
                 Number = 10,
                 ParentId = null,
                 MaterialId = 7
-            }
+            },
+            new Theme
+            {
+                Id = 11,
+                CourseId = 1,
+                LevelNumber = 3,
+                Number = 11,
+                ParentId = 2,
+                MaterialId = 8 
+            },
+            new Theme
+            {
+                Id = 12,
+                CourseId = 1,
+                LevelNumber = 3,
+                Number = 11,
+                ParentId = 2,
+                MaterialId = 9
+            },
+            new Theme
+            {
+                Id = 13,
+                CourseId = 1,
+                LevelNumber = 3,
+                Number = 11,
+                ParentId = 2,
+                MaterialId = 10
+            },
         };
 
         public static ThemeLang[] ThemeLangs ={
@@ -772,6 +912,27 @@ namespace CourseGenerator.Models
                 ThemeId = 10,
                 LangCode = "ENG",
                 Name = "Class Hierarchy",
+                Description = null
+            },
+            new ThemeLang
+            {
+                ThemeId = 11,
+                LangCode = "UA",
+                Name = "Покажчики першого порядку",
+                Description = null
+            },
+            new ThemeLang
+            {
+                ThemeId = 12,
+                LangCode = "UA",
+                Name = "Покажчики на методи",
+                Description = null
+            },
+            new ThemeLang
+            {
+                ThemeId = 13,
+                LangCode = "UA",
+                Name = "Покажчики на масиви",
                 Description = null
             },
         };
