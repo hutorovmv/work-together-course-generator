@@ -210,6 +210,8 @@ namespace CourseGenerator.Api
             services.AddScoped<IRepository<MaterialLang>, MaterialLangRepository>();
             services.AddScoped<ICourseManagerRepository, CourseManagerRepository>();
             services.AddScoped<IMaterialManagerRepository, MaterialManagerRepository>();
+            services.AddScoped(typeof(GenericMongoRepository<>));
+            services.AddScoped(typeof(MongoInitializer));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -237,7 +239,8 @@ namespace CourseGenerator.Api
             IWebHostEnvironment env, 
             IUserManagementService userManagementService,
             ICourseService courseService,
-            RoleManager<Role> roleManager)
+            RoleManager<Role> roleManager,
+            MongoInitializer mongoInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -274,6 +277,8 @@ namespace CourseGenerator.Api
             RegisterDTO defaultAdmin = Configuration.GetSection("DefaultAdmin").Get<RegisterDTO>();
             IdentityDataInitializer.AddAdmin(userManagementService, defaultAdmin);
             IdentityDataInitializer.AddTestUsersAndCourseAccessData(userManagementService, courseService);
+            mongoInitializer.Drop();
+            mongoInitializer.Initialize();
             #endregion
 
             //app.UseSession();

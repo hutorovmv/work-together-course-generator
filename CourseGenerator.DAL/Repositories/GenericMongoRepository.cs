@@ -40,6 +40,11 @@ namespace CourseGenerator.DAL.Repositories
             }
         }
 
+        public async Task CreateManyAsync(IEnumerable<T> items)
+        {
+            await _collection.InsertManyAsync(items);
+        }
+
         public async void Update(T item)
         {
             try
@@ -79,8 +84,12 @@ namespace CourseGenerator.DAL.Repositories
             var cursor = await _collection.FindAsync(expression);
             return await cursor.FirstOrDefaultAsync();
         }
-       
-
+        
+        //TODO: Make this method async
+        public void DropCollection(string collectionName)
+        {
+            _context.DropCollection(collectionName);
+        }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {

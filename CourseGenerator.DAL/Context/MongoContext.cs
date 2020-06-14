@@ -38,7 +38,7 @@ namespace CourseGenerator.DAL.Context
             IMongoDatabase db = _client.GetDatabase(DbName);
             db.DropCollection(collectionName);
         }
+
     }
-    
 
 }

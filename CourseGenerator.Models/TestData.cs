@@ -1,6 +1,9 @@
 ﻿using CourseGenerator.Models.Entities.Info;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.Models.Entities.CourseAccess;
+using CourseGenerator.Models.Entities.Content;
+using System;
+using System.Collections.Generic;
 
 namespace CourseGenerator.Models
 {
@@ -980,6 +983,62 @@ namespace CourseGenerator.Models
                 IsOwner = false,
                 Note = "Примітка"
             }
+        };
+        #endregion
+
+        #region documentalDataBase
+        public static Article[] Articles =
+        {
+            new Article
+            {
+                Author = "Andrew Ryzhkov",
+                LastEdited = new DateTime(2020, 04, 29),
+                LastEditedBy = "Mykola Hutorov",
+                SourceUris = new List<string> { "wikipedia.org/source-1", "wikipedia.org/source-2"},
+                Localization = new List<ArticleLang>
+                {
+                    new ArticleLang
+                    {
+                        LangCode = "UA",
+                        Heading = "Основи C#",
+                        FileId = null
+                    },
+                    new ArticleLang
+                    {
+                        LangCode = "RU",
+                        Heading = "Основы C#",
+                        FileId = null
+                    },
+                    new ArticleLang
+                    {
+                        LangCode = "EN",
+                        Heading = "C# Basic",
+                        FileId = null
+                    }
+                }
+            },
+            new Article
+            {
+                Author = "Vyacheslav Nikinyk",
+                LastEdited = new DateTime(2020, 04, 29),
+                LastEditedBy = "Oleksandr Volos",
+                SourceUris = new List<string> { "wikipedia.org/source-1", "wikipedia.org/source-2"},
+                Localization = new List<ArticleLang>
+                {
+                    new ArticleLang
+                    {
+                        LangCode = "UA",
+                        Heading = "Алогритми",
+                        FileId = null
+                    },
+                    new ArticleLang
+                    {
+                        LangCode = "RU",
+                        Heading = "Алогритми",
+                        FileId = null
+                    },
+                }
+            },
         };
         #endregion
     }
