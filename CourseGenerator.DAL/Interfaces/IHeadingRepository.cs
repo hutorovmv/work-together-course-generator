@@ -12,6 +12,5 @@ namespace CourseGenerator.DAL.Interfaces
         Task<HeadingLang> GetLocalOrDefaultAsync(string code, string langCode);
         Task<IEnumerable<MaterialLang>> GetMaterialLangsAsync(int id, string langCode);
         Task<string> GetCode(int id);
-        Task<int> Create(Heading item);
     }
 }
