@@ -26,15 +26,11 @@ using CourseGenerator.BLL.DTO.User;
 using CourseGenerator.Models.Entities.InfoByThemes;
 using CourseGenerator.BLL.Interfaces.Generic;
 using CourseGenerator.BLL.Services.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using CourseGenerator.BLL.DTO.Entities;
-using CourseGenerator.Models.Entities.CourseAccess;
-using CourseGenerator.Api.Extensions;
 
 namespace CourseGenerator.Api
 {
 #pragma warning disable CS1591
-    public class Startup
+  public class Startup
     {
         public Startup(IConfiguration configuration)
         {

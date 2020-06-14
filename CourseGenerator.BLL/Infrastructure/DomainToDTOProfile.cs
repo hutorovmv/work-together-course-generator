@@ -21,18 +21,23 @@ namespace CourseGenerator.BLL.Infrastructure
             CreateMap<User, LoginDTO>();
             CreateMap<User, UserDTO>();
             CreateMap<Language, LanguageSelectDTO>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.OriginalName));
+                .ForMember(dest => dest.Name, opt => opt
+                    .MapFrom(src => src.OriginalName));
             CreateMap<CourseLang, CourseSelectDTO>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CourseId));
+                .ForMember(dest => dest.Id, opt => opt
+                    .MapFrom(src => src.CourseId));
             CreateMap<ThemeLang, UserThemeSelectDTO>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ThemeId));
+                .ForMember(dest => dest.Id, opt => opt
+                    .MapFrom(src => src.ThemeId));
             CreateMap<LevelLang, LevelSelectDTO>()
-                .ForMember(dest => dest.Number, opt => opt.MapFrom(src => src.LevelNumber));
+                .ForMember(dest => dest.Number, opt => opt
+                    .MapFrom(src => src.LevelNumber));
             CreateMap<PhoneAuth, PhoneAuthDTO>();
             CreateMap<Heading, HeadingDTO>();
             CreateMap<HeadingLang, HeadingLangDTO>();
             CreateMap<HeadingLang, HeadingSelectDTO>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.HeadingId));
+                .ForMember(dest => dest.Id, opt => opt
+                    .MapFrom(src => src.HeadingId));
             CreateMap<HeadingManager, HeadingManagerDTO>();
         }
     }
