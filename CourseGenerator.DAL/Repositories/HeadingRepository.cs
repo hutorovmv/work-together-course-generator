@@ -11,6 +11,7 @@ namespace CourseGenerator.DAL.Repositories
 {
     public class HeadingRepository : GenericEFRepository<Heading>, IHeadingRepository
     {
+        
         public HeadingRepository(ApplicationContext context) : base(context)
         {
         }
@@ -196,6 +197,12 @@ namespace CourseGenerator.DAL.Repositories
                 .Where(h => h.Id == id)
                 .Select(h => h.Code)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<int> CreateAsync(Heading item)
+        {
+            base.CreateAsync(item);
+            return item.Id;
         }
     }
 }
