@@ -14,6 +14,7 @@ namespace CourseGenerator.BLL.Interfaces
         IHierarchyLocalService<string, HeadingLang, HeadingSelectDTO>,
         IManagerAccessService<HeadingManager, HeadingManagerDTO>
     {
-        new Task<int?> CreateAsync(string userId, HeadingDTO dto);
+        Task<int?> CreateAsync(string userId, HeadingDTO dto,
+            string parentCode = null);
     }
 }

@@ -18,25 +18,19 @@ namespace CourseGenerator.DAL.Repositories
         /// <summary>
         /// Відбирає останню підрубрику
         /// </summary>
-        /// <param name="code">Код рубрики, у форматі Х.Х.Х</param>
+        /// <param name="code">Код рубрики,для якої треба додати підрубрику у форматі Х.Х.Х</param>
         /// <returns></returns>
-        public string GetLastCode(string code = null)
+        public string GetLastCode(string parentCode)
         {
-            if (code != null)
-            {
-                int point = code.Count(s => s == '.') + 1;
+            string code = parentCode + ".0";
+            int point = code.Count(s => s == '.');
 
-                string newCode = _context.Headings
-                 .Where(h => h.Code.StartsWith(code) && h.Code.Count(s => s == '.') < point)
-                 .Select(h => h.Code)
-                 .Max();
+            string newCode = _context.Headings.ToList()
+             .Where(h => h.Code.StartsWith(parentCode) && h.Code.Count(s => s == '.') == point)
+             .Select(h => h.Code)
+             .Max();
 
-                return newCode;
-            }
-            else
-            {
-                return _context.Headings.Select(h => h.Code).Max();
-            }
+            return newCode;
         }
 
         /// <inheritdoc/>
@@ -89,12 +83,12 @@ namespace CourseGenerator.DAL.Repositories
         public async IAsyncEnumerable<HeadingLang> GetAncestorsAsync(string code, 
             string langCode)
         {
-            Stack<string> codeByDots = new Stack<string>(code.Split('.'));
+            List<string> codeByDots = new List<string>(code.Split('.'));
             string parent;
 
             for(int i = 0; i < codeByDots.Count - 1; i++)
             {
-                codeByDots.Pop();
+                codeByDots.RemoveAt(codeByDots.Count - 1);
                 parent = string.Join('.', codeByDots);  
                 yield return await GetLocalOrDefaultAsync(parent, langCode);
             }

@@ -56,8 +56,34 @@ namespace CourseGenerator.BLL.Services
             _managerAccessService = managerAccessService;
         }
 
+        public async Task<int?> CreateAsync(string userId, HeadingDTO dto)
+        {
+            OperationInfo result = await _accessCheckService
+                .HasCreateAccess(userId, dto.Id);
+
+            if (!result.Succeeded)
+                return null;
+
+            try
+            {
+                Heading entity = _mapper.Map<Heading>(dto);
+
+                await _uow.HeadingRepository.CreateAsync(entity);
+                await _uow.SaveAsync();
+
+                return entity.Id;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
+        }
+
+        //TODO: Add to all hierarchable methods (allows to add subheadings) and returns id
         public async Task<int?> CreateAsync(string userId,
-            HeadingDTO dto)
+            HeadingDTO dto, string parentCode)
         {
             OperationInfo result = await _accessCheckService
                 .HasCreateAccess(userId, dto.Id);
@@ -68,6 +94,19 @@ namespace CourseGenerator.BLL.Services
             try
             {
                 Heading entity = _mapper.Map<Heading>(dto);
+
+                string lastCode = _uow.HeadingRepository.GetLastCode(parentCode);
+                //TODO: Create a separate method for the operation
+                List<string> segments = new List<string>(lastCode.Split('.'));
+                string lastSegment = segments.LastOrDefault();
+
+                if (int.TryParse(lastSegment, out int lastSegmentNum))
+                {
+                    segments.RemoveAt(segments.Count - 1);
+                    string newLastSegment = Convert.ToString(++lastSegmentNum);
+                    segments.Add(newLastSegment);
+                    entity.Code = string.Join(".", segments);
+                }
 
                 await _uow.HeadingRepository.CreateAsync(entity);
                 await _uow.SaveAsync();
